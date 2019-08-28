@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">empresas _android</string>
+    <string name="title_login">ioasys</string>
+    <string name="welcome_login">BEM-VINDO AO EMPRESAS</string>
+    <string name="description_login">ajs lajshbd aljhsb ajh baljsbf hzx!</string>
+    <string name="edt_email_login">E-mail</string>
+    <string name="edt_password_login">Senha</string>
+    <string name="btn_name_login">ENTRAR</string>
+</resources>
