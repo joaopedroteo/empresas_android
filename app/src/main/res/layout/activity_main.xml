@@ -3,48 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/beige">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/txtTitle"
+    <ImageView
+        android:id="@+id/logo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="88dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="88dp"
-        android:textSize="32sp"
-        android:gravity="center"
-        android:text="@string/title_login"
-        android:textColor="@color/medium_pink"
+        android:src="@mipmap/logo_home"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        style="@style/screen_title"
         android:id="@+id/txtWelcome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:text="@string/welcome_login"
-        android:gravity="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@+id/txtTitle"
-        app:layout_constraintStart_toStartOf="@+id/txtTitle"
-        app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
+        app:layout_constraintEnd_toEndOf="@+id/logo"
+        app:layout_constraintStart_toStartOf="@+id/logo"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
     <TextView
+        style="@style/description_text"
         android:id="@+id/txtDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/description_login"
-        android:gravity="center"
-        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/txtWelcome"
         app:layout_constraintStart_toStartOf="@+id/txtWelcome"
         app:layout_constraintTop_toBottomOf="@+id/txtWelcome" />
@@ -58,6 +54,7 @@
         android:layout_marginEnd="45dp"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:drawableStart="@drawable/ic_email"
         android:hint="@string/edt_email_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,6 +67,7 @@
         android:layout_marginTop="30dp"
         android:ems="10"
         android:inputType="textPassword"
+        android:drawableStart="@drawable/ic_cadeado"
         android:hint="@string/edt_password_login"
         app:layout_constraintEnd_toEndOf="@+id/edtEmail"
         app:layout_constraintHorizontal_bias="0.0"

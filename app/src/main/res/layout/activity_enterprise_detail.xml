@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EnterpriseDetailActivity">
+
+    <ImageView
+        android:id="@+id/imgEnterprise"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:background="@android:color/holo_green_light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="24dp"/>
+
+    <TextView
+        android:id="@+id/txtDetailEnterprise"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/imgEnterprise"
+        app:layout_constraintEnd_toEndOf="@+id/imgEnterprise"
+        app:layout_constraintStart_toStartOf="@+id/imgEnterprise"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="aiud paisudbfpai sufaisdbf as bfaiusbdf iasubdfiasudbfai sudbf çaisudbf aisudbf aisudbfai lsdbfa sfba lsdbfi asudbf asdbfaçisu asn abasj basjba sb asjdbasdba sasba sd basdb asdb "
+        app:layout_constraintVertical_bias="0"
+        android:layout_marginTop="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

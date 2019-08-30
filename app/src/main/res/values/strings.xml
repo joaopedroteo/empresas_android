@@ -6,4 +6,5 @@
     <string name="edt_email_login">E-mail</string>
     <string name="edt_password_login">Senha</string>
     <string name="btn_name_login">ENTRAR</string>
+    <string name="title_listing_screen">ioasys</string>
 </resources>
