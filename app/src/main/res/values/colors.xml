@@ -11,4 +11,7 @@
     <color name="night_blue">#0d0430</color>
     <color name="warm_grey">#8d8c8c</color>
     <color name="black23">#77000000</color>
+    <color name="lightGreen">#7dc075</color>
+    <color name="darkBlueTitle">#1a0e49</color>
+
 </resources>

@@ -1,7 +1,5 @@
-package com.example.empresas_android.ui.login
+package com.example.empresas_android.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.empresas_android.ui.helper.SingleEventLiveData
 

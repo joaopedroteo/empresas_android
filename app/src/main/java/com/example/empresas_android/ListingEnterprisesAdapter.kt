@@ -31,7 +31,8 @@ class ListingEnterprisesAdapter(
         fun bind(item: ItemEnterprise) {
             itemView.apply {
                 titleEnterprise.text = item.name
-                subtitleEnterprise.text = item.description
+                subtitleEnterprise.text = item.area
+                subtitleEnterprise2.text = item.country
                 setOnClickListener {
                     onItemClick(item)
                 }
@@ -43,6 +44,8 @@ class ListingEnterprisesAdapter(
 
 data class ItemEnterprise(
     var name: String,
+    var area: String,
+    var country:String,
     var description: String,
     var image: String
 )

@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.empresas_android.ListingEnterprisesActivity
 import com.example.empresas_android.R
+import com.example.empresas_android.viewModel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class LoginActivity : AppCompatActivity() {

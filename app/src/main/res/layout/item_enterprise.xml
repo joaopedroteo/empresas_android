@@ -12,8 +12,8 @@
         android:id="@+id/imageView"
         android:layout_width="105dp"
         android:layout_height="80dp"
-        android:background="@android:color/white"
-        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:background="@color/lightGreen"
+        app:srcCompat="@drawable/img_e_1_lista"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,6 +27,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
+        android:textStyle="bold"
+        android:textColor="@color/darkBlueTitle"
         android:layout_margin="16dp"
         tools:text="Titulo"
         android:gravity="start"/>
@@ -37,6 +39,8 @@
         android:id="@+id/subtitleEnterprise"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textStyle="italic"
+        android:textColor="@color/warm_grey"
         app:layout_constraintTop_toBottomOf="@id/titleEnterprise"
         app:layout_constraintStart_toEndOf="@id/imageView"
         app:layout_constraintVertical_bias="0"
@@ -46,5 +50,18 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         tools:text="Subtitulo"/>
+
+    <TextView
+        style="@style/description_text"
+        android:id="@+id/subtitleEnterprise2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/warm_grey"
+        tools:text="Brasil"
+        app:layout_constraintTop_toBottomOf="@+id/subtitleEnterprise"
+        app:layout_constraintStart_toStartOf="@+id/subtitleEnterprise"
+        app:layout_constraintEnd_toEndOf="@+id/subtitleEnterprise"
+        app:layout_constraintHorizontal_bias="0"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@
         <item name="actionBarStyle">@style/myActionBar</item>
     </style>
 
+
     <style name="LoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -18,9 +19,25 @@
         <item name="android:statusBarColor">@color/black23</item>
     </style>
 
+    <style name="mainTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/black23</item>
+        <item name="android:colorControlNormal">@color/white</item>
+    </style>
+
+    <style name="searchViewText">
+        <item name="android:editTextColor">@android:color/white</item>
+        <item name="android:color">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textColorHighlight">@color/white</item>
+        <item name="android:colorForeground">@color/white</item>
+    </style>
+
 
     <style name="myActionBar" parent = "@style/Widget.AppCompat.ActionBar">
-        <item name="background">@drawable/gradient_color</item>
+        <item name="background">@color/medium_pink</item>
+        <item name="android:color">@color/white</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="screen_title">
@@ -30,8 +47,8 @@
     </style>
 
     <style name="description_text">
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/charcoal_grey</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/warm_grey</item>
         <item name="android:gravity">center</item>
     </style>
 </resources>

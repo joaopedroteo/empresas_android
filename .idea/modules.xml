@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/empresas _android.iml" filepath="$PROJECT_DIR$/empresas _android.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/empresas_android.iml" filepath="$PROJECT_DIR$/.idea/empresas_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/empresas_android-app.iml" filepath="$PROJECT_DIR$/app/empresas_android-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/empresas_android-empresas _android.iml" filepath="$PROJECT_DIR$/empresas_android-empresas _android.iml" />
     </modules>
   </component>
 </project>
