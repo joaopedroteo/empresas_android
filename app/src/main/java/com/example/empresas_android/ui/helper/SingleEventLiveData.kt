@@ -9,44 +9,30 @@ import java.util.concurrent.atomic.AtomicBoolean
 class SingleEventLiveData<T> : MutableLiveData<T>() {
 
     private val pending = AtomicBoolean(false)
-    private val observers = mutableSetOf<Observer<in T>>()
+    private val observersFieldsLogin = mutableSetOf<Observer<in T>>()
 
     private val internalObserver = Observer<T> { t ->
         if (pending.compareAndSet(true, false)) {
-            observers.forEach { observer ->
+            observersFieldsLogin.forEach { observer ->
                 observer.onChanged(t)
             }
         }
     }
 
-//    @MainThread
-//    override fun observe(owner: LifecycleOwner, observer: Observer<T>) {
-//        observers.add(observer)
-//
-//        if (!hasObservers()) {
-//            super.observe(owner, internalObserver)
-//        }
-//    }
-
-    override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
-        observers.add(observer)
+    fun observeFieldsLogin(owner: LifecycleOwner, observer: Observer<in T>) {
+        observersFieldsLogin.add(observer)
         if (!hasObservers()) {
             super.observe(owner, internalObserver)
         }
     }
 
     override fun removeObservers(owner: LifecycleOwner) {
-        observers.clear()
+        observersFieldsLogin.clear()
         super.removeObservers(owner)
     }
 
-//    override fun removeObserver(observer: Observer<T>) {
-//        observers.remove(observer)
-//        super.removeObserver(observer)
-//    }
-
     override fun removeObserver(observer: Observer<in T>) {
-        observers.remove(observer)
+        observersFieldsLogin.remove(observer)
         super.removeObserver(observer)
     }
 
@@ -56,8 +42,4 @@ class SingleEventLiveData<T> : MutableLiveData<T>() {
         super.setValue(t)
     }
 
-    @MainThread
-    fun call() {
-        value = null
-    }
 }

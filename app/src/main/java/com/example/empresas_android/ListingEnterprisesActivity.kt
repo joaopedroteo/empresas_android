@@ -1,52 +1,68 @@
 package com.example.empresas_android
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.ColorFilter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.SearchView
-import androidx.constraintlayout.solver.widgets.WidgetContainer
+import android.view.Menu
+import android.view.MenuInflater
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.example.empresas_android.viewModel.ListingEnterprisesViewModel
 import kotlinx.android.synthetic.main.activity_listing_enterprises.*
-import kotlinx.android.synthetic.main.custom_edit_text.*
-import org.w3c.dom.Text
 
 class ListingEnterprisesActivity : AppCompatActivity() {
+
+    private lateinit var viewModel: ListingEnterprisesViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_listing_enterprises)
-        setTitle(R.string.title_listing_screen)
+        initViews()
+        viewModel = ViewModelProviders.of(this)[ListingEnterprisesViewModel::class.java]
+        createEnterpriseAdapter()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        configureSearchView(menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun configureSearchView(menu: Menu?) {
+        val searchView: SearchView = menu?.findItem(R.id.search_view)?.actionView as SearchView
+        searchView.queryHint = getString(R.string.search)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Toast.makeText(applicationContext, query, Toast.LENGTH_LONG).show()
+
+                return true
+            }
+        })
+    }
+
+
+    private fun initViews() {
+        title = ""
         setSupportActionBar(findViewById(R.id.tool_bar))
-
-        var searchView = findViewById<androidx.appcompat.widget.SearchView>(R.id.search_view)
-
-        var icon = searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_button)
-        icon.setColorFilter(Color.WHITE)
-
-        var editText = searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
-        editText.setTextColor(Color.WHITE)
+    }
 
 
-        var list = listOf<ItemEnterprise>(
-            ItemEnterprise("Empresa1","Negócio", "Brasil", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.","img"),
-            ItemEnterprise("Empresa2","Negócio", "Brasil", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "img"),
-            ItemEnterprise("Empresa3","Negócio", "Argentina", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "img"),
-            ItemEnterprise("Empresa4","Negócio", "Brasil", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "img"),
-            ItemEnterprise("Empresa5","Negócio", "Uruguai", "Descricao do item 5", "img"),
-            ItemEnterprise("Empresa6","Negócio", "Bolívia", "descricao do item 6 aqui", "img")
-        )
-
-        val adapter = ListingEnterprisesAdapter {
-                itemEnterprise ->
+    private fun createEnterpriseAdapter() {
+        val adapter = ListingEnterprisesAdapter { itemEnterprise ->
             val intent = Intent(
                 this@ListingEnterprisesActivity,
-                EnterpriseDetailActivity::class.java)
+                EnterpriseDetailActivity::class.java
+            )
             intent.putExtra("arg_enterprise_name", itemEnterprise.name)
             intent.putExtra("arg_enterprise_area", itemEnterprise.area)
             intent.putExtra("arg_enterprise_country", itemEnterprise.country)
@@ -54,7 +70,11 @@ class ListingEnterprisesActivity : AppCompatActivity() {
             intent.putExtra("arg_enterprise_image", itemEnterprise.image)
             startActivity(intent)
         }
-        adapter.contentList = list
-        recyclerView.adapter = adapter
+
+        viewModel.getEnterprises().observe(this, Observer<List<ItemEnterprise>> { enterprises ->
+            adapter.contentList = enterprises
+            recyclerView.adapter = adapter
+        })
+
     }
 }

@@ -1,15 +1,13 @@
 package com.example.empresas_android
 
-import android.content.ClipData
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_enterprise.view.*
 
 class ListingEnterprisesAdapter(
-    private val onItemClick:(ItemEnterprise) -> Unit
+    private val onItemClick: (ItemEnterprise) -> Unit
 ) : RecyclerView.Adapter<ListingEnterprisesAdapter.ViewHolder>() {
     var contentList: List<ItemEnterprise> = mutableListOf()
         set(value) {
@@ -45,7 +43,7 @@ class ListingEnterprisesAdapter(
 data class ItemEnterprise(
     var name: String,
     var area: String,
-    var country:String,
+    var country: String,
     var description: String,
     var image: String
 )
