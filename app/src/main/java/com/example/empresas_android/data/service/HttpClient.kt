@@ -1,4 +1,4 @@
-package com.example.empresas_android.data
+package com.example.empresas_android.data.service
 
 import com.example.empresas_android.BuildConfig
 import com.example.empresas_android.URL_BASE
@@ -27,7 +27,7 @@ class RetrofitAnalizer {
 
                     // Request customization: add request headers
                     val requestBuilder = original.newBuilder()
-                        .addHeader("User-Agent", "Book-CRUD-App") // <-- this is the important line
+                        .addHeader("Content-Type", "application/json") // <-- this is the important line
 
                     return chain.proceed(requestBuilder.build())
                 }
@@ -37,11 +37,14 @@ class RetrofitAnalizer {
     }
 
 
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(URL_BASE)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
     }
+
+    fun userService(): UserService = provideRetrofit(provideLoggingCapableHttpClient()).create(UserService::class.java)
+
 }

@@ -24,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
         btnLogin?.setOnClickListener {
             viewModel.login(edtEmail.text.toString(), edtPassword.text.toString())
         }
