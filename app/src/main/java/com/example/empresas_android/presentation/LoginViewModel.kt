@@ -1,6 +1,7 @@
-package com.example.empresas_android.viewModel
+package com.example.empresas_android.presentation
 
 import androidx.lifecycle.ViewModel
+import com.example.empresas_android.extentions.*
 import com.example.empresas_android.ui.helper.*
 
 class LoginViewModel : ViewModel() {

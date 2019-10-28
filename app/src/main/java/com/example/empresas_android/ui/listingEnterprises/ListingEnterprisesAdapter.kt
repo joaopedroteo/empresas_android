@@ -1,9 +1,10 @@
-package com.example.empresas_android
+package com.example.empresas_android.ui.listingEnterprises
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.empresas_android.R
 import kotlinx.android.synthetic.main.item_enterprise.view.*
 
 class ListingEnterprisesAdapter(

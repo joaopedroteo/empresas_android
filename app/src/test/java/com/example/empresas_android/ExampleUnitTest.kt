@@ -1,6 +1,6 @@
 package com.example.empresas_android
 
-import com.example.empresas_android.ui.helper.*
+import com.example.empresas_android.extentions.*
 import org.junit.Test
 
 import org.junit.Assert.*

@@ -1,9 +1,9 @@
-package com.example.empresas_android.viewModel
+package com.example.empresas_android.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.empresas_android.ItemEnterprise
+import com.example.empresas_android.ui.listingEnterprises.ItemEnterprise
 
 class ListingEnterprisesViewModel : ViewModel() {
 
@@ -46,7 +46,19 @@ class ListingEnterprisesViewModel : ViewModel() {
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                 "img"
             ),
-            ItemEnterprise("Empresa5", "Negócio", "Uruguai", "Descricao do item 5", "img"),
-            ItemEnterprise("Empresa6", "Negócio", "Bolívia", "descricao do item 6 aqui", "img")
+            ItemEnterprise(
+                "Empresa5",
+                "Negócio",
+                "Uruguai",
+                "Descricao do item 5",
+                "img"
+            ),
+            ItemEnterprise(
+                "Empresa6",
+                "Negócio",
+                "Bolívia",
+                "descricao do item 6 aqui",
+                "img"
+            )
         )
 }

@@ -1,4 +1,4 @@
-package com.example.empresas_android
+package com.example.empresas_android.ui.listingEnterprises
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.empresas_android.viewModel.ListingEnterprisesViewModel
+import com.example.empresas_android.ui.EnterpriseDetailActivity
+import com.example.empresas_android.R
+import com.example.empresas_android.presentation.ListingEnterprisesViewModel
 import kotlinx.android.synthetic.main.activity_listing_enterprises.*
 
 class ListingEnterprisesActivity : AppCompatActivity() {
@@ -58,18 +60,19 @@ class ListingEnterprisesActivity : AppCompatActivity() {
 
 
     private fun createEnterpriseAdapter() {
-        val adapter = ListingEnterprisesAdapter { itemEnterprise ->
-            val intent = Intent(
-                this@ListingEnterprisesActivity,
-                EnterpriseDetailActivity::class.java
-            )
-            intent.putExtra("arg_enterprise_name", itemEnterprise.name)
-            intent.putExtra("arg_enterprise_area", itemEnterprise.area)
-            intent.putExtra("arg_enterprise_country", itemEnterprise.country)
-            intent.putExtra("arg_enterprise_description", itemEnterprise.description)
-            intent.putExtra("arg_enterprise_image", itemEnterprise.image)
-            startActivity(intent)
-        }
+        val adapter =
+            ListingEnterprisesAdapter { itemEnterprise ->
+                val intent = Intent(
+                    this@ListingEnterprisesActivity,
+                    EnterpriseDetailActivity::class.java
+                )
+                intent.putExtra("arg_enterprise_name", itemEnterprise.name)
+                intent.putExtra("arg_enterprise_area", itemEnterprise.area)
+                intent.putExtra("arg_enterprise_country", itemEnterprise.country)
+                intent.putExtra("arg_enterprise_description", itemEnterprise.description)
+                intent.putExtra("arg_enterprise_image", itemEnterprise.image)
+                startActivity(intent)
+            }
 
         viewModel.getEnterprises().observe(this, Observer<List<ItemEnterprise>> { enterprises ->
             adapter.contentList = enterprises

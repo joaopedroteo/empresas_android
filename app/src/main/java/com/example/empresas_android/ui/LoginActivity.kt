@@ -1,4 +1,4 @@
-package com.example.empresas_android.ui.login
+package com.example.empresas_android.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,9 +6,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.empresas_android.ListingEnterprisesActivity
+import com.example.empresas_android.ui.listingEnterprises.ListingEnterprisesActivity
 import com.example.empresas_android.R
-import com.example.empresas_android.viewModel.LoginViewModel
+import com.example.empresas_android.presentation.LoginViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class LoginActivity : AppCompatActivity() {

@@ -1,8 +1,9 @@
-package com.example.empresas_android
+package com.example.empresas_android.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.empresas_android.R
 import kotlinx.android.synthetic.main.activity_enterprise_detail.*
 import java.util.*
 
