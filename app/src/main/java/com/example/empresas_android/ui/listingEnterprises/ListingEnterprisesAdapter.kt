@@ -4,8 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.empresas_android.R
+import com.example.empresas_android.URL_IMGS
 import com.example.empresas_android.data.service.model.EnterpriseResponse
+import kotlinx.android.synthetic.main.activity_enterprise_detail.*
 import kotlinx.android.synthetic.main.item_enterprise.view.*
 
 class ListingEnterprisesAdapter(
@@ -33,13 +36,14 @@ class ListingEnterprisesAdapter(
                 titleEnterprise.text = item.enterprise_name
                 subtitleEnterprise.text = item.city
                 subtitleEnterprise2.text = item.country
+                val urlImg = URL_IMGS.elementAt(item.description.length % URL_IMGS.size)
+                Glide.with(this).load(urlImg).placeholder(R.drawable.img_e_1_lista).into(imageView)
                 setOnClickListener {
                     onItemClick(item)
                 }
             }
         }
     }
-
 }
 
 data class ItemEnterprise(
