@@ -6,9 +6,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.empresas_android.ui.listingEnterprises.ListingEnterprisesActivity
 import com.example.empresas_android.R
 import com.example.empresas_android.presentation.LoginViewModel
+import com.example.empresas_android.ui.listingEnterprises.ListingEnterprisesActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class LoginActivity : AppCompatActivity() {
@@ -30,7 +30,11 @@ class LoginActivity : AppCompatActivity() {
         }
 
         viewModel.loginLiveData.observeFieldsLogin(this, Observer {
-            startActivity(Intent(this, ListingEnterprisesActivity::class.java))
+            val intent = Intent(this, ListingEnterprisesActivity::class.java)
+            val headers = viewModel.getHeaders()
+
+            intent.putExtra("arg_headers", headers)
+            startActivity(intent)
             finish()
         })
 

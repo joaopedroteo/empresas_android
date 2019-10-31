@@ -1,7 +1,12 @@
 package com.example.empresas_android.data.local
 
-data class Headers(
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class MyHeaders(
     val accessToken: String,
     val client: String,
     val uid: String
-)
+
+) : Parcelable

@@ -2,19 +2,19 @@ package com.example.empresas_android.presentation
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.empresas_android.data.local.Headers
+import com.example.empresas_android.data.local.MyHeaders
 import com.example.empresas_android.data.local.UserLogin
 import com.example.empresas_android.data.service.RetrofitAnalizer
 import com.example.empresas_android.data.service.model.LoginResponse
 import com.example.empresas_android.extentions.*
-import com.example.empresas_android.ui.helper.*
+import com.example.empresas_android.ui.helper.SingleEventLiveData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
 
-    private lateinit var headers:Headers
+    private lateinit var headers:MyHeaders
 
 
     val loginLiveData: SingleEventLiveData<Boolean> by lazy {
@@ -83,19 +83,25 @@ class LoginViewModel : ViewModel() {
     }
 
     private fun loginApi(userLogin: UserLogin) {
-        val call = RetrofitAnalizer().userService().signIn(userLogin)
+        val call = RetrofitAnalizer().loginService().signIn(userLogin)
         call.enqueue(object : Callback<LoginResponse> {
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.d("DEUBUG", "on Failure")
                 Log.d("DEBUG", t.toString())
             }
 
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                val accessToken = response.headers()["access-token"]
-                val client = response.headers()["client"]
-                val uid = response.headers()["uid"]
-                if (accessToken != null && client != null && uid != null) {
-                    headers = Headers(accessToken, client, uid)
-                    loginLiveData.value = true
+                Log.d("DEBUG", "deu bom")
+                Log.d("DEBUG", response.toString())
+                if (response.code() == 200) {
+                    val accessToken = response.headers()["access-token"]
+                    val client = response.headers()["client"]
+                    val uid = response.headers()["uid"]
+                    Log.d("DEBUG", "at: $accessToken, c: $client, uid: $uid")
+                    if (accessToken != null && client != null && uid != null) {
+                        headers = MyHeaders(accessToken, client, uid)
+                        loginLiveData.value = true
+                    }
                 }
             }
         })
@@ -109,7 +115,7 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun getHeaders(): Headers {
+    fun getHeaders(): MyHeaders {
         return headers
     }
 }

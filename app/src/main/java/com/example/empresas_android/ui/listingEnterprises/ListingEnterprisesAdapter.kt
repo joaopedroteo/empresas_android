@@ -5,12 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.empresas_android.R
+import com.example.empresas_android.data.service.model.EnterpriseResponse
 import kotlinx.android.synthetic.main.item_enterprise.view.*
 
 class ListingEnterprisesAdapter(
-    private val onItemClick: (ItemEnterprise) -> Unit
+    private val onItemClick: (EnterpriseResponse) -> Unit
 ) : RecyclerView.Adapter<ListingEnterprisesAdapter.ViewHolder>() {
-    var contentList: List<ItemEnterprise> = mutableListOf()
+    var contentList: List<EnterpriseResponse> = mutableListOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -27,10 +28,10 @@ class ListingEnterprisesAdapter(
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: ItemEnterprise) {
+        fun bind(item: EnterpriseResponse) {
             itemView.apply {
-                titleEnterprise.text = item.name
-                subtitleEnterprise.text = item.area
+                titleEnterprise.text = item.enterprise_name
+                subtitleEnterprise.text = item.city
                 subtitleEnterprise2.text = item.country
                 setOnClickListener {
                     onItemClick(item)
