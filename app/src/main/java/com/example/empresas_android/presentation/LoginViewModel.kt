@@ -1,7 +1,10 @@
 package com.example.empresas_android.presentation
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.empresas_android.R
 import com.example.empresas_android.data.local.MyHeaders
 import com.example.empresas_android.data.local.UserLogin
 import com.example.empresas_android.data.service.RetrofitAnalizer
@@ -81,6 +84,7 @@ class LoginViewModel : ViewModel() {
             else -> passwordValid.value = true
         }
     }
+
 
     private fun loginApi(userLogin: UserLogin) {
         val call = RetrofitAnalizer().loginService().signIn(userLogin)
