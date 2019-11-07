@@ -1,33 +1,62 @@
 package com.example.empresas_android.ui.listingEnterprises
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.empresas_android.R
 import com.example.empresas_android.data.local.MyHeaders
-import com.example.empresas_android.presentation.ListingEnterprisesViewModel
+import com.example.empresas_android.presentation.EnterprisesViewModel
 import com.example.empresas_android.ui.EnterpriseDetailActivity
-import kotlinx.android.synthetic.main.activity_listing_enterprises.*
+import com.example.empresas_android.ui.LoginActivity
+import kotlinx.android.synthetic.main.activity_enterprises.*
 
-class ListingEnterprisesActivity : AppCompatActivity() {
+class EnterprisesActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: ListingEnterprisesViewModel
+    private lateinit var viewModel: EnterprisesViewModel
     private lateinit var adapter : ListingEnterprisesAdapter
+    private lateinit var mySharedPreferences: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_listing_enterprises)
+        setContentView(R.layout.activity_enterprises)
         initViews()
-        viewModel = ViewModelProviders.of(this)[ListingEnterprisesViewModel::class.java]
+        viewModel = ViewModelProviders.of(this)[EnterprisesViewModel::class.java]
         createEnterpriseAdapter()
         createObserver()
+        initPreference()
+    }
+
+    private fun initViews() {
+        title = ""
+        setSupportActionBar(findViewById(R.id.tool_bar))
+
+        logout.setOnClickListener {
+            clearPreference()
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+    }
+
+    private fun initPreference() {
+        mySharedPreferences = getSharedPreferences(getString(R.string.login_key), Context.MODE_PRIVATE)
+    }
+
+    private fun callAlert(title: String, message: String = "") {
+        val alertDialog = AlertDialog.Builder(this)
+        alertDialog.setTitle(title)
+        alertDialog.setMessage(message)
+        alertDialog.setPositiveButton("Ok") { _, _ ->
+        }
+        alertDialog.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -62,12 +91,28 @@ class ListingEnterprisesActivity : AppCompatActivity() {
                 adapter.contentList = enterprises
                 recyclerView.adapter = adapter
             })
+
+        viewModel.getErrorConnection.observe(this,
+            Observer {
+                callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+            })
+
+        viewModel.getErrorUnauthorized.observe(this,
+                Observer {
+                    clearPreference()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+
+                }
+            )
+
     }
 
-
-    private fun initViews() {
-        title = ""
-        setSupportActionBar(findViewById(R.id.tool_bar))
+    private fun clearPreference() {
+        mySharedPreferences.getString(R.string.login_key.toString(), MODE_PRIVATE.toString())
+        val editor = mySharedPreferences.edit()
+        editor.clear()
+        editor.apply()
     }
 
 
@@ -77,25 +122,16 @@ class ListingEnterprisesActivity : AppCompatActivity() {
         adapter =
             ListingEnterprisesAdapter { itemEnterprise ->
                 val intent = Intent(
-                    this@ListingEnterprisesActivity,
+                    this@EnterprisesActivity,
                     EnterpriseDetailActivity::class.java
                 )
                 intent.putExtra("arg_enterprise_id", itemEnterprise.id.toString())
                 intent.putExtra("arg_headers", headers)
-                intent.putExtra("arg_enterprise_name", itemEnterprise.enterprise_name)
-                intent.putExtra("arg_enterprise_area", itemEnterprise.city)
-                intent.putExtra("arg_enterprise_country", itemEnterprise.country)
-                intent.putExtra("arg_enterprise_description", itemEnterprise.description)
-                intent.putExtra("arg_enterprise_image", itemEnterprise.photo)
                 startActivity(intent)
             }
 
-
-
         if (headers != null) {
             viewModel.getEnterprises(headers)
-            Log.d("DEBUG", "pegou as empresas")
-
         }
 
     }

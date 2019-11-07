@@ -91,7 +91,7 @@
         tools:targetApi="o" />
 
     <TextView
-        android:id="@+id/txtErrorPassword"
+        android:id="@+id/txtErrorEmailOrPassword"
         style="@style/txt_invalid_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -100,6 +100,7 @@
         app:layout_constraintEnd_toEndOf="@id/edtPassword"
         app:layout_constraintBottom_toTopOf="@id/btnLogin"
         app:layout_constraintHorizontal_bias="0"
+        tools:text="error aqui"
         android:layout_marginBottom="16dp"/>
 
     <Button

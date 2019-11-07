@@ -18,8 +18,8 @@
     <string name="error_msg_password_has_not_especial_character">Senha não possui caractere especial</string>
     <string name="error_msg_password_has_not_minimum_size">Senha deve possuir no mínimo 6 dígitos</string>
 
+    <string name="error_email_or_password_invalid">Email ou senha inválidos</string>
+
     <string name="login_key">LoginKey</string>
-    <string name="accessToken">accessToken</string>
-    <string name="client">client</string>
-    <string name="uid">uid</string>
+    <string name="my_headers">myHeaders</string>
 </resources>

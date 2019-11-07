@@ -15,9 +15,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.EnterpriseDetailActivity" android:theme="@style/mainTheme"></activity>
-        <activity android:name=".ui.listingEnterprises.ListingEnterprisesActivity" android:theme="@style/mainTheme"/>
-        <activity android:name=".ui.LoginActivity" android:theme="@style/LoginTheme">
+        <activity
+            android:name=".ui.EnterpriseDetailActivity"
+            android:theme="@style/mainTheme" />
+        <activity
+            android:name=".ui.listingEnterprises.EnterprisesActivity"
+            android:theme="@style/mainTheme" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:theme="@style/LoginTheme">
+        </activity>
+        <activity android:name=".ui.SplashScreenActivity"
+            android:theme="@style/LoginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

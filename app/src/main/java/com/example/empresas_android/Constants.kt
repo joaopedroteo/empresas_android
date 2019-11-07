@@ -2,7 +2,7 @@ package com.example.empresas_android
 
 const val URL_BASE = "https://empresas.ioasys.com.br"
 
-val URL_IMGS = listOf<String>(
+val URL_IMGS = listOf(
     "https://s3.amazonaws.com/igd-wp-uploads-pluginaws/wp-content/uploads/2017/01/19162611/enquadramento-de-empresas-por-faturamento1.png",
     "https://www.sbcoaching.com.br/blog/wp-content/uploads/2019/06/empresas-transnacionais-o-que-sao-historia-exemplos-730x467.jpg",
     "https://dccomunic.com.br/wp-content/uploads/2018/04/Voc%C3%AA-sabe-quantas-empresas-quebram-por-n%C3%A3o-saber-divulgar-seu-neg%C3%B3cio-no-Brasil-e-acham-que-sabem.jpg",
