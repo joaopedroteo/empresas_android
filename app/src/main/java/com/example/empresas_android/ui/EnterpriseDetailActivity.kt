@@ -1,6 +1,7 @@
 package com.example.empresas_android.ui
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +37,7 @@ class EnterpriseDetailActivity : AppCompatActivity() {
         val headers = intent.extras?.getParcelable<MyHeaders>("arg_headers")
         val id = intent?.getStringExtra("arg_enterprise_id")?.toInt()
 
+        enterpriseDetailProgressBar.visibility = View.VISIBLE
         getEnterpriseDetail(headers, id)
     }
 
@@ -55,10 +57,14 @@ class EnterpriseDetailActivity : AppCompatActivity() {
                 txtDetailEnterprise.text = enterprise.description
                 val urlImg = URL_IMGS.elementAt(enterprise.description.length % URL_IMGS.size)
                 getImage(urlImg)
+
+                enterpriseDetailProgressBar.visibility = View.GONE
             })
 
         viewModel.getErrorConnection.observe(this,
             androidx.lifecycle.Observer {
+                enterpriseDetailProgressBar.visibility = View.GONE
+
                 callAlert("Erro na conexão", "Verifique sua conexão com a internet")
             })
     }

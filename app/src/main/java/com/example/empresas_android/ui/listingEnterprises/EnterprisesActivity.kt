@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -90,10 +91,14 @@ class EnterprisesActivity : AppCompatActivity() {
                     enterprises ->
                 adapter.contentList = enterprises
                 recyclerView.adapter = adapter
+
+                enterprisesProgressBar.visibility = View.GONE
             })
 
         viewModel.getErrorConnection.observe(this,
             Observer {
+                enterprisesProgressBar.visibility = View.GONE
+
                 callAlert("Erro na conexão", "Verifique sua conexão com a internet")
             })
 
@@ -131,6 +136,7 @@ class EnterprisesActivity : AppCompatActivity() {
             }
 
         if (headers != null) {
+            enterprisesProgressBar.visibility = View.VISIBLE
             viewModel.getEnterprises(headers)
         }
 

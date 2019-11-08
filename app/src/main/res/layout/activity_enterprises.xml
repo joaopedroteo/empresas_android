@@ -20,6 +20,18 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <ProgressBar
+        android:id="@+id/enterprisesProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/beige"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/tool_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"/>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -30,7 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tool_bar"
+        app:layout_constraintTop_toBottomOf="@+id/enterprisesProgressBar"
         tools:listitem="@layout/item_enterprise" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -42,7 +54,6 @@
         android:layout_margin="16dp"
         android:backgroundTint="@color/white"
         android:shadowColor="@color/medium_pink"
-        android:outlineSpotShadowColor="@color/medium_pink"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:focusable="true" />

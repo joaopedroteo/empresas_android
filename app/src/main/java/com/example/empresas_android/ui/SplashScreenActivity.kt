@@ -24,7 +24,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val handler = Handler()
         handler.postDelayed(
-            { goToNextPage() }, 2000)
+            { goToNextPage() }, 1500)
     }
 
 
