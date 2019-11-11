@@ -10,17 +10,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.empresas_android.R
-import com.example.empresas_android.data.local.MyHeaders
+import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.presentation.LoginViewModel
 import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var viewModel: LoginViewModel
-    private lateinit var myHeaders: MyHeaders
     private lateinit var mySharedPreferences: SharedPreferences
+
+    private var myPreferences = MyPreferences(applicationContext)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,19 +36,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    private fun savePreference() {
-        val gson = Gson()
-        val myHeadersJson = gson.toJson(myHeaders)
-
-        mySharedPreferences.getString(R.string.login_key.toString(), MODE_PRIVATE.toString())
-        val editor = mySharedPreferences.edit()
-        editor.putString(R.string.my_headers.toString(), myHeadersJson)
-        editor.apply()
-    }
-
     private fun goToNextPage() {
         val intent = Intent(this, EnterprisesActivity::class.java)
-        intent.putExtra("arg_headers", myHeaders)
         startActivity(intent)
         finish()
     }
@@ -81,16 +70,17 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
 
         btnLogin?.setOnClickListener {
-            viewModel.login(edtEmail.text.toString(), edtPassword.text.toString())
+            viewModel.login(myPreferences, edtEmail.text.toString(), edtPassword.text.toString())
         }
 
         viewModel.loginLiveData.observeFieldsLogin(this, Observer {
-            myHeaders = viewModel.getHeaders()
-            savePreference()
             goToNextPage()
         })
 
+    }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.destroy()
     }
 }

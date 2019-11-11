@@ -1,10 +1,9 @@
 package com.example.empresas_android.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.empresas_android.data.local.MyHeaders
+import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.data.service.HttpCodes
 import com.example.empresas_android.data.service.RetrofitAnalizer
 import com.example.empresas_android.data.service.model.EnterpriseByIdResponse
@@ -24,8 +23,8 @@ class EnterpriseDetailViewModel: ViewModel() {
     val enterprise:LiveData<EnterpriseResponse>
         get() = enterpriseDetail
 
-    fun getEnterpriseDetail(headers:MyHeaders, id:Int) {
-        val call = RetrofitAnalizer().userService(headers).getEnterpriseById(id)
+    fun getEnterpriseDetail(myPreferences: MyPreferences, id:Int) {
+        val call = RetrofitAnalizer().userService(myPreferences).getEnterpriseById(id)
 
         call.enqueue(object : Callback<EnterpriseByIdResponse>{
             override fun onFailure(call: Call<EnterpriseByIdResponse>, t: Throwable) {

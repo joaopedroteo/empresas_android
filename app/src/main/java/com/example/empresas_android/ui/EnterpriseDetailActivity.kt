@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.empresas_android.R
 import com.example.empresas_android.URL_IMGS
 import com.example.empresas_android.data.local.MyHeaders
+import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.presentation.EnterpriseDetailViewModel
 import kotlinx.android.synthetic.main.activity_enterprise_detail.*
 import java.util.*
@@ -18,6 +19,7 @@ import java.util.*
 class EnterpriseDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: EnterpriseDetailViewModel
+    var myPreferences = MyPreferences(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,7 @@ class EnterpriseDetailActivity : AppCompatActivity() {
         val id = intent?.getStringExtra("arg_enterprise_id")?.toInt()
 
         enterpriseDetailProgressBar.visibility = View.VISIBLE
-        getEnterpriseDetail(headers, id)
+        getEnterpriseDetail(myPreferences, id)
     }
 
     private fun callAlert(title: String, message: String = "") {
@@ -69,9 +71,9 @@ class EnterpriseDetailActivity : AppCompatActivity() {
             })
     }
 
-    private fun getEnterpriseDetail(headers: MyHeaders?, id: Int?) {
-        if (id != null && headers != null) {
-            viewModel.getEnterpriseDetail(headers, id)
+    private fun getEnterpriseDetail(myPreferences: MyPreferences, id: Int?) {
+        if (id != null) {
+            viewModel.getEnterpriseDetail(myPreferences, id)
         } else {
             Toast.makeText(this, "Não foi possível buscar os dados", Toast.LENGTH_LONG).show()
         }

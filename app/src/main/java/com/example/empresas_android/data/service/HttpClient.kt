@@ -1,20 +1,21 @@
 package com.example.empresas_android.data.service
 
 import com.example.empresas_android.BuildConfig
-import com.example.empresas_android.URL_BASE
 import com.example.empresas_android.data.local.MyHeaders
-import okhttp3.Headers
+import com.example.empresas_android.data.local.preferences.MyPreferences
+import com.example.empresas_android.data.local.preferences.PreferencesRepository
+import com.example.empresas_android.data.service.ServiceClientFactory.createOkHttpClient
+import com.example.empresas_android.data.service.ServiceClientFactory.provideRetrofit
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 class RetrofitAnalizer {
 
     private lateinit var okHttpLogin: OkHttpClient.Builder
     private lateinit var okHttpClient: OkHttpClient.Builder
+
 
     private fun provideLoggingCapableHttpLogin(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
@@ -66,17 +67,10 @@ class RetrofitAnalizer {
     }
 
 
-    private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(URL_BASE)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-    }
+    fun loginService(myPreferences: MyPreferences): UserService =
+        provideRetrofit(createOkHttpClient(myPreferences)).create(UserService::class.java)
 
-    fun loginService(): UserService =
-        provideRetrofit(provideLoggingCapableHttpLogin()).create(UserService::class.java)
+    fun userService(myPreferences:MyPreferences): UserService =
+        provideRetrofit(createOkHttpClient(myPreferences)).create(UserService::class.java)
 
-    fun userService(headers: MyHeaders): UserService =
-        provideRetrofit(provideLoggingCapableHttpClient(headers)).create(UserService::class.java)
 }
