@@ -1,6 +1,5 @@
 package com.example.empresas_android.presentation
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,6 +16,9 @@ class EnterpriseDetailViewModel: ViewModel() {
     private var enterpriseDetail: MutableLiveData<EnterpriseResponse> = MutableLiveData()
 
     private val errorConnection = MutableLiveData<Boolean>()
+
+    var enterpriseName:MutableLiveData<String> = MutableLiveData()
+    var enterpriseDescription:MutableLiveData<String> = MutableLiveData()
 
     val getErrorConnection:LiveData<Boolean>
         get() = errorConnection
@@ -39,6 +41,10 @@ class EnterpriseDetailViewModel: ViewModel() {
                 if(response.code() == HttpCodes.OK.value){
                     val enterpriseR:EnterpriseResponse? = response.body()?.enterprise
                     enterpriseDetail.value = enterpriseR
+                    if (enterpriseR != null) {
+                        enterpriseName.value = enterpriseR.enterprise_name
+                        enterpriseDescription.value = enterpriseR.description
+                    }
                 }
             }
 

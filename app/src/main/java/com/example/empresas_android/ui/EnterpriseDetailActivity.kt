@@ -6,11 +6,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.empresas_android.R
 import com.example.empresas_android.URL_IMGS
 import com.example.empresas_android.data.local.MyHeaders
+import com.example.empresas_android.databinding.ActivityEnterpriseDetailBinding
 import com.example.empresas_android.presentation.EnterpriseDetailViewModel
 import kotlinx.android.synthetic.main.activity_enterprise_detail.*
 import java.util.*
@@ -18,11 +20,16 @@ import java.util.*
 class EnterpriseDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: EnterpriseDetailViewModel
+    lateinit var binding:ActivityEnterpriseDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_enterprise_detail)
+
         viewModel = ViewModelProviders.of(this)[EnterpriseDetailViewModel::class.java]
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_enterprise_detail)
+
+        setBiding()
         initViews()
         createObserver()
     }
@@ -41,6 +48,11 @@ class EnterpriseDetailActivity : AppCompatActivity() {
         getEnterpriseDetail(headers, id)
     }
 
+    private fun setBiding() {
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+    }
+
     private fun callAlert(title: String, message: String = "") {
         val alertDialog = AlertDialog.Builder(this)
         alertDialog.setTitle(title)
@@ -53,8 +65,6 @@ class EnterpriseDetailActivity : AppCompatActivity() {
     private fun createObserver() {
         viewModel.enterprise.observe(this,
             androidx.lifecycle.Observer { enterprise ->
-                supportActionBar?.title = enterprise.enterprise_name.toUpperCase(Locale.US)
-                txtDetailEnterprise.text = enterprise.description
                 val urlImg = URL_IMGS.elementAt(enterprise.description.length % URL_IMGS.size)
                 getImage(urlImg)
 
