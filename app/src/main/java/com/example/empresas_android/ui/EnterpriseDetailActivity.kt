@@ -2,8 +2,6 @@ package com.example.empresas_android.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -17,7 +15,7 @@ import com.example.empresas_android.databinding.ActivityEnterpriseDetailBinding
 import com.example.empresas_android.presentation.EnterpriseDetailViewModel
 import kotlinx.android.synthetic.main.activity_enterprise_detail.*
 
-class EnterpriseDetailActivity : AppCompatActivity() {
+class EnterpriseDetailActivity : BaseActivity() {
 
     private lateinit var viewModel: EnterpriseDetailViewModel
     private lateinit var binding:ActivityEnterpriseDetailBinding
@@ -50,15 +48,6 @@ class EnterpriseDetailActivity : AppCompatActivity() {
     private fun setBiding() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-    }
-
-    private fun callAlert(title: String, message: String = "") {
-        val alertDialog = AlertDialog.Builder(this)
-        alertDialog.setTitle(title)
-        alertDialog.setMessage(message)
-        alertDialog.setPositiveButton(getString(R.string.ok)) { _, _ ->
-        }
-        alertDialog.show()
     }
 
     private fun createObserver() {

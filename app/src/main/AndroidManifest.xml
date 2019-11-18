@@ -15,6 +15,7 @@
         android:roundIcon="@drawable/ic_launcher_logo_web"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.BaseActivity"/>
         <activity
             android:name=".ui.EnterpriseDetailActivity"
             android:theme="@style/mainTheme" />
