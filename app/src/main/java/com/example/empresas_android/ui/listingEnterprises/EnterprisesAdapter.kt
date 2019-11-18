@@ -66,11 +66,3 @@ class ListingEnterprisesAdapter(
         }
     }
 }
-
-data class ItemEnterprise(
-    var name: String,
-    var area: String,
-    var country: String,
-    var description: String,
-    var image: String
-)

@@ -2,6 +2,20 @@ package com.example.empresas_android
 
 const val URL_BASE = "https://empresas.ioasys.com.br"
 
+const val APPLICATION_JSON = "aplication/json"
+const val CONTENT_TYPE = "Content-Type"
+const val ACCESS_TOKEN = "access-token"
+const val CLIENT = "client"
+const val PREF_UID = "uid"
+
+const val PREF_KEY = "prefKey"
+
+const val DELAY_MILLIS:Long = 1500
+
+const val ARG_HEADERS = "arg_headers"
+const val MY_HEADERS = "myHeaders"
+const val ARG_ENTERPRISE_ID = "arg_enterprise_id"
+
 val URL_IMGS = listOf(
     "https://s3.amazonaws.com/igd-wp-uploads-pluginaws/wp-content/uploads/2017/01/19162611/enquadramento-de-empresas-por-faturamento1.png",
     "https://www.sbcoaching.com.br/blog/wp-content/uploads/2019/06/empresas-transnacionais-o-que-sao-historia-exemplos-730x467.jpg",

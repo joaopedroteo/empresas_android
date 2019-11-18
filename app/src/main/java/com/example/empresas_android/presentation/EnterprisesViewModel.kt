@@ -3,9 +3,9 @@ package com.example.empresas_android.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.empresas_android.data.local.MyHeaders
+import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.data.service.HttpCodes
-import com.example.empresas_android.data.service.RetrofitAnalizer
+import com.example.empresas_android.data.service.RetrofitAnalyzer
 import com.example.empresas_android.data.service.model.EnterpriseResponse
 import com.example.empresas_android.data.service.model.ListEnterprisesResponse
 import retrofit2.Call
@@ -32,8 +32,8 @@ class EnterprisesViewModel : ViewModel() {
         get() = errorUnauthorized
 
 
-    private fun getEnterprisesFromAPI(headers: MyHeaders)  {
-        val call = RetrofitAnalizer().userService(headers).getEnterprises()
+    private fun getEnterprisesFromAPI(myPreferences: MyPreferences)  {
+        val call = RetrofitAnalyzer().userService(myPreferences).getEnterprises()
 
         call.enqueue(object: retrofit2.Callback<ListEnterprisesResponse> {
             override fun onFailure(call: Call<ListEnterprisesResponse>, t: Throwable) {
@@ -57,8 +57,8 @@ class EnterprisesViewModel : ViewModel() {
         })
     }
 
-    fun getEnterprises(headers: MyHeaders) {
-        getEnterprisesFromAPI(headers)
+    fun getEnterprises(myPreferences: MyPreferences) {
+        getEnterprisesFromAPI(myPreferences)
     }
 
     fun showAllEnterprises() {
