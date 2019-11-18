@@ -80,7 +80,11 @@ class EnterprisesActivity : AppCompatActivity() {
 
     private fun createObserver() {
 
-        adapter.contentList.clear()
+        viewModel.getProgressBar.observe(this,
+            Observer {
+                enterprisesProgressBar.visibility = if(it) View.VISIBLE else View.GONE
+            })
+
         viewModel.enterprises.observe(this,
             Observer {
                     enterprises ->
@@ -89,14 +93,10 @@ class EnterprisesActivity : AppCompatActivity() {
                 }
                 adapter.contentList = enterprises
                 recyclerView.adapter = adapter
-
-                enterprisesProgressBar.visibility = View.GONE
             })
 
         viewModel.getErrorConnection.observe(this,
             Observer {
-                enterprisesProgressBar.visibility = View.GONE
-
                 callAlert(getString(R.string.connection_error), getString(R.string.message_verify_connection))
             })
 
@@ -124,9 +124,12 @@ class EnterprisesActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-
-        enterprisesProgressBar.visibility = View.VISIBLE
         viewModel.getEnterprises(myPreferences)
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.onDestroy()
     }
 }

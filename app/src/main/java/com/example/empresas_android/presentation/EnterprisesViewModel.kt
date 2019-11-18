@@ -4,13 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.empresas_android.data.local.preferences.MyPreferences
-import com.example.empresas_android.data.service.HttpCodes
 import com.example.empresas_android.data.service.RetrofitAnalyzer
 import com.example.empresas_android.data.service.model.EnterpriseResponse
-import com.example.empresas_android.data.service.model.ListEnterprisesResponse
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.http.Headers
+import com.example.empresas_android.ui.helper.applyIoScheduler
+import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
 class EnterprisesViewModel : ViewModel() {
@@ -18,8 +15,11 @@ class EnterprisesViewModel : ViewModel() {
     private var itemEnterpriseList = MutableLiveData<MutableList<EnterpriseResponse>>()
     private var itemsEnterpriseFiltered = MutableLiveData<MutableList<EnterpriseResponse>>()
 
+    private val compositeDisposable = CompositeDisposable()
+
     private val errorConnection = MutableLiveData<Boolean>()
     private val errorUnauthorized = MutableLiveData<Boolean>()
+    private var progressBarVisible = MutableLiveData<Boolean>()
 
 
     val enterprises:LiveData<MutableList<EnterpriseResponse>>
@@ -31,30 +31,30 @@ class EnterprisesViewModel : ViewModel() {
     val getErrorUnauthorized:LiveData<Boolean>
         get() = errorUnauthorized
 
+    val getProgressBar:LiveData<Boolean>
+        get() = progressBarVisible
 
     private fun getEnterprisesFromAPI(myPreferences: MyPreferences)  {
         val call = RetrofitAnalyzer().userService(myPreferences).getEnterprises()
 
-        call.enqueue(object: retrofit2.Callback<ListEnterprisesResponse> {
-            override fun onFailure(call: Call<ListEnterprisesResponse>, t: Throwable) {
-                errorConnection.value = true
-            }
-
-            override fun onResponse(
-                call: Call<ListEnterprisesResponse>,
-                response: Response<ListEnterprisesResponse>
-            ) {
-
-                if (response.code() == HttpCodes.UNAUTHORIZED.value) {
-                    errorUnauthorized.value = true
-                } else {
-                    val enterprises : ListEnterprisesResponse = response.body()!!
-                    itemEnterpriseList.value = (enterprises.enterprises)
-                    itemsEnterpriseFiltered.value = (itemEnterpriseList.value)
+        compositeDisposable.add(
+            call.applyIoScheduler()
+                .doOnSubscribe {
+                    progressBarVisible.value = true
                 }
-            }
+                .doOnComplete {
+                    progressBarVisible.value = false
+                }
+                .doOnError {
+                    progressBarVisible.value = false
+                    errorConnection.value = true
+                }
+                .subscribe {
+                    itemEnterpriseList.value = it.enterprises
+                    itemsEnterpriseFiltered.value = itemEnterpriseList.value
+                }
+        )
 
-        })
     }
 
     fun getEnterprises(myPreferences: MyPreferences) {
@@ -75,6 +75,10 @@ class EnterprisesViewModel : ViewModel() {
         }
 
         itemsEnterpriseFiltered.value = newList
+    }
+
+    fun onDestroy() {
+        compositeDisposable.clear()
     }
 
 }

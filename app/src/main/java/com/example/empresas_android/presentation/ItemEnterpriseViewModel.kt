@@ -9,7 +9,6 @@ class ItemEnterpriseViewModel() : ViewModel() {
     var enterpriseName: MutableLiveData<String> = MutableLiveData()
     var enterpriseCity: MutableLiveData<String> = MutableLiveData()
     var enterpriseCountry: MutableLiveData<String> = MutableLiveData()
-    var enterpriseUrl: MutableLiveData<String> = MutableLiveData()
 
     constructor(enterpriseResponse: EnterpriseResponse) : this() {
         enterpriseName.value = enterpriseResponse.enterprise_name
