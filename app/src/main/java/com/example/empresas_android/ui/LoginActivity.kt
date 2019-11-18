@@ -20,7 +20,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var viewModel: LoginViewModel
     private lateinit var mySharedPreferences: SharedPreferences
 
-    private var myPreferences = MyPreferences(applicationContext)
+    private var myPreferences = MyPreferences(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

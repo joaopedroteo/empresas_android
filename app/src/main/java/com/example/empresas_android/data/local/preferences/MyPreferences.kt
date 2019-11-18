@@ -29,18 +29,18 @@ class MyPreferences(private val context: Context) : PreferencesRepository {
 
     override fun getCredentials(): HashMap<String, String> {
         val credentials = HashMap<String, String>()
+
+        val headers = preferences.getString(R.string.my_headers.toString(), "")
+        val myHeaders = Gson().fromJson(headers, MyHeaders::class.java)
+
         credentials[CONTENT_TYPE] = preferences.getString(
             CONTENT_TYPE, ""
         ) ?: ""
-        credentials[ACCESS_TOKEN] = preferences.getString(
-            ACCESS_TOKEN, ""
-        ) ?: ""
-        credentials[CLIENT] = preferences.getString(
-            CLIENT, ""
-        ) ?: ""
-        credentials[PREF_UID] = preferences.getString(
-            PREF_UID, ""
-        ) ?: ""
+        credentials[ACCESS_TOKEN] = myHeaders.accessToken
+
+        credentials[CLIENT] = myHeaders.client
+
+        credentials[PREF_UID] = myHeaders.uid
 
         return credentials
     }
