@@ -10,18 +10,19 @@ import com.example.empresas_android.data.service.model.EnterpriseResponse
 import com.example.empresas_android.data.service.model.ListEnterprisesResponse
 import retrofit2.Call
 import retrofit2.Response
+import retrofit2.http.Headers
 import java.util.*
 
 class EnterprisesViewModel : ViewModel() {
 
-    private var itemEnterpriseList = MutableLiveData<List<EnterpriseResponse>>()
-    private var itemsEnterpriseFiltered = MutableLiveData<List<EnterpriseResponse>>()
+    private var itemEnterpriseList = MutableLiveData<MutableList<EnterpriseResponse>>()
+    private var itemsEnterpriseFiltered = MutableLiveData<MutableList<EnterpriseResponse>>()
 
     private val errorConnection = MutableLiveData<Boolean>()
     private val errorUnauthorized = MutableLiveData<Boolean>()
 
 
-    val enterprises:LiveData<List<EnterpriseResponse>>
+    val enterprises:LiveData<MutableList<EnterpriseResponse>>
         get() = itemsEnterpriseFiltered
 
     val getErrorConnection:LiveData<Boolean>
@@ -48,8 +49,8 @@ class EnterprisesViewModel : ViewModel() {
                     errorUnauthorized.value = true
                 } else {
                     val enterprises : ListEnterprisesResponse = response.body()!!
-                    itemEnterpriseList.value = enterprises.enterprises
-                    itemsEnterpriseFiltered.value = itemEnterpriseList.value
+                    itemEnterpriseList.value = (enterprises.enterprises)
+                    itemsEnterpriseFiltered.value = (itemEnterpriseList.value)
                 }
             }
 
@@ -58,6 +59,10 @@ class EnterprisesViewModel : ViewModel() {
 
     fun getEnterprises(myPreferences: MyPreferences) {
         getEnterprisesFromAPI(myPreferences)
+    }
+
+    fun showAllEnterprises() {
+        itemsEnterpriseFiltered.value = itemEnterpriseList.value
     }
 
     fun searchEnterprises(name: String){

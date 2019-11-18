@@ -1,61 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/gradient_color"
-    tools:context=".ui.listingEnterprises.EnterprisesActivity">
+<layout>
 
-    <androidx.appcompat.widget.Toolbar
-        app:theme="@style/toolBar"
-        android:id="@+id/tool_bar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:logo="@drawable/logo_nav"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:title="Titulo">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.empresas_android.presentation.EnterprisesViewModel" />
+    </data>
 
-    </androidx.appcompat.widget.Toolbar>
 
-    <ProgressBar
-        android:id="@+id/enterprisesProgressBar"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/beige"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/tool_bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"/>
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_color"
+        tools:context=".ui.listingEnterprises.EnterprisesActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            app:theme="@style/toolBar"
+            android:id="@+id/tool_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:logo="@drawable/logo_nav"
+            android:clickable="true"
+            android:onClick="@{() -> viewModel.showAllEnterprises()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:title="Titulo">
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <ProgressBar
+            android:id="@+id/enterprisesProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/beige"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@+id/tool_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerView"/>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/beige"
-        android:padding="16dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enterprisesProgressBar"
-        tools:listitem="@layout/item_enterprise" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/beige"
+            android:padding="16dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enterprisesProgressBar"
+            tools:listitem="@layout/item_enterprise" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:srcCompat="@drawable/logout"
-        android:layout_margin="16dp"
-        android:backgroundTint="@color/white"
-        android:shadowColor="@color/medium_pink"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:focusable="true" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@drawable/logout"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/white"
+            android:shadowColor="@color/medium_pink"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:focusable="true" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -80,9 +80,13 @@ class EnterprisesActivity : AppCompatActivity() {
 
     private fun createObserver() {
 
+        adapter.contentList.clear()
         viewModel.enterprises.observe(this,
             Observer {
                     enterprises ->
+                if(enterprises==null){
+                    return@Observer
+                }
                 adapter.contentList = enterprises
                 recyclerView.adapter = adapter
 

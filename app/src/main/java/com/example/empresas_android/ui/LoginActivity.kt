@@ -13,7 +13,8 @@ import com.example.empresas_android.R
 import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.presentation.LoginViewModel
 import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.gson.Gson
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -24,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
         viewModel = ViewModelProviders.of(this)[LoginViewModel::class.java]
         initPreference()
         createObserver()

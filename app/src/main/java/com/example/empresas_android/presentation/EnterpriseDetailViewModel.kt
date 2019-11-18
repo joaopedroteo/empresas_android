@@ -17,7 +17,10 @@ class EnterpriseDetailViewModel : ViewModel() {
 
     private val errorConnection = MutableLiveData<Boolean>()
 
-    val getErrorConnection: LiveData<Boolean>
+    var enterpriseName:MutableLiveData<String> = MutableLiveData()
+    var enterpriseDescription:MutableLiveData<String> = MutableLiveData()
+
+    val getErrorConnection:LiveData<Boolean>
         get() = errorConnection
 
     val enterprise: LiveData<EnterpriseResponse>
@@ -38,6 +41,10 @@ class EnterpriseDetailViewModel : ViewModel() {
                 if (response.code() == HttpCodes.OK.value) {
                     val enterpriseR: EnterpriseResponse? = response.body()?.enterprise
                     enterpriseDetail.value = enterpriseR
+                    if (enterpriseR != null) {
+                        enterpriseName.value = enterpriseR.enterprise_name
+                        enterpriseDescription.value = enterpriseR.description
+                    }
                 }
             }
 
