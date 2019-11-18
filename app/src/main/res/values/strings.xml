@@ -22,4 +22,6 @@
 
     <string name="login_key">LoginKey</string>
     <string name="my_headers">myHeaders</string>
+
+<!-- separar strings por telas -->
 </resources>

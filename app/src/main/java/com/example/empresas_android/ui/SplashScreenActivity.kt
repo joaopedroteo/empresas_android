@@ -25,6 +25,7 @@ class SplashScreenActivity : AppCompatActivity() {
         val handler = Handler()
         handler.postDelayed(
             { goToNextPage() }, 1500)
+        //delayMillis pode ser uma constante
     }
 
 
@@ -66,6 +67,7 @@ class SplashScreenActivity : AppCompatActivity() {
     private fun goToListingEnterprisesPage() {
         val intent = Intent(this, EnterprisesActivity::class.java)
         intent.putExtra("arg_headers", myHeaders)
+        // arg_headers deve ser uma constante
         startActivity(intent)
         finish()
     }

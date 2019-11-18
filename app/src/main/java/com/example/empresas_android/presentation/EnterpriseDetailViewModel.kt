@@ -14,6 +14,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class EnterpriseDetailViewModel: ViewModel() {
+    //imports nao sendo usados
     private var enterpriseDetail: MutableLiveData<EnterpriseResponse> = MutableLiveData()
 
     private val errorConnection = MutableLiveData<Boolean>()

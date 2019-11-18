@@ -46,6 +46,7 @@ class ListingEnterprisesAdapter(
     }
 }
 
+//Essa data class esta sendo utilizada ?
 data class ItemEnterprise(
     var name: String,
     var area: String,
@@ -53,3 +54,5 @@ data class ItemEnterprise(
     var description: String,
     var image: String
 )
+
+//dar nome significativo para img_e_1 e img_e_1_lista

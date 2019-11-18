@@ -41,6 +41,8 @@ class LoginActivity : AppCompatActivity() {
         val myHeadersJson = gson.toJson(myHeaders)
 
         mySharedPreferences.getString(R.string.login_key.toString(), MODE_PRIVATE.toString())
+        // R.string.login_key faz mais sentido ser uma constante global
+        // MODE_PRIVATE.toString() isso realmente precisa ser convertido para string ?
         val editor = mySharedPreferences.edit()
         editor.putString(R.string.my_headers.toString(), myHeadersJson)
         editor.apply()
@@ -74,6 +76,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel.errorConnection.observeFieldsLogin(this,
             Observer {
                 callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+                // Essas msgs devem ficar no arquivo de strings
             })
     }
 

@@ -66,6 +66,7 @@ class EnterpriseDetailActivity : AppCompatActivity() {
                 enterpriseDetailProgressBar.visibility = View.GONE
 
                 callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+                //Strings hard coded
             })
     }
 
@@ -74,6 +75,7 @@ class EnterpriseDetailActivity : AppCompatActivity() {
             viewModel.getEnterpriseDetail(headers, id)
         } else {
             Toast.makeText(this, "Não foi possível buscar os dados", Toast.LENGTH_LONG).show()
+            //Substituit toast por dialog. String hard coded.
         }
     }
 

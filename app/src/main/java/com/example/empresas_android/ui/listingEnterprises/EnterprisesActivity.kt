@@ -100,6 +100,7 @@ class EnterprisesActivity : AppCompatActivity() {
                 enterprisesProgressBar.visibility = View.GONE
 
                 callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+                //Strings hard coded
             })
 
         viewModel.getErrorUnauthorized.observe(this,
@@ -123,6 +124,7 @@ class EnterprisesActivity : AppCompatActivity() {
 
     private fun createEnterpriseAdapter() {
         val headers = intent.extras?.getParcelable<MyHeaders>("arg_headers")
+        //String hard coded
 
         adapter =
             ListingEnterprisesAdapter { itemEnterprise ->
@@ -131,7 +133,9 @@ class EnterprisesActivity : AppCompatActivity() {
                     EnterpriseDetailActivity::class.java
                 )
                 intent.putExtra("arg_enterprise_id", itemEnterprise.id.toString())
+                //String hard coded
                 intent.putExtra("arg_headers", headers)
+                //String hard coded
                 startActivity(intent)
             }
 
