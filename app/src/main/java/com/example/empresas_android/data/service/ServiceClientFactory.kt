@@ -3,7 +3,6 @@ package com.example.empresas_android.data.service
 import com.example.empresas_android.BuildConfig
 import com.example.empresas_android.URL_BASE
 import com.example.empresas_android.data.local.preferences.MyPreferences
-import com.example.empresas_android.data.local.preferences.PreferencesRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -25,10 +24,7 @@ object ServiceClientFactory {
     fun createOkHttpClient( myPreferences: MyPreferences
     ) : OkHttpClient {
         val okHttpLogin: OkHttpClient.Builder
-        val logging = HttpLoggingInterceptor()
-        logging.level =
-            if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-
+        val logging = createHttpLoggingInterceptor()
 
         okHttpLogin = OkHttpClient.Builder()
             .addInterceptor(logging)
@@ -39,10 +35,8 @@ object ServiceClientFactory {
 
     private fun createHttpLoggingInterceptor() : HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor()
-
-        with(interceptor) {
-            level = HttpLoggingInterceptor.Level.NONE
-        }
+        interceptor.level =
+            if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
         return interceptor
     }

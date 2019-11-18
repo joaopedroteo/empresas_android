@@ -3,10 +3,10 @@ package com.example.empresas_android.ui
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import com.example.empresas_android.R
+import androidx.appcompat.app.AppCompatActivity
+import com.example.empresas_android.*
 import com.example.empresas_android.data.local.MyHeaders
 import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
 import com.google.gson.Gson
@@ -24,7 +24,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val handler = Handler()
         handler.postDelayed(
-            { goToNextPage() }, 1500)
+            { goToNextPage() }, DELAY_MILLIS )
     }
 
 
@@ -38,15 +38,13 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun initPreference() {
-        mySharedPreferences = getSharedPreferences(getString(R.string.login_key), Context.MODE_PRIVATE)
+        mySharedPreferences = getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
     }
 
     private fun hasPreferences(): Boolean {
         val gson = Gson()
 
-        mySharedPreferences.getString(R.string.login_key.toString(), MODE_PRIVATE.toString())
-
-        val myHeadersJson = mySharedPreferences.getString(R.string.my_headers.toString(), "")
+        val myHeadersJson = mySharedPreferences.getString(MY_HEADERS, "")
 
 
         if (!myHeadersJson.isNullOrEmpty()) {
@@ -65,7 +63,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun goToListingEnterprisesPage() {
         val intent = Intent(this, EnterprisesActivity::class.java)
-        intent.putExtra("arg_headers", myHeaders)
+        intent.putExtra(ARG_HEADERS, myHeaders)
         startActivity(intent)
         finish()
     }

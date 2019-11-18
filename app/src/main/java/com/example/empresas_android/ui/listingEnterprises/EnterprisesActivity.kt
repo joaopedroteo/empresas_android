@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.empresas_android.ARG_ENTERPRISE_ID
 import com.example.empresas_android.R
 import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.presentation.EnterprisesViewModel
@@ -22,7 +23,7 @@ class EnterprisesActivity : AppCompatActivity() {
     private lateinit var viewModel: EnterprisesViewModel
     private lateinit var adapter : ListingEnterprisesAdapter
 
-    var myPreferences = MyPreferences(this)
+    private var myPreferences = MyPreferences(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +49,7 @@ class EnterprisesActivity : AppCompatActivity() {
         val alertDialog = AlertDialog.Builder(this)
         alertDialog.setTitle(title)
         alertDialog.setMessage(message)
-        alertDialog.setPositiveButton("Ok") { _, _ ->
+        alertDialog.setPositiveButton(getString(R.string.ok)) { _, _ ->
         }
         alertDialog.show()
     }
@@ -92,7 +93,7 @@ class EnterprisesActivity : AppCompatActivity() {
             Observer {
                 enterprisesProgressBar.visibility = View.GONE
 
-                callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+                callAlert(getString(R.string.connection_error), getString(R.string.message_verify_connection))
             })
 
         viewModel.getErrorUnauthorized.observe(this,
@@ -115,7 +116,7 @@ class EnterprisesActivity : AppCompatActivity() {
                     this@EnterprisesActivity,
                     EnterpriseDetailActivity::class.java
                 )
-                intent.putExtra("arg_enterprise_id", itemEnterprise.id.toString())
+                intent.putExtra(ARG_ENTERPRISE_ID, itemEnterprise.id.toString())
                 startActivity(intent)
             }
 

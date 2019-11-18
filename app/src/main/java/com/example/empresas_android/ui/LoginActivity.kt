@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
         val alertDialog = AlertDialog.Builder(this)
         alertDialog.setTitle(title)
         alertDialog.setMessage(message)
-        alertDialog.setPositiveButton("Ok") { _, _ ->
+        alertDialog.setPositiveButton(R.string.ok) { _, _ ->
         }
         alertDialog.show()
     }
@@ -62,7 +62,8 @@ class LoginActivity : AppCompatActivity() {
 
         viewModel.errorConnection.observeFieldsLogin(this,
             Observer {
-                callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+                callAlert(getString(R.string.connection_error),
+                    getString(R.string.message_verify_connection))
             })
     }
 

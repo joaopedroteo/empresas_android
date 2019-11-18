@@ -4,22 +4,15 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.empresas_android.R
-import com.example.empresas_android.data.local.MyHeaders
 import com.example.empresas_android.data.local.UserLogin
 import com.example.empresas_android.data.local.preferences.MyPreferences
-import com.example.empresas_android.data.local.preferences.PreferencesRepository
-import com.example.empresas_android.data.service.HttpCodes
-import com.example.empresas_android.data.service.RetrofitAnalizer
+import com.example.empresas_android.data.service.RetrofitAnalyzer
 import com.example.empresas_android.data.service.model.LoginResponse
 import com.example.empresas_android.ui.helper.SingleEventLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
     private val tag = "DEBUG"
@@ -36,11 +29,11 @@ class LoginViewModel : ViewModel() {
         SingleEventLiveData<Boolean>()
     }
 
-    val errorMessageIndex:LiveData<Int>
+    val errorMessageIndex: LiveData<Int>
         get() = errorEmailOrPasswordIndex
 
     private fun loginApi(myPreferences: MyPreferences, userLogin: UserLogin) {
-        val call = RetrofitAnalizer().loginService(myPreferences).signIn(userLogin)
+        val call = RetrofitAnalyzer().loginService(myPreferences).signIn(userLogin)
 
 
         compositeDisposable.add(
@@ -67,7 +60,7 @@ class LoginViewModel : ViewModel() {
 
 
 //    private fun loginApi(userLogin: UserLogin) {
-//        val call = RetrofitAnalizer().loginService().signIn(userLogin)
+//        val call = RetrofitAnalyzer().loginService().signIn(userLogin)
 //        call.enqueue(object : Callback<LoginResponse> {
 //            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
 //
@@ -91,7 +84,7 @@ class LoginViewModel : ViewModel() {
 //        })
 //    }
 
-    fun login(myPreferences:MyPreferences, edtEmail: String, edtPassword: String) {
+    fun login(myPreferences: MyPreferences, edtEmail: String, edtPassword: String) {
         val userLogin = UserLogin(edtEmail, edtPassword)
         loginApi(myPreferences, userLogin)
     }

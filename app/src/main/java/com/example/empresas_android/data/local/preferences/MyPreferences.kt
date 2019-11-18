@@ -15,32 +15,37 @@ class MyPreferences(private val context: Context) : PreferencesRepository {
 
 
     override fun setCredentials(headers: Headers) {
-        val accessToken = headers["access-token"]
-        val client = headers["client"]
-        val uid = headers["uid"]
+        val accessToken = headers[ACCESS_TOKEN]
+        val client = headers[CLIENT]
+        val uid = headers[PREF_UID]
 
         val myHeaders = MyHeaders(accessToken.toString(), client.toString(), uid.toString())
         val myHeadersJson = Gson().toJson(myHeaders)
 
         val editor = preferences.edit()
-        editor.putString(R.string.my_headers.toString(), myHeadersJson)
+        editor.putString(MY_HEADERS, myHeadersJson)
         editor.apply()
     }
 
     override fun getCredentials(): HashMap<String, String> {
         val credentials = HashMap<String, String>()
 
-        val headers = preferences.getString(R.string.my_headers.toString(), "")
+        val headers = preferences.getString(MY_HEADERS, "")
         val myHeaders = Gson().fromJson(headers, MyHeaders::class.java)
 
         credentials[CONTENT_TYPE] = preferences.getString(
             CONTENT_TYPE, ""
         ) ?: ""
-        credentials[ACCESS_TOKEN] = myHeaders.accessToken
 
-        credentials[CLIENT] = myHeaders.client
-
-        credentials[PREF_UID] = myHeaders.uid
+        if (myHeaders != null) {
+            credentials[ACCESS_TOKEN] = myHeaders.accessToken
+            credentials[CLIENT] = myHeaders.client
+            credentials[PREF_UID] = myHeaders.uid
+        } else {
+            credentials[ACCESS_TOKEN] = ""
+            credentials[CLIENT] = ""
+            credentials[PREF_UID] = ""
+        }
 
         return credentials
     }
