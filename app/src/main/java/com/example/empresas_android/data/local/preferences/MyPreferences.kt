@@ -10,40 +10,40 @@ import okhttp3.Headers
 class MyPreferences(private val context: Context) : PreferencesRepository {
 
     private val preferences:SharedPreferences
-     get() = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+     get() = context.getSharedPreferences(Constants.SharedPreferences.PREF_KEY, Context.MODE_PRIVATE)
 
 
     override fun setCredentials(headers: Headers) {
-        val accessToken = headers[ACCESS_TOKEN]
-        val client = headers[CLIENT]
-        val uid = headers[PREF_UID]
+        val accessToken = headers[Constants.SharedPreferences.ACCESS_TOKEN]
+        val client = headers[Constants.SharedPreferences.CLIENT]
+        val uid = headers[Constants.SharedPreferences.PREF_UID]
 
         val myHeaders = MyHeaders(accessToken.toString(), client.toString(), uid.toString())
         val myHeadersJson = Gson().toJson(myHeaders)
 
         val editor = preferences.edit()
-        editor.putString(MY_HEADERS, myHeadersJson)
+        editor.putString(Constants.IntentBundle.MY_HEADERS, myHeadersJson)
         editor.apply()
     }
 
     override fun getCredentials(): HashMap<String, String> {
         val credentials = HashMap<String, String>()
 
-        val headers = preferences.getString(MY_HEADERS, "")
+        val headers = preferences.getString(Constants.IntentBundle.MY_HEADERS, "")
         val myHeaders = Gson().fromJson(headers, MyHeaders::class.java)
 
-        credentials[CONTENT_TYPE] = preferences.getString(
-            CONTENT_TYPE, ""
+        credentials[Constants.SharedPreferences.CONTENT_TYPE] = preferences.getString(
+            Constants.SharedPreferences.CONTENT_TYPE, ""
         ) ?: ""
 
         if (myHeaders != null) {
-            credentials[ACCESS_TOKEN] = myHeaders.accessToken
-            credentials[CLIENT] = myHeaders.client
-            credentials[PREF_UID] = myHeaders.uid
+            credentials[Constants.SharedPreferences.ACCESS_TOKEN] = myHeaders.accessToken
+            credentials[Constants.SharedPreferences.CLIENT] = myHeaders.client
+            credentials[Constants.SharedPreferences.PREF_UID] = myHeaders.uid
         } else {
-            credentials[ACCESS_TOKEN] = ""
-            credentials[CLIENT] = ""
-            credentials[PREF_UID] = ""
+            credentials[Constants.SharedPreferences.ACCESS_TOKEN] = ""
+            credentials[Constants.SharedPreferences.CLIENT] = ""
+            credentials[Constants.SharedPreferences.PREF_UID] = ""
         }
 
         return credentials
@@ -56,7 +56,7 @@ class MyPreferences(private val context: Context) : PreferencesRepository {
 
 
     override fun hasValidCredentials(): Boolean {
-        val token = preferences.getString(MY_HEADERS, "")
+        val token = preferences.getString(Constants.IntentBundle.MY_HEADERS, "")
         return !token.isNullOrBlank()
     }
 

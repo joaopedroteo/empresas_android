@@ -1,7 +1,7 @@
 package com.example.empresas_android.data.service
 
 import com.example.empresas_android.BuildConfig
-import com.example.empresas_android.URL_BASE
+import com.example.empresas_android.Constants
 import com.example.empresas_android.data.local.preferences.MyPreferences
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,18 +11,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ServiceClientFactory {
 
-
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(URL_BASE)
+            .baseUrl(Constants.Service.URL_BASE)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(okHttpClient)
             .build()
     }
 
-    fun createOkHttpClient( myPreferences: MyPreferences
-    ) : OkHttpClient {
+    fun createOkHttpClient(
+        myPreferences: MyPreferences
+    ): OkHttpClient {
         val okHttpLogin: OkHttpClient.Builder
         val logging = createHttpLoggingInterceptor()
 
@@ -33,7 +33,7 @@ object ServiceClientFactory {
 
     }
 
-    private fun createHttpLoggingInterceptor() : HttpLoggingInterceptor {
+    private fun createHttpLoggingInterceptor(): HttpLoggingInterceptor {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level =
             if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE

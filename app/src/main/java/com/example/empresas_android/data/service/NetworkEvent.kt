@@ -2,7 +2,6 @@ package com.example.empresas_android.data.service
 
 import android.os.Handler
 import android.os.Looper
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
@@ -14,7 +13,6 @@ object NetworkEvent {
     private fun getSubject(): PublishSubject<NetworkState> {
         if (!::subject.isInitialized) {
             subject = PublishSubject.create()
-            subject.subscribeOn(AndroidSchedulers.mainThread())
         }
         return subject
     }

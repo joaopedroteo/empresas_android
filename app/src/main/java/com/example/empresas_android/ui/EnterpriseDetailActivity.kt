@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import com.example.empresas_android.ARG_ENTERPRISE_ID
+import com.example.empresas_android.Constants
 import com.example.empresas_android.R
 import com.example.empresas_android.URL_IMGS
 import com.example.empresas_android.data.local.preferences.MyPreferences
@@ -44,7 +44,7 @@ class EnterpriseDetailActivity : BaseActivity() {
 
         setTypeFace(txtDetailEnterprise, "fonts/SourceSansPro-Regular.ttf")
 
-        val id = intent.getIntExtra(ARG_ENTERPRISE_ID, idInvalid)
+        val id = intent.getIntExtra(Constants.IntentBundle.ENTERPRISE_ID, idInvalid)
 
         getEnterpriseDetail(myPreferences, id)
     }

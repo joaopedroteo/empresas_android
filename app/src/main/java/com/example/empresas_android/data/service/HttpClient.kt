@@ -6,10 +6,7 @@ import com.example.empresas_android.data.service.ServiceClientFactory.provideRet
 
 class RetrofitAnalyzer {
 
-    fun loginService(myPreferences: MyPreferences): UserService =
-        provideRetrofit(createOkHttpClient(myPreferences)).create(UserService::class.java)
-
-    fun userService(myPreferences:MyPreferences): UserService =
+    fun userService(myPreferences: MyPreferences): UserService =
         provideRetrofit(createOkHttpClient(myPreferences)).create(UserService::class.java)
 
 }

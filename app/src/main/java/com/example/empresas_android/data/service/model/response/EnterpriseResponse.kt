@@ -1,4 +1,4 @@
-package com.example.empresas_android.data.service.model
+package com.example.empresas_android.data.service.model.response
 
 data class EnterpriseResponse(
     val id : Int,

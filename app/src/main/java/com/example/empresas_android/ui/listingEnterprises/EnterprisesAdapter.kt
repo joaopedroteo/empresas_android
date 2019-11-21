@@ -1,6 +1,5 @@
 package com.example.empresas_android.ui.listingEnterprises
 
-import android.content.Context
 import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.empresas_android.R
 import com.example.empresas_android.URL_IMGS
-import com.example.empresas_android.data.service.model.EnterpriseResponse
+import com.example.empresas_android.data.service.model.response.EnterpriseResponse
 import com.example.empresas_android.databinding.ItemEnterpriseBinding
 import com.example.empresas_android.presentation.ItemEnterpriseViewModel
 import kotlinx.android.synthetic.main.item_enterprise.view.*
@@ -20,7 +19,7 @@ class ListingEnterprisesAdapter(
     private val onItemClick: (EnterpriseResponse) -> Unit
 ) : RecyclerView.Adapter<ListingEnterprisesAdapter.ViewHolder>() {
 
-    lateinit var binding:ItemEnterpriseBinding
+    private lateinit var binding:ItemEnterpriseBinding
 
     var contentList: MutableList<EnterpriseResponse> = mutableListOf()
         set(value) {

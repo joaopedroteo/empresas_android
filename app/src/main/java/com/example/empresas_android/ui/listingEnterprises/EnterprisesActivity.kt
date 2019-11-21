@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.empresas_android.ARG_ENTERPRISE_ID
+import com.example.empresas_android.Constants
 import com.example.empresas_android.R
 import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.data.service.NetworkEvent
@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_enterprises.*
 class EnterprisesActivity : BaseActivity() {
 
     private lateinit var viewModel: EnterprisesViewModel
-    private lateinit var adapter : ListingEnterprisesAdapter
+    private lateinit var adapter: ListingEnterprisesAdapter
 
     private var myPreferences = MyPreferences(this)
 
@@ -37,7 +37,7 @@ class EnterprisesActivity : BaseActivity() {
             EnterprisesViewModelFactory(this)
         )[EnterprisesViewModel::class.java]
 
-        if(hasInternetConnection()){
+        if (hasInternetConnection()) {
             createEnterpriseAdapter()
             createObserver()
         }
@@ -56,14 +56,23 @@ class EnterprisesActivity : BaseActivity() {
         super.onStart()
         NetworkEvent.register(this, Consumer {
             when (it) {
-                NetworkState.NO_INTERNET -> showDialog(getString(R.string.connection_error),
-                    getString(R.string.message_verify_connection))
+                null -> return@Consumer
+                NetworkState.NO_INTERNET -> showDialog(
+                    getString(R.string.connection_error),
+                    getString(R.string.message_verify_connection)
+                )
 
-                NetworkState.NO_RESPONSE -> showDialog(getString(R.string.unknown_error),
-                    getString(R.string.message_fetch_data_not_possible))
+                NetworkState.NO_RESPONSE -> showDialog(
+                    getString(R.string.unknown_error),
+                    getString(R.string.message_fetch_data_not_possible)
+                )
 
                 NetworkState.UNAUTHORISED -> {
-                    Toast.makeText(applicationContext, R.string.error_login_expired, Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        applicationContext,
+                        R.string.error_login_expired,
+                        Toast.LENGTH_LONG
+                    ).show()
                     openActivity(LoginActivity::class.java)
                 }
             }
@@ -103,13 +112,12 @@ class EnterprisesActivity : BaseActivity() {
 
         viewModel.getProgressBar.observe(this,
             Observer {
-                enterprisesProgressBar.visibility = if(it) View.VISIBLE else View.GONE
+                enterprisesProgressBar.visibility = if (it) View.VISIBLE else View.GONE
             })
 
         viewModel.enterprises.observe(this,
-            Observer {
-                    enterprises ->
-                if(enterprises==null){
+            Observer { enterprises ->
+                if (enterprises == null) {
                     return@Observer
                 }
                 adapter.contentList = enterprises
@@ -118,16 +126,19 @@ class EnterprisesActivity : BaseActivity() {
 
         viewModel.getErrorConnection.observe(this,
             Observer {
-                showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+                showDialog(
+                    getString(R.string.connection_error),
+                    getString(R.string.message_verify_connection)
+                )
             })
 
         viewModel.getErrorUnauthorized.observe(this,
-                Observer {
-                    openActivity(LoginActivity::class.java)
-                    finish()
+            Observer {
+                openActivity(LoginActivity::class.java)
+                finish()
 
-                }
-            )
+            }
+        )
     }
 
     private fun createEnterpriseAdapter() {
@@ -135,7 +146,7 @@ class EnterprisesActivity : BaseActivity() {
         adapter =
             ListingEnterprisesAdapter { itemEnterprise ->
                 val bundle = Bundle()
-                bundle.putInt(ARG_ENTERPRISE_ID, itemEnterprise.id)
+                bundle.putInt(Constants.IntentBundle.ENTERPRISE_ID, itemEnterprise.id)
                 openActivity(EnterpriseDetailActivity::class.java, bundle)
             }
 

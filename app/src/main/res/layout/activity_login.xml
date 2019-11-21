@@ -6,119 +6,118 @@
     android:layout_height="match_parent"
     android:background="@color/beige">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    tools:context=".ui.LoginActivity">
-
-    <ImageView
-        android:id="@+id/loginLogoImageView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="88dp"
-        android:src="@mipmap/logo_home"
-        android:contentDescription="@string/logo_app_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        style="@style/screen_title"
-        android:id="@+id/loginWelcomeTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/welcome_login"
-        app:layout_constraintEnd_toEndOf="@+id/loginLogoImageView"
-        app:layout_constraintStart_toStartOf="@+id/loginLogoImageView"
-        app:layout_constraintTop_toBottomOf="@+id/loginLogoImageView" />
-
-    <TextView
-        style="@style/description_text"
-        android:id="@+id/loginDescriptionTextView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_margin="16dp"
-        android:text="@string/description_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginWelcomeTextView" />
+        android:layout_height="0dp"
+        tools:context=".ui.LoginActivity">
 
-    <EditText
-        style="@style/edt_txt"
-        android:id="@+id/edtEmail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="45dp"
-        android:inputType="textEmailAddress"
-        android:drawableStart="@drawable/ic_email"
-        android:hint="@string/edt_email_login"
-        android:autofillHints="@string/edt_email_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginDescriptionTextView"
-        tools:targetApi="o" />
+        <ImageView
+            android:id="@+id/loginLogoImageView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="88dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="88dp"
+            android:contentDescription="@string/logo_app_description"
+            android:src="@mipmap/logo_home"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        style="@style/txt_invalid_input"
-        android:id="@+id/txtErrorInvalidEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/edtEmail"
-        app:layout_constraintStart_toStartOf="@id/edtEmail"
-        app:layout_constraintEnd_toEndOf="@id/edtEmail"
-        app:layout_constraintBottom_toTopOf="@id/edtPassword"
-        app:layout_constraintHorizontal_bias="0"/>
+        <TextView
+            android:id="@+id/loginWelcomeTextView"
+            style="@style/screen_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="@string/welcome_login"
+            app:layout_constraintEnd_toEndOf="@+id/loginLogoImageView"
+            app:layout_constraintStart_toStartOf="@+id/loginLogoImageView"
+            app:layout_constraintTop_toBottomOf="@+id/loginLogoImageView" />
 
-    <EditText
-        style="@style/edt_txt"
-        android:id="@+id/edtPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:inputType="textPassword"
-        android:text="12341234"
-        android:drawableStart="@drawable/ic_cadeado"
-        android:hint="@string/edt_password_login"
-        android:autofillHints="@string/edt_password_login"
-        app:layout_constraintEnd_toEndOf="@+id/edtEmail"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/edtEmail"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail"
-        tools:targetApi="o" />
+        <TextView
+            android:id="@+id/loginDescriptionTextView"
+            style="@style/description_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/description_login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginWelcomeTextView" />
 
-    <TextView
-        android:id="@+id/txtErrorEmailOrPassword"
-        style="@style/txt_invalid_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/edtPassword"
-        app:layout_constraintStart_toStartOf="@id/edtPassword"
-        app:layout_constraintEnd_toEndOf="@id/edtPassword"
-        app:layout_constraintBottom_toTopOf="@id/btnLogin"
-        app:layout_constraintHorizontal_bias="0"
-        tools:text="error aqui"
-        android:layout_marginBottom="16dp"/>
+        <EditText
+            android:id="@+id/edtEmail"
+            style="@style/edt_txt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="45dp"
+            android:autofillHints="@string/edt_email_login"
+            android:drawableStart="@drawable/ic_email"
+            android:hint="@string/edt_email_login"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loginDescriptionTextView"
+            tools:targetApi="o" />
 
-    <Button
-        style="@style/btnLogin"
-        android:id="@+id/btnLogin"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/btn_name_login"
-        app:layout_constraintEnd_toEndOf="@+id/edtPassword"
-        app:layout_constraintStart_toStartOf="@+id/edtPassword"
-        app:layout_constraintTop_toBottomOf="@+id/edtPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="24dp"/>
+        <TextView
+            android:id="@+id/txtErrorInvalidEmail"
+            style="@style/txt_invalid_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/edtPassword"
+            app:layout_constraintEnd_toEndOf="@id/edtEmail"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@id/edtEmail"
+            app:layout_constraintTop_toBottomOf="@id/edtEmail" />
+
+        <EditText
+            android:id="@+id/edtPassword"
+            style="@style/edt_txt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:autofillHints="@string/edt_password_login"
+            android:drawableStart="@drawable/ic_cadeado"
+            android:hint="@string/edt_password_login"
+            android:inputType="textPassword"
+            android:text="12341234"
+            app:layout_constraintEnd_toEndOf="@+id/edtEmail"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/edtEmail"
+            app:layout_constraintTop_toBottomOf="@+id/edtEmail"
+            tools:targetApi="o" />
+
+        <TextView
+            android:id="@+id/txtErrorEmailOrPassword"
+            style="@style/txt_invalid_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/btnLogin"
+            app:layout_constraintEnd_toEndOf="@id/edtPassword"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="@id/edtPassword"
+            app:layout_constraintTop_toBottomOf="@id/edtPassword"
+            tools:text="error aqui" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            style="@style/btnLogin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/btn_name_login"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/edtPassword"
+            app:layout_constraintStart_toStartOf="@+id/edtPassword"
+            app:layout_constraintTop_toBottomOf="@+id/edtPassword" />
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

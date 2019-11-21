@@ -14,27 +14,22 @@ open class RequestInterceptor (private val myPreferences: MyPreferences) : Inter
         if(myPreferences.hasValidCredentials()) {
             val credentials = myPreferences.getCredentials()
             request = request.newBuilder()
-                .header(CONTENT_TYPE, APPLICATION_JSON)
-                .header(ACCESS_TOKEN, credentials[ACCESS_TOKEN] ?: "")
-                .header(CLIENT, credentials[CLIENT] ?: "")
-                .header(PREF_UID, credentials[PREF_UID] ?: "")
+                .header(Constants.SharedPreferences.CONTENT_TYPE, Constants.SharedPreferences.APPLICATION_JSON)
+                .header(Constants.SharedPreferences.ACCESS_TOKEN, credentials[Constants.SharedPreferences.ACCESS_TOKEN] ?: "")
+                .header(Constants.SharedPreferences.CLIENT, credentials[Constants.SharedPreferences.CLIENT] ?: "")
+                .header(Constants.SharedPreferences.PREF_UID, credentials[Constants.SharedPreferences.PREF_UID] ?: "")
                 .build()
 
         }
 
         val response = chain.proceed(request)
         when (response.code) {
-            RESPONSE_OK -> myPreferences.setCredentials(response.headers)
+            HttpCodes.OK.value -> myPreferences.setCredentials(response.headers)
 
-            RESPONSE_UNAUTHORIZED -> networkEvent.publish(NetworkState.UNAUTHORISED)
+            HttpCodes.UNAUTHORIZED.value -> networkEvent.publish(NetworkState.UNAUTHORISED)
 
             503 -> networkEvent.publish(NetworkState.NO_RESPONSE)
         }
         return response
-
     }
-}
-
-enum class NetworkState {
-    NO_INTERNET, NO_RESPONSE, UNAUTHORISED
 }

@@ -2,8 +2,7 @@ package com.example.empresas_android.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.empresas_android.data.local.UserLogin
+import com.example.empresas_android.data.service.model.request.UserLoginRequest
 import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.data.service.RetrofitAnalyzer
 import com.example.empresas_android.ui.CallBackBasicViewModel
@@ -27,8 +26,8 @@ class LoginViewModel(callback:CallBackBasicViewModel) : BaseViewModel(callback) 
     val errorMessageIndex: LiveData<Int>
         get() = errorEmailOrPasswordIndex
 
-    private fun loginApi(myPreferences: MyPreferences, userLogin: UserLogin) {
-        val call = RetrofitAnalyzer().loginService(myPreferences).signIn(userLogin)
+    private fun loginApi(myPreferences: MyPreferences, userLoginRequest: UserLoginRequest) {
+        val call = RetrofitAnalyzer().userService(myPreferences).signIn(userLoginRequest)
 
         compositeDisposable.add(
             call.applyIoScheduler()
@@ -42,7 +41,8 @@ class LoginViewModel(callback:CallBackBasicViewModel) : BaseViewModel(callback) 
     }
 
     fun login(myPreferences: MyPreferences, edtEmail: String, edtPassword: String) {
-        val userLogin = UserLogin(edtEmail, edtPassword)
+        val userLogin =
+            UserLoginRequest(edtEmail, edtPassword)
         loginApi(myPreferences, userLogin)
     }
 

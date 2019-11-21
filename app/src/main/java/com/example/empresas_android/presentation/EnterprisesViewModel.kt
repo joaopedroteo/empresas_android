@@ -2,10 +2,9 @@ package com.example.empresas_android.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.data.service.RetrofitAnalyzer
-import com.example.empresas_android.data.service.model.EnterpriseResponse
+import com.example.empresas_android.data.service.model.response.EnterpriseResponse
 import com.example.empresas_android.ui.CallBackBasicViewModel
 import com.example.empresas_android.ui.helper.applyIoScheduler
 import io.reactivex.disposables.CompositeDisposable
@@ -72,7 +71,6 @@ class EnterprisesViewModel(callback:CallBackBasicViewModel) : BaseViewModel(call
                 newList.add(enterprise)
             }
         }
-
         itemsEnterpriseFiltered.value = newList
     }
 

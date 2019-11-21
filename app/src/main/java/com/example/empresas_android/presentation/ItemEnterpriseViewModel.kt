@@ -2,7 +2,7 @@ package com.example.empresas_android.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.empresas_android.data.service.model.EnterpriseResponse
+import com.example.empresas_android.data.service.model.response.EnterpriseResponse
 
 class ItemEnterpriseViewModel() : ViewModel() {
 

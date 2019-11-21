@@ -1,9 +1,10 @@
 package com.example.empresas_android.data.service
 
-import com.example.empresas_android.data.local.UserLogin
-import com.example.empresas_android.data.service.model.EnterpriseByIdResponse
-import com.example.empresas_android.data.service.model.ListEnterprisesResponse
-import com.example.empresas_android.data.service.model.LoginResponse
+import com.example.empresas_android.Constants
+import com.example.empresas_android.data.service.model.request.UserLoginRequest
+import com.example.empresas_android.data.service.model.response.EnterpriseByIdResponse
+import com.example.empresas_android.data.service.model.response.ListEnterprisesResponse
+import com.example.empresas_android.data.service.model.response.LoginResponse
 import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -12,15 +13,12 @@ import retrofit2.http.Path
 
 
 interface UserService{
-    @POST("api/v1/users/auth/sign_in")
-    fun signIn(@Body userLogin: UserLogin): Observable<LoginResponse>
+    @POST(Constants.Service.SIGN_IN)
+    fun signIn(@Body userLoginRequest: UserLoginRequest): Observable<LoginResponse>
 
-//    @GET("/api/v1/enterprises")
-//    fun getEnterprises(): Observable<List<EnterpriseResponse>>
-
-    @GET("/api/v1/enterprises")
+    @GET(Constants.Service.ENTERPRISES)
     fun getEnterprises(): Observable<ListEnterprisesResponse>
 
-    @GET("/api/v1/enterprises/{id}")
+    @GET(Constants.Service.ENTERPRISES_ID)
     fun getEnterpriseById(@Path("id") id:Int): Observable<EnterpriseByIdResponse>
 }

@@ -5,9 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
-import com.example.empresas_android.DELAY_MILLIS
-import com.example.empresas_android.MY_HEADERS
-import com.example.empresas_android.PREF_KEY
+import com.example.empresas_android.Constants
 import com.example.empresas_android.R
 import com.example.empresas_android.data.local.MyHeaders
 import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
@@ -34,20 +32,20 @@ class SplashScreenActivity : BaseActivity() {
 
     private fun goToNextPage() {
         if(hasPreferences() && hasInternetConnection()) {
-            openActivityAfterTimeAndFinish(EnterprisesActivity::class.java, DELAY_MILLIS)
+            openActivityAfterTimeAndFinish(EnterprisesActivity::class.java, Constants.SplashScreen.DELAY_MILLIS)
         } else {
-            openActivityAfterTimeAndFinish(LoginActivity::class.java, DELAY_MILLIS)
+            openActivityAfterTimeAndFinish(LoginActivity::class.java, Constants.SplashScreen.DELAY_MILLIS)
         }
     }
 
     private fun initPreference() {
-        mySharedPreferences = getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
+        mySharedPreferences = getSharedPreferences(Constants.SharedPreferences.PREF_KEY, Context.MODE_PRIVATE)
     }
 
     private fun hasPreferences(): Boolean {
         val gson = Gson()
 
-        val myHeadersJson = mySharedPreferences.getString(MY_HEADERS, "")
+        val myHeadersJson = mySharedPreferences.getString(Constants.IntentBundle.MY_HEADERS, "")
 
 
         if (!myHeadersJson.isNullOrEmpty()) {
