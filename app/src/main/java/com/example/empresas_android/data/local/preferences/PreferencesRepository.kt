@@ -10,4 +10,6 @@ interface PreferencesRepository {
     fun hasValidCredentials() : Boolean
 
     fun setCredentials(headers: Headers)
+
+    fun clearCredentials()
 }

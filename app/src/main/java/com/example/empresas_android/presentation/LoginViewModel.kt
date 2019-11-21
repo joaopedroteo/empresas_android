@@ -6,19 +6,19 @@ import androidx.lifecycle.ViewModel
 import com.example.empresas_android.data.local.UserLogin
 import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.data.service.RetrofitAnalyzer
+import com.example.empresas_android.ui.CallBackBasicViewModel
 import com.example.empresas_android.ui.helper.SingleEventLiveData
 import com.example.empresas_android.ui.helper.applyIoScheduler
+import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
 import io.reactivex.disposables.CompositeDisposable
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(callback:CallBackBasicViewModel) : BaseViewModel(callback) {
+
 
     private val compositeDisposable = CompositeDisposable()
 
     private var errorEmailOrPasswordIndex = MutableLiveData<Int>()
 
-    val loginLiveData: SingleEventLiveData<Boolean> by lazy {
-        SingleEventLiveData<Boolean>()
-    }
 
     val errorConnection: SingleEventLiveData<Boolean> by lazy {
         SingleEventLiveData<Boolean>()
@@ -33,12 +33,11 @@ class LoginViewModel : ViewModel() {
         compositeDisposable.add(
             call.applyIoScheduler()
                 .doOnComplete {
-                    loginLiveData.value = true
+                    openActivityAndFinish(EnterprisesActivity::class.java)
                 }
-                .doOnError {
+                .subscribe({},{
                     errorConnection.value = true
-                }
-                .subscribe()
+                })
         )
     }
 
@@ -47,7 +46,7 @@ class LoginViewModel : ViewModel() {
         loginApi(myPreferences, userLogin)
     }
 
-    fun destroy() {
+    fun clearDisposable() {
         compositeDisposable.clear()
     }
 

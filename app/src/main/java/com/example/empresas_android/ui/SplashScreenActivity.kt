@@ -1,40 +1,43 @@
 package com.example.empresas_android.ui
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
-import androidx.appcompat.app.AppCompatActivity
-import com.example.empresas_android.*
+import android.view.Window
+import android.view.WindowManager
+import com.example.empresas_android.DELAY_MILLIS
+import com.example.empresas_android.MY_HEADERS
+import com.example.empresas_android.PREF_KEY
+import com.example.empresas_android.R
 import com.example.empresas_android.data.local.MyHeaders
 import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
 import com.google.gson.Gson
 
-class SplashScreenActivity : AppCompatActivity() {
+class SplashScreenActivity : BaseActivity() {
     private lateinit var mySharedPreferences: SharedPreferences
     private lateinit var myHeaders: MyHeaders
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_screen)
 
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+        setContentView(R.layout.activity_splash_screen)
         initPreference()
 
-        val handler = Handler()
-        handler.postDelayed(
-            { goToNextPage() }, DELAY_MILLIS )
+        goToNextPage()
     }
 
 
     private fun goToNextPage() {
-        if(hasPreferences()) {
-            goToListingEnterprisesPage()
+        if(hasPreferences() && hasInternetConnection()) {
+            openActivityAfterTimeAndFinish(EnterprisesActivity::class.java, DELAY_MILLIS)
         } else {
-            goToLoginPage()
+            openActivityAfterTimeAndFinish(LoginActivity::class.java, DELAY_MILLIS)
         }
-        finish()
     }
 
     private fun initPreference() {
@@ -49,23 +52,11 @@ class SplashScreenActivity : AppCompatActivity() {
 
         if (!myHeadersJson.isNullOrEmpty()) {
             myHeaders = gson.fromJson(myHeadersJson, MyHeaders::class.java)
+
             return true
         }
         return false
-
     }
 
-    private fun goToLoginPage() {
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    private fun goToListingEnterprisesPage() {
-        val intent = Intent(this, EnterprisesActivity::class.java)
-        intent.putExtra(ARG_HEADERS, myHeaders)
-        startActivity(intent)
-        finish()
-    }
 
 }

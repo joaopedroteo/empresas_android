@@ -1,5 +1,7 @@
 package com.example.empresas_android.ui.listingEnterprises
 
+import android.content.Context
+import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -56,6 +58,10 @@ class ListingEnterprisesAdapter(
          fun bind(item: EnterpriseResponse) {
 
             itemView.apply {
+
+                titleEnterprise.typeface = Typeface.createFromAsset(context.assets, "fonts/Roboto-Bold.ttf")
+                subtitleEnterprise.typeface = Typeface.createFromAsset(context.assets, "fonts/Roboto-Italic.ttf")
+                subtitleEnterprise2.typeface = Typeface.createFromAsset(context.assets, "fonts/Roboto-Regular.ttf")
 
                 val urlImg = URL_IMGS.elementAt(item.description.length % URL_IMGS.size)
                 Glide.with(this).load(urlImg).placeholder(R.drawable.img_e_1_lista).into(imageView)

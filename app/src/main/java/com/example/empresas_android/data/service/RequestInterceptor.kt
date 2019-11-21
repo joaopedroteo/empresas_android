@@ -6,6 +6,7 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 open class RequestInterceptor (private val myPreferences: MyPreferences) : Interceptor {
+    private val networkEvent: NetworkEvent = NetworkEvent
 
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
@@ -20,9 +21,20 @@ open class RequestInterceptor (private val myPreferences: MyPreferences) : Inter
                 .build()
 
         }
-        val response = chain.proceed(request)
-        myPreferences.setCredentials(response.headers)
-        return response
-    }
 
+        val response = chain.proceed(request)
+        when (response.code) {
+            RESPONSE_OK -> myPreferences.setCredentials(response.headers)
+
+            RESPONSE_UNAUTHORIZED -> networkEvent.publish(NetworkState.UNAUTHORISED)
+
+            503 -> networkEvent.publish(NetworkState.NO_RESPONSE)
+        }
+        return response
+
+    }
+}
+
+enum class NetworkState {
+    NO_INTERNET, NO_RESPONSE, UNAUTHORISED
 }

@@ -6,11 +6,12 @@ import androidx.lifecycle.ViewModel
 import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.data.service.RetrofitAnalyzer
 import com.example.empresas_android.data.service.model.EnterpriseResponse
+import com.example.empresas_android.ui.CallBackBasicViewModel
 import com.example.empresas_android.ui.helper.applyIoScheduler
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
-class EnterprisesViewModel : ViewModel() {
+class EnterprisesViewModel(callback:CallBackBasicViewModel) : BaseViewModel(callback) {
 
     private var itemEnterpriseList = MutableLiveData<MutableList<EnterpriseResponse>>()
     private var itemsEnterpriseFiltered = MutableLiveData<MutableList<EnterpriseResponse>>()
@@ -45,16 +46,14 @@ class EnterprisesViewModel : ViewModel() {
                 .doOnComplete {
                     progressBarVisible.value = false
                 }
-                .doOnError {
-                    progressBarVisible.value = false
-                    errorConnection.value = true
-                }
-                .subscribe {
+                .subscribe({
                     itemEnterpriseList.value = it.enterprises
                     itemsEnterpriseFiltered.value = itemEnterpriseList.value
-                }
+                }, {
+                    progressBarVisible.value = false
+                    errorConnection.value = true
+                })
         )
-
     }
 
     fun getEnterprises(myPreferences: MyPreferences) {
@@ -77,7 +76,7 @@ class EnterprisesViewModel : ViewModel() {
         itemsEnterpriseFiltered.value = newList
     }
 
-    fun onDestroy() {
+    fun clearDisposable() {
         compositeDisposable.clear()
     }
 

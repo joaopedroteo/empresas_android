@@ -9,7 +9,6 @@ import okhttp3.Headers
 
 class MyPreferences(private val context: Context) : PreferencesRepository {
 
-
     private val preferences:SharedPreferences
      get() = context.getSharedPreferences(PREF_KEY, Context.MODE_PRIVATE)
 
@@ -50,10 +49,15 @@ class MyPreferences(private val context: Context) : PreferencesRepository {
         return credentials
     }
 
+    override fun clearCredentials() {
+        val editor = preferences.edit()
+        editor.clear().apply()
+    }
+
+
     override fun hasValidCredentials(): Boolean {
-        return true
-//        val token = preferences.getString(CONTENT_TYPE, "")
-//        return !token.isNullOrBlank()
+        val token = preferences.getString(MY_HEADERS, "")
+        return !token.isNullOrBlank()
     }
 
 }

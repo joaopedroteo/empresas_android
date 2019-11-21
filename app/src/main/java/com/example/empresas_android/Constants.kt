@@ -1,6 +1,8 @@
 package com.example.empresas_android
 
 const val URL_BASE = "https://empresas.ioasys.com.br"
+const val RESPONSE_OK = 200
+const val RESPONSE_UNAUTHORIZED = 401
 
 const val APPLICATION_JSON = "aplication/json"
 const val CONTENT_TYPE = "Content-Type"

@@ -1,20 +1,24 @@
 package com.example.empresas_android.ui.listingEnterprises
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.empresas_android.ARG_ENTERPRISE_ID
 import com.example.empresas_android.R
 import com.example.empresas_android.data.local.preferences.MyPreferences
+import com.example.empresas_android.data.service.NetworkEvent
+import com.example.empresas_android.data.service.NetworkState
 import com.example.empresas_android.presentation.EnterprisesViewModel
+import com.example.empresas_android.presentation.viewModelFactory.EnterprisesViewModelFactory
 import com.example.empresas_android.ui.BaseActivity
 import com.example.empresas_android.ui.EnterpriseDetailActivity
 import com.example.empresas_android.ui.LoginActivity
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_enterprises.*
 
 class EnterprisesActivity : BaseActivity() {
@@ -28,19 +32,47 @@ class EnterprisesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enterprises)
         initViews()
-        viewModel = ViewModelProviders.of(this)[EnterprisesViewModel::class.java]
-        createEnterpriseAdapter()
-        createObserver()
+        viewModel = ViewModelProviders.of(
+            this,
+            EnterprisesViewModelFactory(this)
+        )[EnterprisesViewModel::class.java]
+
+        if(hasInternetConnection()){
+            createEnterpriseAdapter()
+            createObserver()
+        }
     }
 
     private fun initViews() {
-        title = ""
-        setSupportActionBar(findViewById(R.id.tool_bar))
+        setUpToolBar(findViewById(R.id.tool_bar))
 
         logout.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+            myPreferences.clearCredentials()
+            openActivityAndFinish(LoginActivity::class.java)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        NetworkEvent.register(this, Consumer {
+            when (it) {
+                NetworkState.NO_INTERNET -> showDialog(getString(R.string.connection_error),
+                    getString(R.string.message_verify_connection))
+
+                NetworkState.NO_RESPONSE -> showDialog(getString(R.string.unknown_error),
+                    getString(R.string.message_fetch_data_not_possible))
+
+                NetworkState.UNAUTHORISED -> {
+                    Toast.makeText(applicationContext, R.string.error_login_expired, Toast.LENGTH_LONG).show()
+                    openActivity(LoginActivity::class.java)
+                }
+            }
+        })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        NetworkEvent.unregister(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -86,12 +118,12 @@ class EnterprisesActivity : BaseActivity() {
 
         viewModel.getErrorConnection.observe(this,
             Observer {
-                callAlert(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+                showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
             })
 
         viewModel.getErrorUnauthorized.observe(this,
                 Observer {
-                    startActivity(Intent(this, LoginActivity::class.java))
+                    openActivity(LoginActivity::class.java)
                     finish()
 
                 }
@@ -102,12 +134,9 @@ class EnterprisesActivity : BaseActivity() {
 
         adapter =
             ListingEnterprisesAdapter { itemEnterprise ->
-                val intent = Intent(
-                    this@EnterprisesActivity,
-                    EnterpriseDetailActivity::class.java
-                )
-                intent.putExtra(ARG_ENTERPRISE_ID, itemEnterprise.id.toString())
-                startActivity(intent)
+                val bundle = Bundle()
+                bundle.putInt(ARG_ENTERPRISE_ID, itemEnterprise.id)
+                openActivity(EnterpriseDetailActivity::class.java, bundle)
             }
 
         viewModel.getEnterprises(myPreferences)
@@ -116,6 +145,6 @@ class EnterprisesActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.onDestroy()
+        viewModel.clearDisposable()
     }
 }

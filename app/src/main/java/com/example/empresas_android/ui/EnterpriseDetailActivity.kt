@@ -2,7 +2,6 @@ package com.example.empresas_android.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,9 +12,11 @@ import com.example.empresas_android.URL_IMGS
 import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.databinding.ActivityEnterpriseDetailBinding
 import com.example.empresas_android.presentation.EnterpriseDetailViewModel
+import com.example.empresas_android.presentation.viewModelFactory.EnterpriseDetailViewModelFactory
 import kotlinx.android.synthetic.main.activity_enterprise_detail.*
 
 class EnterpriseDetailActivity : BaseActivity() {
+    private val idInvalid = -1
 
     private lateinit var viewModel: EnterpriseDetailViewModel
     private lateinit var binding:ActivityEnterpriseDetailBinding
@@ -24,7 +25,10 @@ class EnterpriseDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this)[EnterpriseDetailViewModel::class.java]
+        viewModel = ViewModelProviders.of(
+            this,
+            EnterpriseDetailViewModelFactory(this)
+        )[EnterpriseDetailViewModel::class.java]
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_enterprise_detail)
 
@@ -34,13 +38,13 @@ class EnterpriseDetailActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        val toolBar = findViewById<Toolbar>(R.id.tool_bar)
-        setSupportActionBar(toolBar)
-
-        supportActionBar?.title = ""
+        setUpToolBar(findViewById(R.id.tool_bar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        tool_bar.changeToolbarFont()
 
-        val id = intent?.getStringExtra(ARG_ENTERPRISE_ID)?.toInt()
+        setTypeFace(txtDetailEnterprise, "fonts/SourceSansPro-Regular.ttf")
+
+        val id = intent.getIntExtra(ARG_ENTERPRISE_ID, idInvalid)
 
         getEnterpriseDetail(myPreferences, id)
     }
@@ -65,22 +69,27 @@ class EnterpriseDetailActivity : BaseActivity() {
 
         viewModel.getErrorConnection.observe(this,
             androidx.lifecycle.Observer {
-                callAlert(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+                showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
             })
     }
 
-    private fun getEnterpriseDetail(myPreferences: MyPreferences, id: Int?) {
-        if (id != null) {
-            viewModel.getEnterpriseDetail(myPreferences, id)
-        } else {
-            callAlert(getString(R.string.unknown_error), getString(R.string.message_fetch_data_not_possible))
+    private fun getEnterpriseDetail(myPreferences: MyPreferences, id: Int) {
+        when {
+            !hasInternetConnection() -> {
+                showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+                enterpriseDetailProgressBar.visibility = View.GONE
+            }
+            id != idInvalid -> viewModel.getEnterpriseDetail(myPreferences, id)
+            else -> {
+                showDialog(getString(R.string.unknown_error), getString(R.string.message_fetch_data_not_possible))
+                enterpriseDetailProgressBar.visibility = View.GONE
+            }
         }
     }
 
     private fun getImage(photo: String) {
         Glide.with(this).load(photo).placeholder(R.drawable.img_e_1).into(imgEnterprise)
     }
-
 
     override fun onSupportNavigateUp(): Boolean {
         finish()
@@ -89,6 +98,6 @@ class EnterpriseDetailActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.onDestroy()
+        viewModel.clearDisposable()
     }
 }

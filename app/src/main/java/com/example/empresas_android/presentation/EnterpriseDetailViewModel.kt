@@ -7,11 +7,12 @@ import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.data.service.RetrofitAnalyzer
 import com.example.empresas_android.data.service.model.EnterpriseByIdResponse
 import com.example.empresas_android.data.service.model.EnterpriseResponse
+import com.example.empresas_android.ui.CallBackBasicViewModel
 import com.example.empresas_android.ui.helper.applyIoScheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 
-class EnterpriseDetailViewModel : ViewModel() {
+class EnterpriseDetailViewModel(callback:CallBackBasicViewModel) : BaseViewModel(callback) {
     private var enterpriseDetail: MutableLiveData<EnterpriseResponse> = MutableLiveData()
 
     private val errorConnection = MutableLiveData<Boolean>()
@@ -43,20 +44,19 @@ class EnterpriseDetailViewModel : ViewModel() {
                 .doOnComplete {
                     progressBarVisible.value = false
                 }
-                .doOnError {
-                    progressBarVisible.value = false
-                    errorConnection.value = true
-                }
-                .subscribe{
+                .subscribe({
                     enterpriseDetail.value = it.enterprise
                     enterpriseName.value = it.enterprise.enterprise_name
                     enterpriseDescription.value = it.enterprise.description
-                }
+                },{
+                    progressBarVisible.value = false
+                    errorConnection.value = true
+                })
         )
 
     }
 
-    fun onDestroy() {
+    fun clearDisposable() {
         compositeDisposable.clear()
     }
 }
