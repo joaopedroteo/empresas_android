@@ -3,16 +3,17 @@ package com.example.empresas_android.presentation
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import com.example.empresas_android.ui.CallBackBasicViewModel
+import javax.inject.Inject
 
-open class BaseViewModel(val callback: CallBackBasicViewModel) : ViewModel() {
+open class BaseViewModel(private val callback: CallBackBasicViewModel) : ViewModel() {
 
 
-    protected fun hasInternet(): Boolean? {
-        return callback.hasInternetConnection()
+    protected fun showDialog(titleId:Int, messageId:Int) {
+        return callback.showDialog(titleId, messageId)
     }
 
-    protected fun openActivity(open: Class<*>) {
-        callback.openActivity(open)
+    protected fun hasInternetConnection(): Boolean {
+        return callback.hasInternetConnection()
     }
 
     protected fun openActivityAndFinish(open: Class<*>) {
@@ -22,6 +23,5 @@ open class BaseViewModel(val callback: CallBackBasicViewModel) : ViewModel() {
     protected fun openActivity(open: Class<*>, bundle: Bundle) {
         callback.openActivity(open, bundle)
     }
-
 
 }

@@ -1,7 +1,6 @@
 package com.example.empresas_android.ui.listingEnterprises
 
 import android.graphics.Typeface
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,9 +44,7 @@ class ListingEnterprisesAdapter(
 //    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("DEBUG", position.toString())
         binding.viewModel = ItemEnterpriseViewModel(contentList[position])
-        Log.d("DEBUG", contentList[position].enterprise_name)
         holder.bind(contentList[position])
     }
 

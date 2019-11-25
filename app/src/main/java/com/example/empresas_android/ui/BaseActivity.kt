@@ -14,17 +14,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.empresas_android.R
 
-open class BaseActivity:AppCompatActivity(), CallBackBasicViewModel {
+open class BaseActivity : AppCompatActivity(), CallBackBasicViewModel {
 
 
-    protected fun setUpToolBar(toolbar: Toolbar){
+    protected fun setUpToolBar(toolbar: Toolbar) {
         title = ""
         setSupportActionBar(toolbar)
     }
 
-
-
-    protected fun Toolbar.changeToolbarFont(){
+    protected fun Toolbar.changeToolbarFont() {
         for (i in 0 until childCount) {
             val view = getChildAt(i)
             if (view is TextView) {
@@ -50,17 +48,17 @@ open class BaseActivity:AppCompatActivity(), CallBackBasicViewModel {
         startActivity(intent)
         finish()
     }
+
     override fun openActivity(openActivity: Class<*>, bundle: Bundle) {
-        val intent= Intent(this, openActivity)
+        val intent = Intent(this, openActivity)
         intent.putExtras(bundle)
         startActivity(intent)
     }
 
 
-
     override fun openActivityAfterTimeAndFinish(openActivity: Class<*>, time: Long) {
         Handler().postDelayed({
-            val intent = Intent(this,openActivity)
+            val intent = Intent(this, openActivity)
             startActivity(intent)
             finish()
         }, time)
@@ -68,7 +66,8 @@ open class BaseActivity:AppCompatActivity(), CallBackBasicViewModel {
 
 
     override fun hasInternetConnection(): Boolean {
-        val cm = applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        val cm =
+            applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
         var result = false
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             cm?.run {
@@ -105,6 +104,12 @@ open class BaseActivity:AppCompatActivity(), CallBackBasicViewModel {
         alertDialog.setPositiveButton(getString(R.string.ok)) { _, _ ->
         }
         alertDialog.show()
+    }
+
+    override fun showDialog(titleId: Int, messageId: Int) {
+        val title = getString(titleId)
+        val message = getString(messageId)
+        showDialog(title, message)
     }
 
 }

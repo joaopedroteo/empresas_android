@@ -10,6 +10,8 @@ interface CallBackBasicViewModel {
 
     fun showDialog(title: String, message: String = "")
 
+    fun showDialog(titleId: Int, messageId: Int = 0)
+
     fun openActivity(openActivity: Class<*>)
 
     fun openActivityAndFinish(openActivity: Class<*>)

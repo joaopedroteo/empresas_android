@@ -1,14 +1,19 @@
 package com.example.empresas_android.presentation
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.empresas_android.Constants
+import com.example.empresas_android.R
 import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.data.service.RetrofitAnalyzer
 import com.example.empresas_android.data.service.model.response.EnterpriseResponse
 import com.example.empresas_android.ui.CallBackBasicViewModel
+import com.example.empresas_android.ui.EnterpriseDetailActivity
 import com.example.empresas_android.ui.helper.applyIoScheduler
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
+import javax.inject.Inject
 
 class EnterprisesViewModel(callback:CallBackBasicViewModel) : BaseViewModel(callback) {
 
@@ -20,7 +25,6 @@ class EnterprisesViewModel(callback:CallBackBasicViewModel) : BaseViewModel(call
     private val errorConnection = MutableLiveData<Boolean>()
     private val errorUnauthorized = MutableLiveData<Boolean>()
     private var progressBarVisible = MutableLiveData<Boolean>()
-
 
     val enterprises:LiveData<MutableList<EnterpriseResponse>>
         get() = itemsEnterpriseFiltered
@@ -34,8 +38,8 @@ class EnterprisesViewModel(callback:CallBackBasicViewModel) : BaseViewModel(call
     val getProgressBar:LiveData<Boolean>
         get() = progressBarVisible
 
-    private fun getEnterprisesFromAPI(myPreferences: MyPreferences)  {
-        val call = RetrofitAnalyzer().userService(myPreferences).getEnterprises()
+    private fun getEnterprisesFromAPI()  {
+        val call = RetrofitAnalyzer().userService().getEnterprises()
 
         compositeDisposable.add(
             call.applyIoScheduler()
@@ -55,8 +59,18 @@ class EnterprisesViewModel(callback:CallBackBasicViewModel) : BaseViewModel(call
         )
     }
 
-    fun getEnterprises(myPreferences: MyPreferences) {
-        getEnterprisesFromAPI(myPreferences)
+    fun openDetailActivity(enterpriseId:Int) {
+        val bundle = Bundle()
+        bundle.putInt(Constants.IntentBundle.ENTERPRISE_ID, enterpriseId)
+        openActivity(EnterpriseDetailActivity::class.java, bundle)
+    }
+
+    fun getEnterprises() {
+        if(hasInternetConnection()) {
+            getEnterprisesFromAPI()
+        } else {
+            showDialog(R.string.connection_error, R.string.message_verify_connection)
+        }
     }
 
     fun showAllEnterprises() {

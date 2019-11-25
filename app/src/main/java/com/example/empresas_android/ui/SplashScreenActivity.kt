@@ -7,9 +7,11 @@ import android.view.Window
 import android.view.WindowManager
 import com.example.empresas_android.Constants
 import com.example.empresas_android.R
+import com.example.empresas_android.app.App
 import com.example.empresas_android.data.local.MyHeaders
 import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
 import com.google.gson.Gson
+import javax.inject.Inject
 
 class SplashScreenActivity : BaseActivity() {
     private lateinit var mySharedPreferences: SharedPreferences
@@ -19,6 +21,8 @@ class SplashScreenActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         super.onCreate(savedInstanceState)
+
+        App.initPreferences(this)
 
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -31,7 +35,7 @@ class SplashScreenActivity : BaseActivity() {
 
 
     private fun goToNextPage() {
-        if(hasPreferences() && hasInternetConnection()) {
+        if(hasPreferences()) {
             openActivityAfterTimeAndFinish(EnterprisesActivity::class.java, Constants.SplashScreen.DELAY_MILLIS)
         } else {
             openActivityAfterTimeAndFinish(LoginActivity::class.java, Constants.SplashScreen.DELAY_MILLIS)

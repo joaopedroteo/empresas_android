@@ -1,33 +1,25 @@
 package com.example.empresas_android.app
 
 import android.app.Application
+import android.content.Context
 import com.example.empresas_android.data.local.preferences.MyPreferences
 
 class App: Application() {
-    lateinit var preferencesManager: MyPreferences
 
     companion object {
-        lateinit var instance: App
+        lateinit var myPreferences: MyPreferences
+
+        fun initPreferences(context: Context) {
+            myPreferences = MyPreferences(context)
+        }
+
+        fun getPreferences(): MyPreferences {
+            return myPreferences
+        }
+
+        fun clearCredentials() {
+            myPreferences.clearCredentials()
+        }
     }
 
-//    init {
-//        instance = this
-//        initPreferences()
-//    }
-
-    fun getInstance() : App {
-        instance = App()
-        return instance
-    }
-//
-//    override fun onCreate() {
-//        super.onCreate()
-//        instance = this
-//        initPreferences()
-//    }
-
-//    private fun initPreferences() {
-//        MyPreferences().initializePreferences(instance.getInstance())
-//        preferencesManager = MyPreferences().getInstance()
-//    }
 }

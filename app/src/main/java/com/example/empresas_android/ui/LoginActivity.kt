@@ -8,25 +8,29 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.empresas_android.R
-import com.example.empresas_android.data.local.preferences.MyPreferences
 import com.example.empresas_android.presentation.LoginViewModel
 import com.example.empresas_android.presentation.viewModelFactory.LoginViewModelFactory
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : BaseActivity() {
 
+//    @Inject
+//    lateinit var info: Info
+
     private lateinit var viewModel: LoginViewModel
     private lateinit var mySharedPreferences: SharedPreferences
 
-    private var myPreferences = MyPreferences(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
         viewModel = ViewModelProviders.of(
             this,
             LoginViewModelFactory(this)
         ).get(LoginViewModel::class.java)
+
+//        DaggerInfoComponent.builder().build().inject(this)
 
         initViews()
         initPreference()
@@ -34,6 +38,8 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun initViews() {
+//        loginDescriptionTextView.text = info.text
+
         var typeFace = Typeface.createFromAsset(assets, "fonts/Roboto-Bold.ttf")
         loginWelcomeTextView.typeface = typeFace
 
@@ -47,10 +53,13 @@ class LoginActivity : BaseActivity() {
 
 
         btnLogin?.setOnClickListener {
-            if(hasInternetConnection()){
-                viewModel.login(myPreferences, edtEmail.text.toString(), edtPassword.text.toString())
+            if (hasInternetConnection()) {
+                viewModel.login(edtEmail.text.toString(), edtPassword.text.toString())
             } else {
-                showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+                showDialog(
+                    getString(R.string.connection_error),
+                    getString(R.string.message_verify_connection)
+                )
             }
         }
     }
@@ -63,8 +72,7 @@ class LoginActivity : BaseActivity() {
     private fun createObserver() {
 
         viewModel.errorMessageIndex.observe(this,
-            Observer {
-                message ->
+            Observer { message ->
                 txtErrorEmailOrPassword.text = getString(message)
                 txtErrorEmailOrPassword.visibility = View.VISIBLE
             }
@@ -72,8 +80,10 @@ class LoginActivity : BaseActivity() {
 
         viewModel.errorConnection.observeFieldsLogin(this,
             Observer {
-                showDialog(getString(R.string.connection_error),
-                    getString(R.string.message_verify_connection))
+                showDialog(
+                    getString(R.string.connection_error),
+                    getString(R.string.message_verify_connection)
+                )
             })
     }
 

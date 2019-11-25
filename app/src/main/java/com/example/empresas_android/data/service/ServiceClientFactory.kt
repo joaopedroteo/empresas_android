@@ -20,15 +20,13 @@ object ServiceClientFactory {
             .build()
     }
 
-    fun createOkHttpClient(
-        myPreferences: MyPreferences
-    ): OkHttpClient {
+    fun createOkHttpClient(): OkHttpClient {
         val okHttpLogin: OkHttpClient.Builder
         val logging = createHttpLoggingInterceptor()
 
         okHttpLogin = OkHttpClient.Builder()
             .addInterceptor(logging)
-            .addInterceptor(RequestInterceptor(myPreferences))
+            .addInterceptor(RequestInterceptor())
         return okHttpLogin.build()
 
     }

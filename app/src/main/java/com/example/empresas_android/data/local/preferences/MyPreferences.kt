@@ -6,8 +6,9 @@ import com.example.empresas_android.*
 import com.example.empresas_android.data.local.MyHeaders
 import com.google.gson.Gson
 import okhttp3.Headers
+import javax.inject.Inject
 
-class MyPreferences(private val context: Context) : PreferencesRepository {
+class MyPreferences (private val context: Context) : PreferencesRepository {
 
     private val preferences:SharedPreferences
      get() = context.getSharedPreferences(Constants.SharedPreferences.PREF_KEY, Context.MODE_PRIVATE)

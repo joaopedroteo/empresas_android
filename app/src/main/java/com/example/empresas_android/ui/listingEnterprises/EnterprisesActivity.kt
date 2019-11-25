@@ -8,15 +8,13 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.empresas_android.Constants
 import com.example.empresas_android.R
-import com.example.empresas_android.data.local.preferences.MyPreferences
+import com.example.empresas_android.app.App
 import com.example.empresas_android.data.service.NetworkEvent
 import com.example.empresas_android.data.service.NetworkState
 import com.example.empresas_android.presentation.EnterprisesViewModel
 import com.example.empresas_android.presentation.viewModelFactory.EnterprisesViewModelFactory
 import com.example.empresas_android.ui.BaseActivity
-import com.example.empresas_android.ui.EnterpriseDetailActivity
 import com.example.empresas_android.ui.LoginActivity
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_enterprises.*
@@ -25,8 +23,6 @@ class EnterprisesActivity : BaseActivity() {
 
     private lateinit var viewModel: EnterprisesViewModel
     private lateinit var adapter: ListingEnterprisesAdapter
-
-    private var myPreferences = MyPreferences(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,17 +33,17 @@ class EnterprisesActivity : BaseActivity() {
             EnterprisesViewModelFactory(this)
         )[EnterprisesViewModel::class.java]
 
-        if (hasInternetConnection()) {
-            createEnterpriseAdapter()
-            createObserver()
-        }
+
+        createEnterpriseAdapter()
+        createObserver()
+
     }
 
     private fun initViews() {
         setUpToolBar(findViewById(R.id.tool_bar))
 
         logout.setOnClickListener {
-            myPreferences.clearCredentials()
+            App.clearCredentials()
             openActivityAndFinish(LoginActivity::class.java)
         }
     }
@@ -145,12 +141,10 @@ class EnterprisesActivity : BaseActivity() {
 
         adapter =
             ListingEnterprisesAdapter { itemEnterprise ->
-                val bundle = Bundle()
-                bundle.putInt(Constants.IntentBundle.ENTERPRISE_ID, itemEnterprise.id)
-                openActivity(EnterpriseDetailActivity::class.java, bundle)
+                viewModel.openDetailActivity(itemEnterprise.id)
             }
 
-        viewModel.getEnterprises(myPreferences)
+        viewModel.getEnterprises()
 
     }
 
