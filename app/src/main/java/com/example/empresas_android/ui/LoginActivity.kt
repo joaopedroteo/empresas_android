@@ -38,7 +38,6 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun initViews() {
-//        loginDescriptionTextView.text = info.text
 
         var typeFace = Typeface.createFromAsset(assets, "fonts/Roboto-Bold.ttf")
         loginWelcomeTextView.typeface = typeFace

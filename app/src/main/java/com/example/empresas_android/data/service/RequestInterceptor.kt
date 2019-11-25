@@ -1,8 +1,7 @@
 package com.example.empresas_android.data.service
 
-import com.example.empresas_android.*
+import com.example.empresas_android.Constants
 import com.example.empresas_android.app.App
-import com.example.empresas_android.data.local.preferences.MyPreferences
 import okhttp3.Interceptor
 import okhttp3.Response
 
