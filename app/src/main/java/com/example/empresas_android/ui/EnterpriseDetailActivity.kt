@@ -1,6 +1,7 @@
 package com.example.empresas_android.ui
 
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -12,6 +13,9 @@ import com.example.empresas_android.R
 import com.example.empresas_android.URL_IMGS
 import com.example.empresas_android.presentation.EnterpriseDetailViewModel
 import kotlinx.android.synthetic.main.activity_enterprise_detail.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.*
 
 class EnterpriseDetailActivity : AppCompatActivity() {
@@ -69,7 +73,9 @@ class EnterpriseDetailActivity : AppCompatActivity() {
 
     private fun getEnterpriseDetail(id: Int?) {
         if (id != null) {
-            viewModel.getEnterpriseDetail(id)
+            GlobalScope.launch {
+                viewModel.getEnterpriseDetail(id)
+            }
         } else {
             Toast.makeText(this, "Não foi possível buscar os dados", Toast.LENGTH_LONG).show()
         }

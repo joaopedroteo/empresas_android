@@ -1,6 +1,6 @@
-package com.example.empresas_android.data.service.model
+package com.example.empresas_android.domain.entities
 
-data class EnterpriseResponse(
+data class EnterpriseEntity(
     val id : Int,
     val enterprise_name : String,
     val photo : String,

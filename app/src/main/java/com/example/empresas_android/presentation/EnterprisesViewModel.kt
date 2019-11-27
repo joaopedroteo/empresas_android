@@ -2,24 +2,18 @@ package com.example.empresas_android.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.empresas_android.data.local.MyHeaders
-import com.example.empresas_android.data.service.HttpCodes
-import com.example.empresas_android.data.service.RetrofitAnalizer
-import com.example.empresas_android.data.service.model.EnterpriseResponse
-import com.example.empresas_android.data.service.model.ListEnterprisesResponse
-import retrofit2.Call
-import retrofit2.Response
+import com.example.empresas_android.data.remote.model.EnterpriseResponse
+import com.example.empresas_android.domain.usecases.enterprises.EnterprisesUseCasesImpl
+import kotlinx.coroutines.async
 import java.util.*
 
-class EnterprisesViewModel : ViewModel() {
+class EnterprisesViewModel : CoroutineViewModel() {
 
     private var itemEnterpriseList = MutableLiveData<List<EnterpriseResponse>>()
     private var itemsEnterpriseFiltered = MutableLiveData<List<EnterpriseResponse>>()
 
     private val errorConnection = MutableLiveData<Boolean>()
     private val errorUnauthorized = MutableLiveData<Boolean>()
-
 
     val enterprises:LiveData<List<EnterpriseResponse>>
         get() = itemsEnterpriseFiltered
@@ -31,32 +25,45 @@ class EnterprisesViewModel : ViewModel() {
         get() = errorUnauthorized
 
 
-    private fun getEnterprisesFromAPI()  {
-        val call = RetrofitAnalizer().userService().getEnterprises()
-
-        call.enqueue(object: retrofit2.Callback<ListEnterprisesResponse> {
-            override fun onFailure(call: Call<ListEnterprisesResponse>, t: Throwable) {
+    private suspend fun getEnterprisesFromAPI() {
+        jobs add async {
+            try {
+                val enterprises = EnterprisesUseCasesImpl().getEnterprises()
+                itemEnterpriseList.value = enterprises.enterprises
+                itemsEnterpriseFiltered.value = itemEnterpriseList.value
+            } catch(e:Error) {
                 errorConnection.value = true
             }
-
-            override fun onResponse(
-                call: Call<ListEnterprisesResponse>,
-                response: Response<ListEnterprisesResponse>
-            ) {
-
-                if (response.code() == HttpCodes.UNAUTHORIZED.value) {
-                    errorUnauthorized.value = true
-                } else {
-                    val enterprises : ListEnterprisesResponse = response.body()!!
-                    itemEnterpriseList.value = enterprises.enterprises
-                    itemsEnterpriseFiltered.value = itemEnterpriseList.value
-                }
-            }
-
-        })
+        }
     }
 
-    fun getEnterprises() {
+//    private fun getEnterprisesFromAPI()  {
+//        val call = RetrofitAnalizer()
+//            .userService().getEnterprisesAsync()
+//
+//        call.enqueue(object: retrofit2.Callback<ListEnterprisesResponse> {
+//            override fun onFailure(call: Call<ListEnterprisesResponse>, t: Throwable) {
+//                errorConnection.value = true
+//            }
+//
+//            override fun onResponse(
+//                call: Call<ListEnterprisesResponse>,
+//                response: Response<ListEnterprisesResponse>
+//            ) {
+//
+//                if (response.code() == HttpCodes.UNAUTHORIZED.value) {
+//                    errorUnauthorized.value = true
+//                } else {
+//                    val enterprises : ListEnterprisesResponse = response.body()!!
+//                    itemEnterpriseList.value = enterprises.enterprises
+//                    itemsEnterpriseFiltered.value = itemEnterpriseList.value
+//                }
+//            }
+//
+//        })
+//    }
+
+    suspend fun getEnterprises() {
         getEnterprisesFromAPI()
     }
 

@@ -18,7 +18,11 @@ class PreferencesRepositoryImpl(private val context: Context) : PreferencesRepos
         val client = headers[Constants.SharedPreferences.CLIENT]
         val uid = headers[Constants.SharedPreferences.PREF_UID]
 
-        val myHeaders = MyHeaders(accessToken.toString(), client.toString(), uid.toString())
+        val myHeaders = MyHeaders(
+            accessToken.toString(),
+            client.toString(),
+            uid.toString()
+        )
         val myHeadersJson = Gson().toJson(myHeaders)
 
         val editor = preferences.edit()

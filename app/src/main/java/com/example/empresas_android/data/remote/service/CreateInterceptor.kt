@@ -1,4 +1,4 @@
-package com.example.empresas_android.data.service
+package com.example.empresas_android.data.remote.service
 
 import okhttp3.Interceptor
 import okhttp3.Response

@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.empresas_android.R
 import com.example.empresas_android.URL_IMGS
-import com.example.empresas_android.data.service.model.EnterpriseResponse
-import kotlinx.android.synthetic.main.activity_enterprise_detail.*
+import com.example.empresas_android.data.remote.model.EnterpriseResponse
 import kotlinx.android.synthetic.main.item_enterprise.view.*
 
 class ListingEnterprisesAdapter(
