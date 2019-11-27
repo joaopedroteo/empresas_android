@@ -1,9 +1,8 @@
 package com.example.empresas_android.data.service
 
 import com.example.empresas_android.BuildConfig
-import com.example.empresas_android.URL_BASE
+import com.example.empresas_android.Constants
 import com.example.empresas_android.data.local.MyHeaders
-import okhttp3.Headers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -68,7 +67,7 @@ class RetrofitAnalizer {
 
     private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(URL_BASE)
+            .baseUrl(Constants.Service.URL_BASE)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
