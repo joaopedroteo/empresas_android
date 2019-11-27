@@ -122,7 +122,6 @@ class EnterprisesActivity : AppCompatActivity() {
 
 
     private fun createEnterpriseAdapter() {
-        val headers = intent.extras?.getParcelable<MyHeaders>("arg_headers")
 
         adapter =
             ListingEnterprisesAdapter { itemEnterprise ->
@@ -131,14 +130,13 @@ class EnterprisesActivity : AppCompatActivity() {
                     EnterpriseDetailActivity::class.java
                 )
                 intent.putExtra("arg_enterprise_id", itemEnterprise.id.toString())
-                intent.putExtra("arg_headers", headers)
                 startActivity(intent)
             }
 
-        if (headers != null) {
-            enterprisesProgressBar.visibility = View.VISIBLE
-            viewModel.getEnterprises(headers)
-        }
+
+        enterprisesProgressBar.visibility = View.VISIBLE
+        viewModel.getEnterprises()
+
 
     }
 }

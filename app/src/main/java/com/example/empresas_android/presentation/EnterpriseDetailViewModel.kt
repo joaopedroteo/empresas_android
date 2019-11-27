@@ -24,8 +24,8 @@ class EnterpriseDetailViewModel: ViewModel() {
     val enterprise:LiveData<EnterpriseResponse>
         get() = enterpriseDetail
 
-    fun getEnterpriseDetail(headers:MyHeaders, id:Int) {
-        val call = RetrofitAnalizer().userService(headers).getEnterpriseById(id)
+    fun getEnterpriseDetail(id:Int) {
+        val call = RetrofitAnalizer().userService().getEnterpriseById(id)
 
         call.enqueue(object : Callback<EnterpriseByIdResponse>{
             override fun onFailure(call: Call<EnterpriseByIdResponse>, t: Throwable) {

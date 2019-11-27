@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.example.empresas_android.R
+import com.example.empresas_android.base.App
 import com.example.empresas_android.data.local.MyHeaders
 import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
 import com.google.gson.Gson
@@ -20,6 +21,7 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
+        App.initPreferences(this)
         initPreference()
 
         val handler = Handler()

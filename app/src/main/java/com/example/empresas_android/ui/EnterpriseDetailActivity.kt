@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.empresas_android.R
 import com.example.empresas_android.URL_IMGS
-import com.example.empresas_android.data.local.MyHeaders
 import com.example.empresas_android.presentation.EnterpriseDetailViewModel
 import kotlinx.android.synthetic.main.activity_enterprise_detail.*
 import java.util.*
@@ -34,11 +33,10 @@ class EnterpriseDetailActivity : AppCompatActivity() {
         supportActionBar?.title = ""
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val headers = intent.extras?.getParcelable<MyHeaders>("arg_headers")
         val id = intent?.getStringExtra("arg_enterprise_id")?.toInt()
 
         enterpriseDetailProgressBar.visibility = View.VISIBLE
-        getEnterpriseDetail(headers, id)
+        getEnterpriseDetail(id)
     }
 
     private fun callAlert(title: String, message: String = "") {
@@ -69,9 +67,9 @@ class EnterpriseDetailActivity : AppCompatActivity() {
             })
     }
 
-    private fun getEnterpriseDetail(headers: MyHeaders?, id: Int?) {
-        if (id != null && headers != null) {
-            viewModel.getEnterpriseDetail(headers, id)
+    private fun getEnterpriseDetail(id: Int?) {
+        if (id != null) {
+            viewModel.getEnterpriseDetail(id)
         } else {
             Toast.makeText(this, "Não foi possível buscar os dados", Toast.LENGTH_LONG).show()
         }

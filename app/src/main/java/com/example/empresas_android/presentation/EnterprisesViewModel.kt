@@ -31,8 +31,8 @@ class EnterprisesViewModel : ViewModel() {
         get() = errorUnauthorized
 
 
-    private fun getEnterprisesFromAPI(headers: MyHeaders)  {
-        val call = RetrofitAnalizer().userService(headers).getEnterprises()
+    private fun getEnterprisesFromAPI()  {
+        val call = RetrofitAnalizer().userService().getEnterprises()
 
         call.enqueue(object: retrofit2.Callback<ListEnterprisesResponse> {
             override fun onFailure(call: Call<ListEnterprisesResponse>, t: Throwable) {
@@ -56,8 +56,8 @@ class EnterprisesViewModel : ViewModel() {
         })
     }
 
-    fun getEnterprises(headers: MyHeaders) {
-        getEnterprisesFromAPI(headers)
+    fun getEnterprises() {
+        getEnterprisesFromAPI()
     }
 
     fun searchEnterprises(name: String){
