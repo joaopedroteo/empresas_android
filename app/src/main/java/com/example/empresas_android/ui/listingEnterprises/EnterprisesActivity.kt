@@ -5,17 +5,20 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.empresas_android.R
 import com.example.empresas_android.base.App
+import com.example.empresas_android.data.remote.service.NetworkEvent
+import com.example.empresas_android.data.remote.service.NetworkState
 import com.example.empresas_android.presentation.EnterprisesViewModel
 import com.example.empresas_android.ui.BaseActivity
 import com.example.empresas_android.ui.EnterpriseDetailActivity
 import com.example.empresas_android.ui.LoginActivity
+import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_enterprises.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -45,6 +48,25 @@ class EnterprisesActivity : BaseActivity() {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        NetworkEvent.register(this, Consumer {
+            when(it) {
+                null -> return@Consumer
+                NetworkState.NO_INTERNET -> callAlert("Sem net", "verifique")
+                NetworkState.NO_RESPONSE -> callAlert("no response", "message")
+                NetworkState.UNAUTHORISED -> {
+                    Toast.makeText(
+                        applicationContext,
+                        "login expirado",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                }
+            }
+        })
     }
 
     private fun callAlert(title: String, message: String = "") {
