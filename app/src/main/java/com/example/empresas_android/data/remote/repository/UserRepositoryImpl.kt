@@ -31,8 +31,4 @@ class UserRepositoryImpl : UserRepository {
         }
     }
 
-//    = withContext(IO) {
-//        async { RetrofitAnalizer().userService().getEnterpriseByIdAsync(id).await() }
-//    }
-
 }
