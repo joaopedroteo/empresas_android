@@ -55,8 +55,9 @@ class EnterprisesActivity : BaseActivity() {
         NetworkEvent.register(this, Consumer {
             when(it) {
                 null -> return@Consumer
-                NetworkState.NO_INTERNET -> callAlert("Sem net", "verifique")
-                NetworkState.NO_RESPONSE -> callAlert("no response", "message")
+                NetworkState.NO_INTERNET -> myShowDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+                NetworkState.NO_RESPONSE -> myShowDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+
                 NetworkState.UNAUTHORISED -> {
                     Toast.makeText(
                         applicationContext,
@@ -67,15 +68,6 @@ class EnterprisesActivity : BaseActivity() {
                 }
             }
         })
-    }
-
-    private fun callAlert(title: String, message: String = "") {
-        val alertDialog = AlertDialog.Builder(this)
-        alertDialog.setTitle(title)
-        alertDialog.setMessage(message)
-        alertDialog.setPositiveButton("Ok") { _, _ ->
-        }
-        alertDialog.show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -117,7 +109,8 @@ class EnterprisesActivity : BaseActivity() {
             Observer {
                 enterprisesProgressBar.visibility = View.GONE
 
-                callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+                myShowDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+
             })
 
         viewModel.getErrorUnauthorized.observe(this,
@@ -150,7 +143,8 @@ class EnterprisesActivity : BaseActivity() {
             if(hasInternetConnection()){
                 viewModel.getEnterprises()
             } else {
-                callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+                myShowDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+
             }
         }
 
