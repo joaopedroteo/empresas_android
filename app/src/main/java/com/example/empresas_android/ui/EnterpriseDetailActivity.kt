@@ -18,7 +18,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.*
 
-class EnterpriseDetailActivity : AppCompatActivity() {
+class EnterpriseDetailActivity : BaseActivity() {
 
     private lateinit var viewModel: EnterpriseDetailViewModel
 
@@ -74,7 +74,11 @@ class EnterpriseDetailActivity : AppCompatActivity() {
     private fun getEnterpriseDetail(id: Int?) {
         if (id != null) {
             GlobalScope.launch {
-                viewModel.getEnterpriseDetail(id)
+                if(hasInternetConnection()){
+                    viewModel.getEnterpriseDetail(id)
+                } else {
+                    callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+                }
             }
         } else {
             Toast.makeText(this, "Não foi possível buscar os dados", Toast.LENGTH_LONG).show()

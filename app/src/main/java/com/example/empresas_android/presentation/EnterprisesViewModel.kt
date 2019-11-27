@@ -3,19 +3,20 @@ package com.example.empresas_android.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.empresas_android.data.remote.model.EnterpriseResponse
+import com.example.empresas_android.domain.entities.EnterpriseEntity
 import com.example.empresas_android.domain.usecases.enterprises.EnterprisesUseCasesImpl
 import kotlinx.coroutines.async
 import java.util.*
 
 class EnterprisesViewModel : CoroutineViewModel() {
 
-    private var itemEnterpriseList = MutableLiveData<List<EnterpriseResponse>>()
-    private var itemsEnterpriseFiltered = MutableLiveData<List<EnterpriseResponse>>()
+    private var itemEnterpriseList = MutableLiveData<List<EnterpriseEntity>>()
+    private var itemsEnterpriseFiltered = MutableLiveData<List<EnterpriseEntity>>()
 
     private val errorConnection = MutableLiveData<Boolean>()
     private val errorUnauthorized = MutableLiveData<Boolean>()
 
-    val enterprises:LiveData<List<EnterpriseResponse>>
+    val enterprises:LiveData<List<EnterpriseEntity>>
         get() = itemsEnterpriseFiltered
 
     val getErrorConnection:LiveData<Boolean>
@@ -29,7 +30,7 @@ class EnterprisesViewModel : CoroutineViewModel() {
         jobs add async {
             try {
                 val enterprises = EnterprisesUseCasesImpl().getEnterprises()
-                itemEnterpriseList.value = enterprises.enterprises
+                itemEnterpriseList.value = enterprises
                 itemsEnterpriseFiltered.value = itemEnterpriseList.value
             } catch(e:Error) {
                 errorConnection.value = true
@@ -68,7 +69,7 @@ class EnterprisesViewModel : CoroutineViewModel() {
     }
 
     fun searchEnterprises(name: String){
-        val newList : MutableList<EnterpriseResponse> = emptyList<EnterpriseResponse>().toMutableList()
+        val newList : MutableList<EnterpriseEntity> = emptyList<EnterpriseEntity>().toMutableList()
 
         for (enterprise in itemEnterpriseList.value.orEmpty()) {
             if (name.toLowerCase(Locale.US) in enterprise.enterprise_name.toLowerCase(Locale.US)) {

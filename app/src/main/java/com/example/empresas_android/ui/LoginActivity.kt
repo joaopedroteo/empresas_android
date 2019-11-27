@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     private lateinit var viewModel: LoginViewModel
 
@@ -53,8 +53,10 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
 
         btnLogin?.setOnClickListener {
-            GlobalScope.launch {
-                viewModel.login(edtEmail.text.toString(), edtPassword.text.toString())
+            if(hasInternetConnection()){
+                GlobalScope.launch {
+                    viewModel.login(edtEmail.text.toString(), edtPassword.text.toString())
+                }
             }
         }
 

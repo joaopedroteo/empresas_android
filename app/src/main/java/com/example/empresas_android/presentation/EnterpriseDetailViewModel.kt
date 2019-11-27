@@ -2,19 +2,19 @@ package com.example.empresas_android.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.empresas_android.data.remote.model.EnterpriseResponse
+import com.example.empresas_android.domain.entities.EnterpriseEntity
 import com.example.empresas_android.domain.usecases.enterprises.EnterprisesUseCasesImpl
 import kotlinx.coroutines.async
 
 class EnterpriseDetailViewModel: CoroutineViewModel() {
-    private var enterpriseDetail: MutableLiveData<EnterpriseResponse> = MutableLiveData()
+    private var enterpriseDetail: MutableLiveData<EnterpriseEntity> = MutableLiveData()
 
     private val errorConnection = MutableLiveData<Boolean>()
 
     val getErrorConnection:LiveData<Boolean>
         get() = errorConnection
 
-    val enterprise:LiveData<EnterpriseResponse>
+    val enterprise:LiveData<EnterpriseEntity>
         get() = enterpriseDetail
 
 
@@ -22,7 +22,7 @@ class EnterpriseDetailViewModel: CoroutineViewModel() {
         jobs add async {
             try {
                 val enterprise = EnterprisesUseCasesImpl().getEnterpriseById(id)
-                enterpriseDetail.value = enterprise.enterprise
+                enterpriseDetail.value = enterprise
             } catch (e:Error) {
                 errorConnection.value = true
             }

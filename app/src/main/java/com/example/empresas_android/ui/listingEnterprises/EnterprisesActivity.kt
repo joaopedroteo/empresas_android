@@ -13,11 +13,14 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.empresas_android.R
 import com.example.empresas_android.base.App
 import com.example.empresas_android.presentation.EnterprisesViewModel
+import com.example.empresas_android.ui.BaseActivity
 import com.example.empresas_android.ui.EnterpriseDetailActivity
 import com.example.empresas_android.ui.LoginActivity
 import kotlinx.android.synthetic.main.activity_enterprises.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class EnterprisesActivity : AppCompatActivity() {
+class EnterprisesActivity : BaseActivity() {
 
     private lateinit var viewModel: EnterprisesViewModel
     private lateinit var adapter : ListingEnterprisesAdapter
@@ -121,7 +124,13 @@ class EnterprisesActivity : AppCompatActivity() {
 
 
         enterprisesProgressBar.visibility = View.VISIBLE
-        viewModel.getEnterprises()
+        GlobalScope.launch {
+            if(hasInternetConnection()){
+                viewModel.getEnterprises()
+            } else {
+                callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+            }
+        }
 
 
     }

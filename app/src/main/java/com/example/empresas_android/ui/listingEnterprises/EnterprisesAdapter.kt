@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.empresas_android.R
 import com.example.empresas_android.URL_IMGS
-import com.example.empresas_android.data.remote.model.EnterpriseResponse
+import com.example.empresas_android.domain.entities.EnterpriseEntity
 import kotlinx.android.synthetic.main.item_enterprise.view.*
 
 class ListingEnterprisesAdapter(
-    private val onItemClick: (EnterpriseResponse) -> Unit
+    private val onItemClick: (EnterpriseEntity) -> Unit
 ) : RecyclerView.Adapter<ListingEnterprisesAdapter.ViewHolder>() {
-    var contentList: List<EnterpriseResponse> = mutableListOf()
+    var contentList: List<EnterpriseEntity> = mutableListOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -30,7 +30,7 @@ class ListingEnterprisesAdapter(
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: EnterpriseResponse) {
+        fun bind(item: EnterpriseEntity) {
             itemView.apply {
                 titleEnterprise.text = item.enterprise_name
                 subtitleEnterprise.text = item.city
@@ -44,11 +44,3 @@ class ListingEnterprisesAdapter(
         }
     }
 }
-
-data class ItemEnterprise(
-    var name: String,
-    var area: String,
-    var country: String,
-    var description: String,
-    var image: String
-)
