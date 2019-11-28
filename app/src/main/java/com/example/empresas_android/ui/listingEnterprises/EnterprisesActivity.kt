@@ -59,13 +59,18 @@ class EnterprisesActivity : BaseActivity() {
                 NetworkState.UNAUTHORISED -> {
                     Toast.makeText(
                         applicationContext,
-                        "login expirado",
+                        getString(R.string.error_login_expired),
                         Toast.LENGTH_SHORT
                     ).show()
                     startActivity(Intent(this, LoginActivity::class.java))
                 }
             }
         })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        NetworkEvent.unregister(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
