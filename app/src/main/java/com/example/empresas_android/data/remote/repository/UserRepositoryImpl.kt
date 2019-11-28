@@ -2,11 +2,10 @@ package com.example.empresas_android.data.remote.repository
 
 import com.example.empresas_android.data.remote.mapper.EnterpriseFromByIdMapper
 import com.example.empresas_android.data.remote.mapper.EnterprisesMapper
-import com.example.empresas_android.domain.entities.UserLoginEntity
-import com.example.empresas_android.data.remote.model.ListEnterprisesResponse
 import com.example.empresas_android.data.remote.model.LoginResponse
 import com.example.empresas_android.data.remote.service.RetrofitAnalizer
 import com.example.empresas_android.domain.entities.EnterpriseEntity
+import com.example.empresas_android.domain.entities.UserLoginEntity
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async

@@ -1,11 +1,8 @@
 package com.example.empresas_android.ui
 
 import android.os.Bundle
-import android.provider.Settings
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
@@ -14,7 +11,6 @@ import com.example.empresas_android.URL_IMGS
 import com.example.empresas_android.presentation.EnterpriseDetailViewModel
 import kotlinx.android.synthetic.main.activity_enterprise_detail.*
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -43,14 +39,6 @@ class EnterpriseDetailActivity : BaseActivity() {
         getEnterpriseDetail(id)
     }
 
-    private fun callAlert(title: String, message: String = "") {
-        val alertDialog = AlertDialog.Builder(this)
-        alertDialog.setTitle(title)
-        alertDialog.setMessage(message)
-        alertDialog.setPositiveButton("Ok") { _, _ ->
-        }
-        alertDialog.show()
-    }
 
     private fun createObserver() {
         viewModel.enterprise.observe(this,
@@ -67,7 +55,8 @@ class EnterpriseDetailActivity : BaseActivity() {
             androidx.lifecycle.Observer {
                 enterpriseDetailProgressBar.visibility = View.GONE
 
-                callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+                showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+
             })
     }
 
@@ -77,7 +66,8 @@ class EnterpriseDetailActivity : BaseActivity() {
                 if(hasInternetConnection()){
                     viewModel.getEnterpriseDetail(id)
                 } else {
-                    callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+                    showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+
                 }
             }
         } else {

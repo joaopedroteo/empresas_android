@@ -1,18 +1,16 @@
 package com.example.empresas_android.ui
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
+import com.example.empresas_android.Constants
 import com.example.empresas_android.R
 import com.example.empresas_android.base.App
 import com.example.empresas_android.data.local.MyHeaders
 import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
 import com.google.gson.Gson
 
-class SplashScreenActivity : AppCompatActivity() {
+class SplashScreenActivity : BaseActivity() {
     private lateinit var mySharedPreferences: SharedPreferences
     private lateinit var myHeaders: MyHeaders
 
@@ -21,23 +19,22 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
+
         App.initPreferences(this)
         initPreference()
 
-        val handler = Handler()
-        handler.postDelayed(
-            { goToNextPage() }, 1500)
+        goToNextPage()
     }
 
 
     private fun goToNextPage() {
         if(hasPreferences()) {
-            goToListingEnterprisesPage()
+            openActivityAfterTimeAndFinish(EnterprisesActivity::class.java, Constants.SplashScreen.DELAY_MILLIS)
         } else {
-            goToLoginPage()
+            openActivityAfterTimeAndFinish(LoginActivity::class.java, Constants.SplashScreen.DELAY_MILLIS)
         }
-        finish()
     }
+
 
     private fun initPreference() {
         mySharedPreferences = getSharedPreferences(getString(R.string.login_key), Context.MODE_PRIVATE)
@@ -48,7 +45,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         mySharedPreferences.getString(R.string.login_key.toString(), MODE_PRIVATE.toString())
 
-        val myHeadersJson = mySharedPreferences.getString(R.string.my_headers.toString(), "")
+        val myHeadersJson = mySharedPreferences.getString(Constants.IntentBundle.MY_HEADERS, "")
 
 
         if (!myHeadersJson.isNullOrEmpty()) {
@@ -57,19 +54,6 @@ class SplashScreenActivity : AppCompatActivity() {
         }
         return false
 
-    }
-
-    private fun goToLoginPage() {
-        val intent = Intent(this, LoginActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    private fun goToListingEnterprisesPage() {
-        val intent = Intent(this, EnterprisesActivity::class.java)
-        intent.putExtra("arg_headers", myHeaders)
-        startActivity(intent)
-        finish()
     }
 
 }

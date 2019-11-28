@@ -7,7 +7,7 @@ import com.example.empresas_android.data.local.preferences.PreferencesRepository
 class App: Application() {
 
     companion object {
-        lateinit var myPreferences: PreferencesRepositoryImpl
+        private lateinit var myPreferences: PreferencesRepositoryImpl
 
         fun initPreferences(context: Context) {
             myPreferences = PreferencesRepositoryImpl(context)

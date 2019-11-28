@@ -21,5 +21,11 @@
     <string name="error_email_or_password_invalid">Email ou senha inválidos</string>
 
     <string name="login_key">LoginKey</string>
-    <string name="my_headers">myHeaders</string>
+    <string name="message_verify_connection">Verifique sua conexão com a internet</string>
+    <string name="connection_error">Erro na conexão</string>
+    <string name="unknown_error">Erro desconhecido</string>
+    <string name="error_login_expired">Login expirado</string>
+    <string name="message_login_again">Faça o login novamente</string>
+    <string name="message_fetch_data_not_possible">Não foi possível buscar os dados</string>
+    <string name="ok">OK</string>
 </resources>

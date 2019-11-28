@@ -15,6 +15,8 @@ import java.io.IOException
 class RetrofitAnalizer {
     private lateinit var okHttpClient: OkHttpClient.Builder
 
+    private val networkEvent: NetworkEvent = NetworkEvent
+
 
     private fun provideLoggingCapableHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
@@ -43,11 +45,9 @@ class RetrofitAnalizer {
                     val response = chain.proceed(request)
                     when (response.code) {
                         HttpCodes.OK.value -> preferences.saveCredentials(response.headers)
-                        401 -> Log.d("DEBUG", "DEU ERRO 401")
 
-// TODO: Criar networkEvent
-//                        HttpCodes.UNAUTHORIZED.value -> networkEvent.publish(NetworkState.UNAUTHORISED)
-//                        503 -> networkEvent.publish(NetworkState.NO_RESPONSE)
+                        HttpCodes.UNAUTHORIZED.value -> networkEvent.publish(NetworkState.UNAUTHORISED)
+                        503 -> networkEvent.publish(NetworkState.NO_RESPONSE)
                     }
                     return response
                 }

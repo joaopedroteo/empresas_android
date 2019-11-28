@@ -6,7 +6,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -45,8 +44,7 @@ class EnterprisesActivity : BaseActivity() {
 
         logout.setOnClickListener {
             App.clearCredentials()
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+            openActivityAndFinish(LoginActivity::class.java)
         }
     }
 
@@ -55,8 +53,8 @@ class EnterprisesActivity : BaseActivity() {
         NetworkEvent.register(this, Consumer {
             when(it) {
                 null -> return@Consumer
-                NetworkState.NO_INTERNET -> myShowDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
-                NetworkState.NO_RESPONSE -> myShowDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+                NetworkState.NO_INTERNET -> showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+                NetworkState.NO_RESPONSE -> showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
 
                 NetworkState.UNAUTHORISED -> {
                     Toast.makeText(
@@ -109,16 +107,15 @@ class EnterprisesActivity : BaseActivity() {
             Observer {
                 enterprisesProgressBar.visibility = View.GONE
 
-                myShowDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+                showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
 
             })
 
         viewModel.getErrorUnauthorized.observe(this,
                 Observer {
                     App.clearCredentials()
-                    startActivity(Intent(this, LoginActivity::class.java))
+                    openActivity(LoginActivity::class.java)
                     finish()
-
                 }
             )
 
@@ -143,7 +140,7 @@ class EnterprisesActivity : BaseActivity() {
             if(hasInternetConnection()){
                 viewModel.getEnterprises()
             } else {
-                myShowDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+                showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
 
             }
         }

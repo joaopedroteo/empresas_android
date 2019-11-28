@@ -2,7 +2,6 @@ package com.example.empresas_android.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.empresas_android.data.remote.model.EnterpriseResponse
 import com.example.empresas_android.domain.entities.EnterpriseEntity
 import com.example.empresas_android.domain.usecases.enterprises.EnterprisesUseCasesImpl
 import kotlinx.coroutines.async

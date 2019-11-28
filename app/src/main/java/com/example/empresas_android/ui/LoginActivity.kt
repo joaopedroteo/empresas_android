@@ -1,14 +1,12 @@
 package com.example.empresas_android.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.empresas_android.R
 import com.example.empresas_android.presentation.LoginViewModel
+import com.example.empresas_android.presentation.factory.LoginViewModelFactory
 import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
@@ -21,18 +19,16 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        viewModel = ViewModelProviders.of(this)[LoginViewModel::class.java]
+
+        viewModel = ViewModelProviders.of(
+            this,
+            LoginViewModelFactory(this)
+        ).get(LoginViewModel::class.java)
+
+//        viewModel = ViewModelProviders.of(this)[LoginViewModel::class.java]
         createObserver()
     }
 
-    private fun callAlert(title: String, message: String) {
-        val alertDialog = AlertDialog.Builder(this)
-        alertDialog.setTitle(title)
-        alertDialog.setMessage(message)
-        alertDialog.setPositiveButton("Ok") { _, _ ->
-        }
-        alertDialog.show()
-    }
 
     private fun createObserver() {
         viewModel.errorMessageIndex.observe(this,
@@ -45,7 +41,7 @@ class LoginActivity : BaseActivity() {
 
         viewModel.errorConnection.observeFieldsLogin(this,
             Observer {
-                callAlert("Erro na conexão", "Verifique sua conexão com a internet")
+                showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
             })
     }
 
@@ -61,9 +57,7 @@ class LoginActivity : BaseActivity() {
         }
 
         viewModel.loginLiveData.observeFieldsLogin(this, Observer {
-            val intent = Intent(this, EnterprisesActivity::class.java)
-            startActivity(intent)
-            finish()
+            openActivityAndFinish(EnterprisesActivity::class.java)
         })
 
 

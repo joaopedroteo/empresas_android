@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.empresas_android.domain.entities.UserLoginEntity
 import com.example.empresas_android.domain.usecases.signin.SignInUseCaseImpl
+import com.example.empresas_android.ui.CallBackBasicViewModel
 import com.example.empresas_android.ui.helper.SingleEventLiveData
+import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
 import kotlinx.coroutines.async
+import org.koin.core.KoinComponent
 
-class LoginViewModel : CoroutineViewModel() {
-
+class LoginViewModel(callBackBasicViewModel: CallBackBasicViewModel) : BaseViewModel(callBackBasicViewModel), KoinComponent {
 
     private var errorEmailOrPasswordIndex = MutableLiveData<Int>()
 
@@ -29,7 +31,8 @@ class LoginViewModel : CoroutineViewModel() {
         jobs add async {
             try {
                 SignInUseCaseImpl().signIn(userLogin)
-                loginLiveData.value = true
+                openActivityAndFinish(EnterprisesActivity::class.java)
+//                loginLiveData.value = true
             } catch (e:Error) {
                 errorConnection.value = true
             }
