@@ -2,12 +2,20 @@ package com.example.empresas_android.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.empresas_android.data.Response
 import com.example.empresas_android.domain.entities.EnterpriseEntity
-import com.example.empresas_android.domain.usecases.enterprises.EnterprisesUseCasesImpl
-import kotlinx.coroutines.async
+import com.example.empresas_android.domain.useCases.enterprises.EnterprisesUseCases
+import com.example.empresas_android.utils.ThreadContextProvider
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
-class EnterprisesViewModel : CoroutineViewModel() {
+class EnterprisesViewModel(
+    private val enterprisesUseCases: EnterprisesUseCases,
+    private val contextProvider: ThreadContextProvider
+) : ViewModel() {
 
     private var itemEnterpriseList = MutableLiveData<List<EnterpriseEntity>>()
     private var itemsEnterpriseFiltered = MutableLiveData<List<EnterpriseEntity>>()
@@ -15,24 +23,31 @@ class EnterprisesViewModel : CoroutineViewModel() {
     private val errorConnection = MutableLiveData<Boolean>()
     private val errorUnauthorized = MutableLiveData<Boolean>()
 
-    val enterprises:LiveData<List<EnterpriseEntity>>
+    val enterprises: LiveData<List<EnterpriseEntity>>
         get() = itemsEnterpriseFiltered
 
-    val getErrorConnection:LiveData<Boolean>
+    val getErrorConnection: LiveData<Boolean>
         get() = errorConnection
 
-    val getErrorUnauthorized:LiveData<Boolean>
+    val getErrorUnauthorized: LiveData<Boolean>
         get() = errorUnauthorized
 
 
     private suspend fun getEnterprisesFromAPI() {
-        jobs add async {
-            try {
-                val enterprises = EnterprisesUseCasesImpl().getEnterprises()
-                itemEnterpriseList.value = enterprises
-                itemsEnterpriseFiltered.value = itemEnterpriseList.value
-            } catch(e:Error) {
-                errorConnection.value = true
+
+        viewModelScope.launch(contextProvider.io) {
+            val response = enterprisesUseCases.getEnterprises()
+            withContext(contextProvider.ui) {
+                when (response) {
+                    is Response.Success -> {
+                        itemEnterpriseList.postValue(response.data)
+                        itemsEnterpriseFiltered.postValue(response.data)
+
+                    }
+                    is Response.Failure -> {
+                        errorConnection.postValue(true)
+                    }
+                }
             }
         }
     }
@@ -67,8 +82,8 @@ class EnterprisesViewModel : CoroutineViewModel() {
         getEnterprisesFromAPI()
     }
 
-    fun searchEnterprises(name: String){
-        val newList : MutableList<EnterpriseEntity> = emptyList<EnterpriseEntity>().toMutableList()
+    fun searchEnterprises(name: String) {
+        val newList: MutableList<EnterpriseEntity> = emptyList<EnterpriseEntity>().toMutableList()
 
         for (enterprise in itemEnterpriseList.value.orEmpty()) {
             if (name.toLowerCase(Locale.US) in enterprise.enterprise_name.toLowerCase(Locale.US)) {

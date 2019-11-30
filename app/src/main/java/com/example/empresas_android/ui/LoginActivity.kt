@@ -3,27 +3,21 @@ package com.example.empresas_android.ui
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.example.empresas_android.R
 import com.example.empresas_android.presentation.LoginViewModel
-import com.example.empresas_android.presentation.factory.LoginViewModelFactory
 import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity() {
 
-    private lateinit var viewModel: LoginViewModel
+    private val viewModel: LoginViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProviders.of(
-            this,
-            LoginViewModelFactory(this)
-        ).get(LoginViewModel::class.java)
+//        viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
 
 //        viewModel = ViewModelProviders.of(this)[LoginViewModel::class.java]
         createObserver()
@@ -50,9 +44,7 @@ class LoginActivity : BaseActivity() {
 
         btnLogin?.setOnClickListener {
             if(hasInternetConnection()){
-                GlobalScope.launch {
-                    viewModel.login(edtEmail.text.toString(), edtPassword.text.toString())
-                }
+                viewModel.login(edtEmail.text.toString(), edtPassword.text.toString())
             }
         }
 

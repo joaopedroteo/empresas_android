@@ -1,6 +1,6 @@
 package com.example.empresas_android.data.remote.mapper
 
-import com.example.empresas_android.data.remote.model.EnterpriseByIdResponse
+import com.example.empresas_android.data.remote.model.response.EnterpriseByIdResponse
 import com.example.empresas_android.domain.entities.EnterpriseEntity
 
 object EnterpriseFromByIdMapper : RemoteMapper<EnterpriseByIdResponse, EnterpriseEntity> {

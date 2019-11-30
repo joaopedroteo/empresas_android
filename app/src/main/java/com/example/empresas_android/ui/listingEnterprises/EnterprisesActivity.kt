@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.example.empresas_android.R
 import com.example.empresas_android.base.App
 import com.example.empresas_android.data.remote.service.NetworkEvent
@@ -21,10 +20,11 @@ import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_enterprises.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EnterprisesActivity : BaseActivity() {
 
-    private lateinit var viewModel: EnterprisesViewModel
+    private val viewModel: EnterprisesViewModel by viewModel()
     private lateinit var adapter : ListingEnterprisesAdapter
 
 
@@ -32,7 +32,7 @@ class EnterprisesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enterprises)
         initViews()
-        viewModel = ViewModelProviders.of(this)[EnterprisesViewModel::class.java]
+//        viewModel = ViewModelProviders.of(this)[EnterprisesViewModel::class.java]
         createEnterpriseAdapter()
         createObserver()
 
@@ -141,6 +141,7 @@ class EnterprisesActivity : BaseActivity() {
 
 
         enterprisesProgressBar.visibility = View.VISIBLE
+
         GlobalScope.launch {
             if(hasInternetConnection()){
                 viewModel.getEnterprises()

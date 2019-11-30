@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.empresas_android.R
 import com.example.empresas_android.URL_IMGS
@@ -12,16 +11,17 @@ import com.example.empresas_android.presentation.EnterpriseDetailViewModel
 import kotlinx.android.synthetic.main.activity_enterprise_detail.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
 class EnterpriseDetailActivity : BaseActivity() {
 
-    private lateinit var viewModel: EnterpriseDetailViewModel
+    private val viewModel: EnterpriseDetailViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_enterprise_detail)
-        viewModel = ViewModelProviders.of(this)[EnterpriseDetailViewModel::class.java]
+//        viewModel = ViewModelProviders.of(this)[EnterpriseDetailViewModel::class.java]
         initViews()
         createObserver()
     }
@@ -55,7 +55,10 @@ class EnterpriseDetailActivity : BaseActivity() {
             androidx.lifecycle.Observer {
                 enterpriseDetailProgressBar.visibility = View.GONE
 
-                showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+                showDialog(
+                    getString(R.string.connection_error),
+                    getString(R.string.message_verify_connection)
+                )
 
             })
     }
@@ -63,10 +66,13 @@ class EnterpriseDetailActivity : BaseActivity() {
     private fun getEnterpriseDetail(id: Int?) {
         if (id != null) {
             GlobalScope.launch {
-                if(hasInternetConnection()){
+                if (hasInternetConnection()) {
                     viewModel.getEnterpriseDetail(id)
                 } else {
-                    showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
+                    showDialog(
+                        getString(R.string.connection_error),
+                        getString(R.string.message_verify_connection)
+                    )
 
                 }
             }

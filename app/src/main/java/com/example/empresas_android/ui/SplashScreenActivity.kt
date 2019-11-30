@@ -19,7 +19,6 @@ class SplashScreenActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-
         App.initPreferences(this)
         initPreference()
 

@@ -1,19 +1,23 @@
 package com.example.empresas_android.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
+import com.example.empresas_android.data.Response
 import com.example.empresas_android.domain.entities.UserLoginEntity
-import com.example.empresas_android.domain.usecases.signin.SignInUseCaseImpl
-import com.example.empresas_android.ui.CallBackBasicViewModel
+import com.example.empresas_android.domain.useCases.signIn.SignInUseCase
 import com.example.empresas_android.ui.helper.SingleEventLiveData
-import com.example.empresas_android.ui.listingEnterprises.EnterprisesActivity
-import kotlinx.coroutines.async
-import org.koin.core.KoinComponent
+import com.example.empresas_android.utils.ThreadContextProvider
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class LoginViewModel(callBackBasicViewModel: CallBackBasicViewModel) : BaseViewModel(callBackBasicViewModel), KoinComponent {
+class LoginViewModel(
+    private val signInUseCase : SignInUseCase,
+    private val contextProvider: ThreadContextProvider
+): ViewModel(), LifecycleObserver {
 
     private var errorEmailOrPasswordIndex = MutableLiveData<Int>()
 
+
+//    private val contextProvider = ThreadContextProvider()
 
     val loginLiveData: SingleEventLiveData<Boolean> by lazy {
         SingleEventLiveData<Boolean>()
@@ -23,21 +27,24 @@ class LoginViewModel(callBackBasicViewModel: CallBackBasicViewModel) : BaseViewM
         SingleEventLiveData<Boolean>()
     }
 
-    val errorMessageIndex:LiveData<Int>
+    val errorMessageIndex: LiveData<Int>
         get() = errorEmailOrPasswordIndex
 
-    private suspend fun loginApi(userLogin: UserLoginEntity) {
+    private fun loginApi(userLogin: UserLoginEntity) {
 
-        jobs add async {
-            try {
-                SignInUseCaseImpl().signIn(userLogin)
-                openActivityAndFinish(EnterprisesActivity::class.java)
-//                loginLiveData.value = true
-            } catch (e:Error) {
-                errorConnection.value = true
+        viewModelScope.launch(contextProvider.io) {
+            val response = signInUseCase.signIn(userLogin)
+            withContext(contextProvider.ui) {
+                when (response) {
+                    is Response.Success -> {
+                        loginLiveData.postValue(true)
+                    }
+                    is Response.Failure -> {
+                        errorConnection.postValue(true)
+                    }
+                }
             }
         }
-
     }
 
 //    private fun loginApi(userLogin: UserLogin) {
@@ -66,7 +73,7 @@ class LoginViewModel(callBackBasicViewModel: CallBackBasicViewModel) : BaseViewM
 //        })
 //    }
 
-    suspend fun login(edtEmail: String, edtPassword: String) {
+    fun login(edtEmail: String, edtPassword: String) {
         val userLogin = UserLoginEntity(
             edtEmail,
             edtPassword

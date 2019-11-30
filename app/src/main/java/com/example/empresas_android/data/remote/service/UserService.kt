@@ -1,16 +1,19 @@
 package com.example.empresas_android.data.remote.service
 
-import com.example.empresas_android.domain.entities.UserLoginEntity
-import com.example.empresas_android.data.remote.model.EnterpriseByIdResponse
-import com.example.empresas_android.data.remote.model.ListEnterprisesResponse
-import com.example.empresas_android.data.remote.model.LoginResponse
+import com.example.empresas_android.data.remote.model.request.UserLoginRequest
+import com.example.empresas_android.data.remote.model.response.EnterpriseByIdResponse
+import com.example.empresas_android.data.remote.model.response.ListEnterprisesResponse
+import com.example.empresas_android.data.remote.model.response.LoginResponse
 import kotlinx.coroutines.Deferred
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
 
 
-interface UserService{
+interface UserService {
     @POST("api/v1/users/auth/sign_in")
-    fun signInAsync(@Body userLogin: UserLoginEntity): Deferred<LoginResponse>
+    fun signInAsync(@Body userLogin: UserLoginRequest): Deferred<LoginResponse>
 
 //    @GET("/api/v1/enterprises")
 //    fun getEnterprises(): Observable<List<EnterpriseResponse>>
@@ -19,5 +22,5 @@ interface UserService{
     fun getEnterprisesAsync(): Deferred<ListEnterprisesResponse>
 
     @GET("/api/v1/enterprises/{id}")
-    fun getEnterpriseByIdAsync(@Path("id") id:Int): Deferred<EnterpriseByIdResponse>
+    fun getEnterpriseByIdAsync(@Path("id") id: Int): Deferred<EnterpriseByIdResponse>
 }

@@ -1,6 +1,5 @@
 package com.example.empresas_android.data.remote.service
 
-import android.util.Log
 import com.example.empresas_android.BuildConfig
 import com.example.empresas_android.Constants
 import com.example.empresas_android.base.App
@@ -12,19 +11,31 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
-class RetrofitAnalizer {
-    private lateinit var okHttpClient: OkHttpClient.Builder
+object ServiceClientFactory {
 
     private val networkEvent: NetworkEvent = NetworkEvent
 
+    fun createClient(
+        okHttpClient: OkHttpClient,
+        coroutineAdapter: CoroutineCallAdapterFactory
+    ): UserService {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(Constants.Service.URL_BASE)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(coroutineAdapter)
+            .client(okHttpClient)
+            .build()
 
-    private fun provideLoggingCapableHttpClient(): OkHttpClient {
+        return retrofit.create(UserService::class.java)
+    }
+
+    fun createOkHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
         logging.level =
             if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
 
-        okHttpClient = OkHttpClient.Builder()
+        val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(logging)
             .addInterceptor(object : Interceptor {
                 @Throws(IOException::class)
@@ -34,12 +45,23 @@ class RetrofitAnalizer {
                     val preferences = App.getPreferences()
                     val credentials = preferences.getCredentials()
 
-                    // Request customization: add request headers
                     request = request.newBuilder()
-                        .header(Constants.SharedPreferences.CONTENT_TYPE, Constants.SharedPreferences.APPLICATION_JSON)
-                        .header(Constants.SharedPreferences.ACCESS_TOKEN, credentials[Constants.SharedPreferences.ACCESS_TOKEN] ?: "")
-                        .header(Constants.SharedPreferences.CLIENT, credentials[Constants.SharedPreferences.CLIENT] ?: "")
-                        .header(Constants.SharedPreferences.PREF_UID, credentials[Constants.SharedPreferences.PREF_UID] ?: "")
+                        .header(
+                            Constants.SharedPreferences.CONTENT_TYPE,
+                            Constants.SharedPreferences.APPLICATION_JSON
+                        )
+                        .header(
+                            Constants.SharedPreferences.ACCESS_TOKEN,
+                            credentials[Constants.SharedPreferences.ACCESS_TOKEN] ?: ""
+                        )
+                        .header(
+                            Constants.SharedPreferences.CLIENT,
+                            credentials[Constants.SharedPreferences.CLIENT] ?: ""
+                        )
+                        .header(
+                            Constants.SharedPreferences.PREF_UID,
+                            credentials[Constants.SharedPreferences.PREF_UID] ?: ""
+                        )
                         .build()
 
                     val response = chain.proceed(request)
@@ -57,16 +79,4 @@ class RetrofitAnalizer {
         return okHttpClient.build()
     }
 
-
-    private fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(Constants.Service.URL_BASE)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .client(okHttpClient)
-            .build()
-    }
-
-    fun userService(): UserService =
-        provideRetrofit(provideLoggingCapableHttpClient()).create(UserService::class.java)
 }

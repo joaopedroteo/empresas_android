@@ -2,31 +2,47 @@ package com.example.empresas_android.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.empresas_android.data.Response
 import com.example.empresas_android.domain.entities.EnterpriseEntity
-import com.example.empresas_android.domain.usecases.enterprises.EnterprisesUseCasesImpl
-import kotlinx.coroutines.async
+import com.example.empresas_android.domain.useCases.enterprises.EnterprisesUseCases
+import com.example.empresas_android.utils.ThreadContextProvider
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class EnterpriseDetailViewModel: CoroutineViewModel() {
+class EnterpriseDetailViewModel(
+    private val enterprisesUseCases: EnterprisesUseCases,
+    private val contextProvider: ThreadContextProvider
+
+) : ViewModel() {
     private var enterpriseDetail: MutableLiveData<EnterpriseEntity> = MutableLiveData()
 
     private val errorConnection = MutableLiveData<Boolean>()
 
-    val getErrorConnection:LiveData<Boolean>
+    val getErrorConnection: LiveData<Boolean>
         get() = errorConnection
 
-    val enterprise:LiveData<EnterpriseEntity>
+    val enterprise: LiveData<EnterpriseEntity>
         get() = enterpriseDetail
 
 
-    suspend fun getEnterpriseDetail(id:Int) {
-        jobs add async {
-            try {
-                val enterprise = EnterprisesUseCasesImpl().getEnterpriseById(id)
-                enterpriseDetail.value = enterprise
-            } catch (e:Error) {
-                errorConnection.value = true
+    suspend fun getEnterpriseDetail(id: Int) {
+
+        viewModelScope.launch(contextProvider.io) {
+            val response = enterprisesUseCases.getEnterpriseById(id)
+            withContext(contextProvider.ui) {
+                when (response) {
+                    is Response.Success -> {
+                        enterpriseDetail.postValue(response.data)
+                    }
+                    is Response.Failure -> {
+                        errorConnection.postValue(true)
+                    }
+                }
             }
         }
+
     }
 
 
