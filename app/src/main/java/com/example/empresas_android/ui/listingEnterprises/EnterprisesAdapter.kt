@@ -33,10 +33,10 @@ class ListingEnterprisesAdapter(
         fun bind(item: EnterpriseEntity) {
             itemView.apply {
                 titleEnterprise.text = item.enterprise_name
-                subtitleEnterprise.text = item.city
-                subtitleEnterprise2.text = item.country
+                itemEnterpriseCityTextView.text = item.city
+                itemEnterpriseCountryTextView.text = item.country
                 val urlImg = URL_IMGS.elementAt(item.description.length % URL_IMGS.size)
-                Glide.with(this).load(urlImg).placeholder(R.drawable.img_e_1_lista).into(imageView)
+                Glide.with(this).load(urlImg).placeholder(R.drawable.img_e_1_lista).into(itemEnterprisePhotoImageView)
                 setOnClickListener {
                     onItemClick(item)
                 }

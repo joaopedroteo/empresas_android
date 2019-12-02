@@ -30,7 +30,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="toolBar">
+    <style name="enterprisesToolBar">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
     </style>
@@ -41,7 +41,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="screen_title">
+    <style name="itemEnterpriseTitleTextView">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/title_size</item>
         <item name="android:textColor">@color/charcoal_grey</item>

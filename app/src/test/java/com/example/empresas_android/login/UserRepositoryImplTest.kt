@@ -22,8 +22,7 @@ class UserRepositoryImplTest {
     private lateinit var userService: UserService
 
     private lateinit var userRepository: UserRepository
-    private val mockedLoginResponse by lazy { LoginFactory.mockLoginResponse() }
-    private val userLoginResquest by lazy { LoginFactory.createValidUserLoginRequest() }
+    private val userLoginRequest by lazy { LoginFactory.createValidUserLoginRequest() }
 
     @Before
     fun setUp() {
@@ -34,8 +33,8 @@ class UserRepositoryImplTest {
     @Test
     fun `signIn WHEN api returns success MUST return success response`() {
         runBlocking {
-            `when`(userService.signInAsync(userLoginResquest)).thenReturn(async { mockedLoginResponse })
-            val response = userRepository.signInAsync(userLoginResquest)
+            `when`(userService.signInAsync(userLoginRequest)).thenReturn(async { Unit })
+            val response = userRepository.signInAsync(userLoginRequest)
             assert(response is Response.Success)
         }
     }
@@ -43,7 +42,8 @@ class UserRepositoryImplTest {
     @Test
     fun `signIn WHEN api returns failure MUST return failure response`() {
         runBlocking{
-            val response = userRepository.signInAsync(userLoginResquest)
+            `when`(userService.signInAsync(userLoginRequest)).thenReturn(null)
+            val response = userRepository.signInAsync(userLoginRequest)
             assert(response is Response.Failure)
         }
     }

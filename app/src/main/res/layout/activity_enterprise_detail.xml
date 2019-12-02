@@ -8,7 +8,7 @@
     tools:context=".ui.EnterpriseDetailActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tool_bar"
+        android:id="@+id/enterpriseDetailToolBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/medium_pink"
@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tool_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/enterpriseDetailToolBar" />
 
     <ScrollView
         android:id="@+id/enterpriseDetailScrollView"
@@ -41,7 +41,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imgEnterprise"
+                android:id="@+id/enterpriseDetailPhotoImageView"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_margin="24dp"
@@ -51,7 +51,7 @@
                 tools:src="@drawable/img_e_1" />
 
             <TextView
-                android:id="@+id/txtDetailEnterprise"
+                android:id="@+id/enterpriseDetailDescriptionTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="24dp"

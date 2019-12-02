@@ -9,7 +9,7 @@
     android:layout_marginBottom="8dp">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/itemEnterprisePhotoImageView"
         android:layout_width="105dp"
         android:layout_height="80dp"
         android:contentDescription="@string/enterprise_image_description"
@@ -20,12 +20,12 @@
         android:layout_margin="16dp"/>
 
     <TextView
-        style="@style/screen_title"
+        style="@style/itemEnterpriseTitleTextView"
         android:id="@+id/titleEnterprise"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imageView"
+        app:layout_constraintStart_toEndOf="@id/itemEnterprisePhotoImageView"
         app:layout_constraintEnd_toEndOf="parent"
         android:textStyle="bold"
         android:textColor="@color/darkBlueTitle"
@@ -36,13 +36,13 @@
     <TextView
         style="@style/description_text"
         android:gravity="start"
-        android:id="@+id/subtitleEnterprise"
+        android:id="@+id/itemEnterpriseCityTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textStyle="italic"
         android:textColor="@color/warm_grey"
         app:layout_constraintTop_toBottomOf="@id/titleEnterprise"
-        app:layout_constraintStart_toEndOf="@id/imageView"
+        app:layout_constraintStart_toEndOf="@id/itemEnterprisePhotoImageView"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -53,14 +53,14 @@
 
     <TextView
         style="@style/description_text"
-        android:id="@+id/subtitleEnterprise2"
+        android:id="@+id/itemEnterpriseCountryTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/warm_grey"
         tools:text="Brasil"
-        app:layout_constraintTop_toBottomOf="@+id/subtitleEnterprise"
-        app:layout_constraintStart_toStartOf="@+id/subtitleEnterprise"
-        app:layout_constraintEnd_toEndOf="@+id/subtitleEnterprise"
+        app:layout_constraintTop_toBottomOf="@+id/itemEnterpriseCityTextView"
+        app:layout_constraintStart_toStartOf="@+id/itemEnterpriseCityTextView"
+        app:layout_constraintEnd_toEndOf="@+id/itemEnterpriseCityTextView"
         app:layout_constraintHorizontal_bias="0"
         />
 

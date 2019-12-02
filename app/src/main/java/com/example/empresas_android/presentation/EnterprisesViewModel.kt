@@ -1,21 +1,18 @@
 package com.example.empresas_android.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.empresas_android.data.Response
 import com.example.empresas_android.domain.entities.EnterpriseEntity
-import com.example.empresas_android.domain.useCases.enterprises.EnterprisesUseCases
+import com.example.empresas_android.domain.interactor.enterprises.EnterprisesInteractor
 import com.example.empresas_android.utils.ThreadContextProvider
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
 class EnterprisesViewModel(
-    private val enterprisesUseCases: EnterprisesUseCases,
+    private val enterprisesInteractor: EnterprisesInteractor,
     private val contextProvider: ThreadContextProvider
-) : ViewModel() {
+) : ViewModel(), LifecycleObserver {
 
     private var itemEnterpriseList = MutableLiveData<List<EnterpriseEntity>>()
     private var itemsEnterpriseFiltered = MutableLiveData<List<EnterpriseEntity>>()
@@ -33,10 +30,10 @@ class EnterprisesViewModel(
         get() = errorUnauthorized
 
 
-    private suspend fun getEnterprisesFromAPI() {
+    private fun getEnterprisesFromAPI() {
 
         viewModelScope.launch(contextProvider.io) {
-            val response = enterprisesUseCases.getEnterprises()
+            val response = enterprisesInteractor.getEnterprises()
             withContext(contextProvider.ui) {
                 when (response) {
                     is Response.Success -> {
@@ -50,6 +47,11 @@ class EnterprisesViewModel(
                 }
             }
         }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun getEnterprises() {
+        getEnterprisesFromAPI()
     }
 
 //    private fun getEnterprisesFromAPI()  {
@@ -78,9 +80,6 @@ class EnterprisesViewModel(
 //        })
 //    }
 
-    suspend fun getEnterprises() {
-        getEnterprisesFromAPI()
-    }
 
     fun searchEnterprises(name: String) {
         val newList: MutableList<EnterpriseEntity> = emptyList<EnterpriseEntity>().toMutableList()

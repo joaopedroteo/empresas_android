@@ -1,20 +1,25 @@
 package com.example.empresas_android.extentions
 
 import com.example.empresas_android.data.Response
+import com.example.empresas_android.data.remote.service.HttpCodes
 import com.example.empresas_android.utils.DataSourceException
 import com.example.empresas_android.utils.ErrorMessageEnum
 import com.example.empresas_android.utils.ServerError
+import com.example.empresas_android.utils.UnauthorizedException
 import kotlinx.coroutines.Deferred
 import retrofit2.HttpException
 import java.io.IOException
 
-suspend fun <T: Any> apiCall(
+suspend fun <T : Any> apiCall(
     call: suspend () -> Deferred<T>
 ): Response<T> {
     return try {
         val response = call().await()
         Response.Success(response)
     } catch (httpException: HttpException) {
+        if (httpException.code() == HttpCodes.UNAUTHORIZED.value) {
+            return Response.Failure(UnauthorizedException())
+        }
         return try {
             Response.Failure(DataSourceException())
         } catch (e: Exception) {

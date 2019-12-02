@@ -4,7 +4,6 @@ import com.example.empresas_android.data.Response
 import com.example.empresas_android.data.remote.mapper.EnterpriseFromByIdMapper
 import com.example.empresas_android.data.remote.mapper.EnterprisesMapper
 import com.example.empresas_android.data.remote.model.request.UserLoginRequest
-import com.example.empresas_android.data.remote.model.response.LoginResponse
 import com.example.empresas_android.data.remote.service.UserService
 import com.example.empresas_android.domain.entities.EnterpriseEntity
 import com.example.empresas_android.extentions.apiCall
@@ -17,7 +16,7 @@ class UserRepositoryImpl(
 
 
 
-    override suspend fun signInAsync(userLogin: UserLoginRequest): Response<LoginResponse> =
+    override suspend fun signInAsync(userLogin: UserLoginRequest): Response<Unit> =
         apiCall {
             userService.signInAsync(userLogin)
         }

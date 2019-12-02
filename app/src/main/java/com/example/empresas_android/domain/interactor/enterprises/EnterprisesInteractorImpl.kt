@@ -1,12 +1,12 @@
-package com.example.empresas_android.domain.useCases.enterprises
+package com.example.empresas_android.domain.interactor.enterprises
 
 import com.example.empresas_android.data.Response
 import com.example.empresas_android.data.remote.repository.UserRepository
 import com.example.empresas_android.domain.entities.EnterpriseEntity
 
-class EnterprisesUseCasesImpl(
+class EnterprisesInteractorImpl(
     private val repository : UserRepository
-) : EnterprisesUseCases {
+) : EnterprisesInteractor {
 
     override suspend fun getEnterprises(): Response<List<EnterpriseEntity>> {
         return repository.getEnterprisesAsync()

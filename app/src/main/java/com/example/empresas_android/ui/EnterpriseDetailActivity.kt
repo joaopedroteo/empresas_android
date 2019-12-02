@@ -27,7 +27,7 @@ class EnterpriseDetailActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        val toolBar = findViewById<Toolbar>(R.id.tool_bar)
+        val toolBar = findViewById<Toolbar>(R.id.enterpriseDetailToolBar)
         setSupportActionBar(toolBar)
 
         supportActionBar?.title = ""
@@ -44,7 +44,7 @@ class EnterpriseDetailActivity : BaseActivity() {
         viewModel.enterprise.observe(this,
             androidx.lifecycle.Observer { enterprise ->
                 supportActionBar?.title = enterprise.enterprise_name.toUpperCase(Locale.US)
-                txtDetailEnterprise.text = enterprise.description
+                enterpriseDetailDescriptionTextView.text = enterprise.description
                 val urlImg = URL_IMGS.elementAt(enterprise.description.length % URL_IMGS.size)
                 getImage(urlImg)
 
@@ -82,7 +82,7 @@ class EnterpriseDetailActivity : BaseActivity() {
     }
 
     private fun getImage(photo: String) {
-        Glide.with(this).load(photo).placeholder(R.drawable.img_e_1).into(imgEnterprise)
+        Glide.with(this).load(photo).placeholder(R.drawable.img_e_1).into(enterpriseDetailPhotoImageView)
     }
 
 

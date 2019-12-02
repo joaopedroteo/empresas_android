@@ -6,13 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.empresas_android.data.Response
 import com.example.empresas_android.domain.entities.EnterpriseEntity
-import com.example.empresas_android.domain.useCases.enterprises.EnterprisesUseCases
+import com.example.empresas_android.domain.interactor.enterprises.EnterprisesInteractor
 import com.example.empresas_android.utils.ThreadContextProvider
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class EnterpriseDetailViewModel(
-    private val enterprisesUseCases: EnterprisesUseCases,
+    private val enterprisesInteractor: EnterprisesInteractor,
     private val contextProvider: ThreadContextProvider
 
 ) : ViewModel() {
@@ -30,7 +30,7 @@ class EnterpriseDetailViewModel(
     suspend fun getEnterpriseDetail(id: Int) {
 
         viewModelScope.launch(contextProvider.io) {
-            val response = enterprisesUseCases.getEnterpriseById(id)
+            val response = enterprisesInteractor.getEnterpriseById(id)
             withContext(contextProvider.ui) {
                 when (response) {
                     is Response.Success -> {

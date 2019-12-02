@@ -18,8 +18,6 @@ import com.example.empresas_android.ui.EnterpriseDetailActivity
 import com.example.empresas_android.ui.LoginActivity
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.activity_enterprises.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EnterprisesActivity : BaseActivity() {
@@ -35,14 +33,13 @@ class EnterprisesActivity : BaseActivity() {
 //        viewModel = ViewModelProviders.of(this)[EnterprisesViewModel::class.java]
         createEnterpriseAdapter()
         createObserver()
-
     }
 
     private fun initViews() {
         title = ""
-        setSupportActionBar(findViewById(R.id.tool_bar))
+        setSupportActionBar(findViewById(R.id.enterprisesToolBar))
 
-        logout.setOnClickListener {
+        enterprisesLogoutFAB.setOnClickListener {
             App.clearCredentials()
             openActivityAndFinish(LoginActivity::class.java)
         }
@@ -50,6 +47,9 @@ class EnterprisesActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
+
+        enterprisesProgressBar.visibility = View.VISIBLE
+
         NetworkEvent.register(this, Consumer {
             when(it) {
                 null -> return@Consumer
@@ -98,12 +98,19 @@ class EnterprisesActivity : BaseActivity() {
     }
 
     private fun createObserver() {
+        lifecycle.addObserver(viewModel)
+
 
         viewModel.enterprises.observe(this,
             Observer {
                     enterprises ->
-                adapter.contentList = enterprises
-                recyclerView.adapter = adapter
+                if(enterprises.isEmpty()) {
+                    enterprisesEmptyListTextView.visibility = View.VISIBLE
+                } else {
+                    enterprisesEmptyListTextView.visibility = View.GONE
+                    adapter.contentList = enterprises
+                    recyclerView.adapter = adapter
+                }
 
                 enterprisesProgressBar.visibility = View.GONE
             })
@@ -140,16 +147,10 @@ class EnterprisesActivity : BaseActivity() {
             }
 
 
-        enterprisesProgressBar.visibility = View.VISIBLE
-
-        GlobalScope.launch {
-            if(hasInternetConnection()){
-                viewModel.getEnterprises()
-            } else {
-                showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
-
-            }
+        if(! hasInternetConnection()){
+            showDialog(getString(R.string.connection_error), getString(R.string.message_verify_connection))
         }
+
 
 
     }

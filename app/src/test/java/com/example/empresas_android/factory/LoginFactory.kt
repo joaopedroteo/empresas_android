@@ -2,14 +2,9 @@ package com.example.empresas_android.factory
 
 import com.example.empresas_android.data.remote.model.request.UserLoginRequest
 import com.example.empresas_android.data.remote.model.response.EnterpriseResponse
-import com.example.empresas_android.data.remote.model.response.LoginResponse
 import com.example.empresas_android.domain.entities.UserLoginEntity
 
 object LoginFactory {
-
-    fun mockLoginResponse() = LoginResponse(
-        enterpriseResponse =  mockEnterpriseRespone()
-    )
 
     private fun mockEnterpriseRespone() = EnterpriseResponse(
         1,

@@ -8,8 +8,8 @@
     tools:context=".ui.listingEnterprises.EnterprisesActivity">
 
     <androidx.appcompat.widget.Toolbar
-        app:theme="@style/toolBar"
-        android:id="@+id/tool_bar"
+        app:theme="@style/enterprisesToolBar"
+        android:id="@+id/enterprisesToolBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:logo="@drawable/logo_nav"
@@ -26,10 +26,11 @@
         android:layout_height="wrap_content"
         android:background="@color/beige"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/tool_bar"
+        app:layout_constraintTop_toBottomOf="@+id/enterprisesToolBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/recyclerView"/>
+
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -45,8 +46,20 @@
         app:layout_constraintTop_toBottomOf="@+id/enterprisesProgressBar"
         tools:listitem="@layout/item_enterprise" />
 
+    <TextView
+        android:id="@+id/enterprisesEmptyListTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/empty_enterprise_list"
+        android:visibility="gone"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@id/enterprisesToolBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/logout"
+        android:id="@+id/enterprisesLogoutFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"

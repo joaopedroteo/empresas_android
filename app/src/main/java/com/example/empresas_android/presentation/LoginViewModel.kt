@@ -3,19 +3,22 @@ package com.example.empresas_android.presentation
 import androidx.lifecycle.*
 import com.example.empresas_android.data.Response
 import com.example.empresas_android.domain.entities.UserLoginEntity
-import com.example.empresas_android.domain.useCases.signIn.SignInUseCase
+import com.example.empresas_android.domain.interactor.user.UserInteractor
 import com.example.empresas_android.ui.helper.SingleEventLiveData
 import com.example.empresas_android.utils.ThreadContextProvider
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LoginViewModel(
-    private val signInUseCase : SignInUseCase,
+    private val userInteractor : UserInteractor,
     private val contextProvider: ThreadContextProvider
 ): ViewModel(), LifecycleObserver {
 
     private var errorEmailOrPasswordIndex = MutableLiveData<Int>()
 
+    private var messageError = ""
+
+    fun getMessageError() = messageError
 
 //    private val contextProvider = ThreadContextProvider()
 
@@ -30,16 +33,16 @@ class LoginViewModel(
     val errorMessageIndex: LiveData<Int>
         get() = errorEmailOrPasswordIndex
 
-    private fun loginApi(userLogin: UserLoginEntity) {
-
+    fun loginApi(userLogin: UserLoginEntity) {
         viewModelScope.launch(contextProvider.io) {
-            val response = signInUseCase.signIn(userLogin)
+            val response = userInteractor.signIn(userLogin)
             withContext(contextProvider.ui) {
                 when (response) {
                     is Response.Success -> {
                         loginLiveData.postValue(true)
                     }
                     is Response.Failure -> {
+                        messageError = response.throwable.message ?: ""
                         errorConnection.postValue(true)
                     }
                 }

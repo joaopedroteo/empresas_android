@@ -13,8 +13,6 @@ import java.io.IOException
 
 object ServiceClientFactory {
 
-    private val networkEvent: NetworkEvent = NetworkEvent
-
     fun createClient(
         okHttpClient: OkHttpClient,
         coroutineAdapter: CoroutineCallAdapterFactory
@@ -68,8 +66,8 @@ object ServiceClientFactory {
                     when (response.code) {
                         HttpCodes.OK.value -> preferences.saveCredentials(response.headers)
 
-                        HttpCodes.UNAUTHORIZED.value -> networkEvent.publish(NetworkState.UNAUTHORISED)
-                        503 -> networkEvent.publish(NetworkState.NO_RESPONSE)
+//                        HttpCodes.UNAUTHORIZED.value -> networkEvent.publish(NetworkState.UNAUTHORISED)
+//                        503 -> networkEvent.publish(NetworkState.NO_RESPONSE)
                     }
                     return response
                 }

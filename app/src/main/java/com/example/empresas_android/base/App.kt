@@ -23,6 +23,10 @@ open class App: Application() {
         fun clearCredentials() {
             myPreferences.deleteCredentials()
         }
+
+        fun hasValidCredentials(): Boolean {
+            return myPreferences.hasValidCredentials()
+        }
     }
 
     override fun onCreate() {

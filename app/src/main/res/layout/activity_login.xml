@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        style="@style/screen_title"
+        style="@style/itemEnterpriseTitleTextView"
         android:id="@+id/loginWelcomeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -37,18 +37,21 @@
 
     <TextView
         style="@style/description_text"
-        android:id="@+id/txtDescription"
+        android:id="@+id/loginDescriptionTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="42dp"
+        android:layout_marginEnd="42dp"
         android:text="@string/description_login"
-        app:layout_constraintEnd_toEndOf="@+id/loginWelcomeTextView"
-        app:layout_constraintStart_toStartOf="@+id/loginWelcomeTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginWelcomeTextView" />
 
     <EditText
         style="@style/edt_txt"
-        android:id="@+id/edtEmail"
+        android:id="@+id/loginEmailEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
@@ -60,7 +63,7 @@
         android:autofillHints="@string/edt_email_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDescription"
+        app:layout_constraintTop_toBottomOf="@+id/loginDescriptionTextView"
         tools:targetApi="o" />
 
     <TextView
@@ -68,15 +71,15 @@
         android:id="@+id/txtErrorInvalidEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/edtEmail"
-        app:layout_constraintStart_toStartOf="@id/edtEmail"
-        app:layout_constraintEnd_toEndOf="@id/edtEmail"
-        app:layout_constraintBottom_toTopOf="@id/edtPassword"
+        app:layout_constraintTop_toBottomOf="@id/loginEmailEditText"
+        app:layout_constraintStart_toStartOf="@id/loginEmailEditText"
+        app:layout_constraintEnd_toEndOf="@id/loginEmailEditText"
+        app:layout_constraintBottom_toTopOf="@id/loginPasswordEditText"
         app:layout_constraintHorizontal_bias="0"/>
 
     <EditText
         style="@style/edt_txt"
-        android:id="@+id/edtPassword"
+        android:id="@+id/loginPasswordEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -85,10 +88,10 @@
         android:text="12341234"
         android:hint="@string/edt_password_login"
         android:autofillHints="@string/edt_password_login"
-        app:layout_constraintEnd_toEndOf="@+id/edtEmail"
+        app:layout_constraintEnd_toEndOf="@+id/loginEmailEditText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/edtEmail"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail"
+        app:layout_constraintStart_toStartOf="@+id/loginEmailEditText"
+        app:layout_constraintTop_toBottomOf="@+id/loginEmailEditText"
         tools:targetApi="o" />
 
     <TextView
@@ -96,24 +99,24 @@
         style="@style/txt_invalid_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/edtPassword"
-        app:layout_constraintStart_toStartOf="@id/edtPassword"
-        app:layout_constraintEnd_toEndOf="@id/edtPassword"
-        app:layout_constraintBottom_toTopOf="@id/btnLogin"
+        app:layout_constraintTop_toBottomOf="@id/loginPasswordEditText"
+        app:layout_constraintStart_toStartOf="@id/loginPasswordEditText"
+        app:layout_constraintEnd_toEndOf="@id/loginPasswordEditText"
+        app:layout_constraintBottom_toTopOf="@id/loginEnterButton"
         app:layout_constraintHorizontal_bias="0"
         tools:text="error aqui"
         android:layout_marginBottom="16dp"/>
 
     <Button
         style="@style/btnLogin"
-        android:id="@+id/btnLogin"
+        android:id="@+id/loginEnterButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/btn_name_login"
-        app:layout_constraintEnd_toEndOf="@+id/edtPassword"
-        app:layout_constraintStart_toStartOf="@+id/edtPassword"
-        app:layout_constraintTop_toBottomOf="@+id/edtPassword"
+        app:layout_constraintEnd_toEndOf="@+id/loginPasswordEditText"
+        app:layout_constraintStart_toStartOf="@+id/loginPasswordEditText"
+        app:layout_constraintTop_toBottomOf="@+id/loginPasswordEditText"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="24dp"/>
 

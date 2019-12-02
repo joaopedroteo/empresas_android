@@ -3,7 +3,6 @@ package com.example.empresas_android.data.remote.service
 import com.example.empresas_android.data.remote.model.request.UserLoginRequest
 import com.example.empresas_android.data.remote.model.response.EnterpriseByIdResponse
 import com.example.empresas_android.data.remote.model.response.ListEnterprisesResponse
-import com.example.empresas_android.data.remote.model.response.LoginResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,7 +12,7 @@ import retrofit2.http.Path
 
 interface UserService {
     @POST("api/v1/users/auth/sign_in")
-    fun signInAsync(@Body userLogin: UserLoginRequest): Deferred<LoginResponse>
+    fun signInAsync(@Body userLogin: UserLoginRequest): Deferred<Unit>
 
 //    @GET("/api/v1/enterprises")
 //    fun getEnterprises(): Observable<List<EnterpriseResponse>>
