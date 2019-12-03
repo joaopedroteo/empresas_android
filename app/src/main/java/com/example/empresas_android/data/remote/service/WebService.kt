@@ -10,12 +10,9 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 
-interface UserService {
+interface WebService {
     @POST("api/v1/users/auth/sign_in")
     fun signInAsync(@Body userLogin: UserLoginRequest): Deferred<Unit>
-
-//    @GET("/api/v1/enterprises")
-//    fun getEnterprises(): Observable<List<EnterpriseResponse>>
 
     @GET("/api/v1/enterprises")
     fun getEnterprisesAsync(): Deferred<ListEnterprisesResponse>

@@ -16,7 +16,7 @@ object ServiceClientFactory {
     fun createClient(
         okHttpClient: OkHttpClient,
         coroutineAdapter: CoroutineCallAdapterFactory
-    ): UserService {
+    ): WebService {
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.Service.URL_BASE)
             .addConverterFactory(GsonConverterFactory.create())
@@ -24,7 +24,7 @@ object ServiceClientFactory {
             .client(okHttpClient)
             .build()
 
-        return retrofit.create(UserService::class.java)
+        return retrofit.create(WebService::class.java)
     }
 
     fun createOkHttpClient(): OkHttpClient {

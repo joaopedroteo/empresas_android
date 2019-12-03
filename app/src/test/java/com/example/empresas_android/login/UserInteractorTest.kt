@@ -1,10 +1,10 @@
 package com.example.empresas_android.login
 
 import com.example.empresas_android.data.Response
-import com.example.empresas_android.data.remote.repository.UserRepository
+import com.example.empresas_android.data.remote.repository.user.UserRepository
 import com.example.empresas_android.domain.interactor.user.UserInteractor
 import com.example.empresas_android.domain.interactor.user.UserInteractorImpl
-import com.example.empresas_android.factory.LoginFactory
+import com.example.empresas_android.factory.UserFactory
 import com.example.empresas_android.utils.DataSourceException
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
@@ -23,7 +23,7 @@ class UserInteractorTest {
 
     private lateinit var userInteractor: UserInteractor
 
-    private val factory = LoginFactory
+    private val factory = UserFactory
 
     @Before
     fun setUp() {
@@ -37,7 +37,8 @@ class UserInteractorTest {
         val mockedUserLoginEntity = factory.createValidUserLoginEntity()
         runBlocking {
             `when`(userRepository.signInAsync(mockedUserLoginRequest)).thenReturn(Response.Success(Unit))
-            assert(userInteractor.signIn(mockedUserLoginEntity) is Response.Success)
+            val response = userInteractor.signIn(mockedUserLoginEntity)
+            assert(response is Response.Success)
             verify(userRepository).signInAsync(mockedUserLoginRequest)
         }
     }
@@ -48,7 +49,8 @@ class UserInteractorTest {
         val mockedUserLoginEntity = factory.createValidUserLoginEntity()
         runBlocking {
             `when`(userRepository.signInAsync(mockedUserLoginRequest)).thenReturn(Response.Failure(DataSourceException()))
-            assert(userInteractor.signIn(mockedUserLoginEntity) is Response.Failure)
+            val response = userInteractor.signIn(mockedUserLoginEntity)
+            assert(response is Response.Failure)
             verify(userRepository).signInAsync(mockedUserLoginRequest)
         }
     }

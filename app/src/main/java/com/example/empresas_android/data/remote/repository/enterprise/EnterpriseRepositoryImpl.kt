@@ -1,29 +1,23 @@
-package com.example.empresas_android.data.remote.repository
+package com.example.empresas_android.data.remote.repository.enterprise
 
 import com.example.empresas_android.data.Response
 import com.example.empresas_android.data.remote.mapper.EnterpriseFromByIdMapper
 import com.example.empresas_android.data.remote.mapper.EnterprisesMapper
-import com.example.empresas_android.data.remote.model.request.UserLoginRequest
-import com.example.empresas_android.data.remote.service.UserService
+import com.example.empresas_android.data.remote.repository.enterprise.EnterpriseRepository
+import com.example.empresas_android.data.remote.service.WebService
 import com.example.empresas_android.domain.entities.EnterpriseEntity
 import com.example.empresas_android.extentions.apiCall
-import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class UserRepositoryImpl(
-    private val userService: UserService
-) : UserRepository {
-
-
-
-    override suspend fun signInAsync(userLogin: UserLoginRequest): Response<Unit> =
-        apiCall {
-            userService.signInAsync(userLogin)
-        }
-
-    override suspend fun getEnterprisesAsync(): Response<List<EnterpriseEntity>> = withContext(IO) {
+class EnterpriseRepositoryImpl(
+    private val webService: WebService
+) : EnterpriseRepository {
+    override suspend fun getEnterprisesAsync(): Response<List<EnterpriseEntity>> = withContext(
+        Dispatchers.IO
+    ) {
         val response = apiCall {
-            userService.getEnterprisesAsync()
+            webService.getEnterprisesAsync()
         }
         when (response) {
             is Response.Success -> Response.Success(EnterprisesMapper.toDomain(response.data))
@@ -32,9 +26,9 @@ class UserRepositoryImpl(
     }
 
     override suspend fun getEnterpriseByIdAsync(id: Int): Response<EnterpriseEntity> =
-        withContext(IO) {
+        withContext(Dispatchers.IO) {
             val response = apiCall {
-                userService.getEnterpriseByIdAsync(id)
+                webService.getEnterpriseByIdAsync(id)
             }
             when (response) {
                 is Response.Success -> Response.Success(EnterpriseFromByIdMapper.toDomain(response.data))
